@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>逐帧动画steps()</title>
+		<style type="text/css">
+		@keyframes loader{
+			100%{background-position:0 -140px ;}
+		}
+		.rabit{
+			width: 32px;
+			height: 35px;
+			background: url(rabit.png) no-repeat;
+			animation: loader .5s infinite steps(4);
+		}
+		</style>
+	</head>
+	<body>
+		<div class="rabit"></div>
+		<p>steps(int count)的参数count 是指一共有几帧</p>
+	</body>
+</html>
