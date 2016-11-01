@@ -1,0 +1,122 @@
+header .right_btn {
+  display: inline-block;
+  width: 40px;
+  margin-right: 20px;
+}
+.contentTop {
+  height: 50px;
+  background: #ebeaf0;
+  overflow: hidden;
+}
+.contentTop li {
+  display: inline-block;
+  line-height: 50px;
+  width: 33.33%;
+  text-align: center;
+  color: #969593;
+}
+.contentTop li.active {
+  color: #1f1a17;
+  font-size: 16px;
+}
+.title {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  border: none;
+  width: 100%;
+  font-size: 14px;
+  color: #1f1a17;
+}
+input[type="text"] {
+  height: 30px;
+  line-height: 30px;
+  padding: 5px 20px;
+  border: none;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 14px;
+}
+textarea {
+  width: 100%;
+  border: none;
+  text-align: left;
+  box-sizing: border-box;
+  padding: 5px 20px;
+  font-size: 14px;
+  line-height: 20px;
+  resize: none;
+}
+.uploadPic {
+  background: #fff;
+}
+.uploadPic p {
+  color: #969593;
+}
+.uploadPic div {
+  padding-bottom: 20px;
+}
+.uploadPic div span {
+  display: inline-block;
+  width: 68px;
+  height: 68px;
+  border: 1px solid #e6e6e6;
+  text-align: center;
+  line-height: 68px;
+  color: #e6e6e6;
+  font-size: 60px;
+  font-weight: bold;
+}
+.percent_wraper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  vertical-align: middle;
+}
+.percent_wraper p {
+  color: #fff;
+  display: inline-block;
+  font-size: 20px;
+}
+.percent_wraper:after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.re_img {
+  padding: 16px 20px;
+  background-color: #fff;
+}
+.re_img .re_img_item {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  position: relative;
+  margin: 3px 10px 3px 0;
+}
+.re_img .re_img_item img {
+  height: 60px;
+  width: 60px;
+}
+.re_img .re_img_item .icon_delete {
+  position: absolute;
+  top: -11px;
+  right: -11px;
+  font-size: 22px;
+  background: #fff;
+  color: red;
+  border-radius: 300em;
+  line-height: 1em;
+  height: 1em;
+}
+.re_img #reAdd {
+  width: 60px;
+  height: 60px;
+}

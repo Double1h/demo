@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/reset.css">
+		<link rel="stylesheet" href="../../css/account/index.css">
+		<link rel="stylesheet" href="../../css/fonticon/style.css">
+	</head>
+	<body ng-controller="controller">
+		<div class="login_body">
+			<div class="header">
+				<div class="logo"><img src="../../img/logo.png"  alt=""></div>
+				<h2>城服欢迎你</h2>
+			</div>
+			<div class="contain">
+				<button type="button" class="login_btn" ng-click="openLogin()">登录</button>
+				<button type="button" class="register_btn" ng-click="openRegister();">注册</button>
+			</div>
+		</div>
+		
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+		
+		<script>
+			angular.module("module", ["APP"])
+			.controller("controller",["$scope", "setStorage","removeStorage",function($scope,setStorage,removeStorage) {
+				$scope.openLogin = function(){
+					api.setFrameGroupIndex({
+						name: 'loginRegister',
+						index: 1,
+						scroll: false
+					});
+					//存储跳转信息
+					setStorage('flag','IndexToLogin');
+				}
+				
+				$scope.openRegister = function(){
+					api.setFrameGroupIndex({
+						name: 'loginRegister',
+						index: 2,
+						scroll: false
+					});
+					//存储跳转信息
+					setStorage('flag','IndexToRegister');
+				}
+				
+			}]);
+
+			apiready = function() {
+				angular.bootstrap(document, ["module"]);
+			};
+		</script>
+	</body>
+</html>

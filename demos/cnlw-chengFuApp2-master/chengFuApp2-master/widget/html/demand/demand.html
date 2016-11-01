@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+	</head>
+
+	<body ng-controller="controller">
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module("module", ["APP"])
+		.controller("controller", ['$scope', 'openWin', 'setStorage', 'getStorage', function($scope, openWin, setStorage, getStorage) {
+			var isagreement = 0;
+			setStorage('demandPay', '0');
+			api.openFrameGroup({
+				name: 'demandFrameGroup',
+				background: '#fff',
+				scrollEnabled: false,
+				preload: 2,
+				frames: [{
+					name: 'publish',
+					url: 'publish.html',
+					bounces: false
+				}, {
+					name: 'pay',
+					url: 'pay.html',
+					bounces: false
+				}]
+			}, function(ret, err) {});
+
+			//支付完成
+			api.addEventListener({
+				name: 'paySuccess'
+			}, function(ret, err) {
+				api.closeFrameGroup({
+					name: 'demandFrameGroup'
+				});
+				api.closeWin({
+					animation:{
+						type:"none",
+						subType:"none",
+						duration:0
+					}
+				});
+				api.openWin({
+					name: 'demandList',
+					url: '../user/listHeader.html',
+					pageParam: {
+						url : "demandList.html",
+						name : "demandList"
+					}
+				})
+			});
+			
+			// 协议Keyback
+			api.addEventListener({
+				name: 'agreementKeyback'
+			}, function(ret, err) {
+				isagreement = ret.value.isOpen;
+			});
+
+			api.addEventListener({
+				name: 'keyback'
+			}, function(ret, err) {
+				if(getStorage('demandPay') == '1') {
+					api.setFrameGroupIndex({
+						name: 'demandFrameGroup',
+						index: 0,
+						scroll: true
+					});
+					setStorage('demandPay', '0');
+				} else if(isagreement == "1") {
+					api.sendEvent({
+						name: 'agreementKeyback4close'
+					});
+				} else {
+					api.closeWin();
+				}
+			});
+		}]);
+		apiready = function() {
+			angular.bootstrap(document, ["module"]);
+		}
+	</script>
+
+</html>

@@ -1,0 +1,72 @@
+@import "../constant";
+
+body{
+    background-color: @mainBgColor;
+    font-size: 14px;
+}
+// header
+header{
+    width: 100%;
+    position: fixed;
+    top:0;
+    left: 0;
+    line-height: 52px;
+    height: 52px;
+    background-color: @headerBgColor;
+    text-align: center;
+    color: #fff;
+    font-size: @midFontSize;
+    z-index: 1000;
+    span{
+        font-size: 16px;
+    }
+
+    .back_btn{
+        position: absolute;
+        left: 20px;
+        &:before{
+            font-size: 22px;
+            line-height: 52px !important;
+        }
+    }
+}
+
+form {
+    margin-top: 52px;
+}
+
+.border_bottom:after{
+    content:"";
+    display:block;
+    height:1px;
+    position:absolute;
+    left: 0;
+    bottom: 0;
+    width:100%;
+    background:@mainBgColor;
+    -webkit-transform:scaleY(0.5);
+    transform: scaleY(0.5);
+}
+.ui_group{
+    background-color: #fff;
+    color: @fontColor1;
+    p{
+        height: 40px;
+        line-height: 40px;
+        padding-left: 20px;
+        background-color: @mainBgColor;
+    }
+    .ui_row{
+        padding: 0 20px;
+        overflow: hidden;
+        display: block;
+        position: relative;
+        line-height: 40px;
+        .ui_row_left{
+            float: left;
+        }
+        .ui_row_right{
+            float: right;
+        }
+    }
+}

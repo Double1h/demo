@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/reset.css">
+		<link rel="stylesheet" href="../../css/account/account.css">
+		<link rel="stylesheet" href="../../css/fonticon/style.css">
+		<link rel="stylesheet" href="../../css/account/index.css" />
+	</head>
+	<body ng-controller="controller">
+		<form name="userForm">
+			<div class="header">
+				<div class="logo"><img src="../../img/logo.png"  alt=""></div>
+				<h2>登录</h2>
+			</div>
+			<div class="form_row icon_phone">
+				<input type="number" placeholder ="请输入手机号码" ng-pattern="/^1[3|4|5|7|8]\d{9}$/" name="phone" ng-model="user.phone" required/>
+			</div>
+			<div class="form_row icon_password">
+				<input type="password" placeholder ="请输入密码" name="password" ng-model="user.password"  required/>
+			</div>
+			<button type="button" class="btn" ng-click="login()">登录</button>
+			<div class="footer">
+				<span ng-click="retrievePassword()">忘记密码</span>
+				<span ng-click="register()">注册账号</span>
+			</div>
+		</form>
+
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module('module',["APP"])
+		.controller('controller',['$scope','openWin','ajax',"setStorage","removeStorage",function($scope,openWin,ajax,setStorage,removeStorage){
+			$scope.lon = "";
+			$scope.lat = "";
+			$scope.address = "";
+
+			//获取定位,城市
+			var map = api.require('bMap');
+			map.getLocation({
+				accuracy: '100m',
+				autoStop: true,
+				filter: 1
+			}, function(ret, err) {
+				if(ret.status) {
+					$scope.lon = ret.lon;
+					$scope.lat = ret.lat;
+					$scope.$apply();
+					map.getNameFromCoords({
+					    lon: ret.lon,
+					    lat: ret.lat
+					},function(ret,err){
+					    if(ret.status){
+					    	// 获取地址
+					    	$scope.address = ret.address;
+					    	$scope.$apply();
+					    }
+					});
+				}
+			});
+
+			//登录
+			$scope.login =function(){
+				if ( $scope.userForm.$invalid ) {
+					//表单未通过验证，提示用户 form.$error包含提示信息
+					var errorMes = "";
+					if( $scope.userForm.phone.$error.pattern ) {
+						errorMes = "请输入正确的手机号";
+					}else if ( $scope.userForm.phone.$error.required ) {
+						errorMes = "请输入手机号";
+					}else if ( $scope.userForm.password.$error.required ) {
+						errorMes = "请输入密码";
+					}
+					
+					api.toast({
+						msg: errorMes,
+						duration: 1000,
+						location: 'bottom'
+					});
+				}else{
+//					//清除登录信息
+					removeStorage('TOKEN');
+					removeStorage("flag");
+					ajax({
+						url: "account/login",
+						method: "post",
+						data : {
+							"address": $scope.address,
+							"latitude": $scope.lat,
+							"longitude": $scope.lon,
+							"password": $scope.user.password,
+							"phone": $scope.user.phone
+						},
+						success: function(data, header) {
+							//保存登录的TOKEN值
+							setStorage('TOKEN', 'SESSION=' + data.data.sessionId);
+							//保存登录的用户Id
+							setStorage('MYUSERID', data.data.userId);
+							api.sendEvent({
+								name: 'loginSuccess',
+								extra:{
+									target:api.pageParam.target
+								}
+							});
+						}
+					});
+				}
+			}
+			$scope.retrievePassword = function(){
+				api.setFrameGroupIndex({
+					name: 'loginRegister',
+					index: 3,
+					scroll: false
+				});
+				//存储跳转信息
+				setStorage('flag','loginToRetrieve');
+			}
+			
+			$scope.register = function(){
+				api.setFrameGroupIndex({
+					name: 'loginRegister',
+					index: 2,
+					scroll: false
+				});
+				//存储跳转信息
+				setStorage('flag','loginToRegister');
+			}
+		}])
+		
+		apiready = function(){
+			angular.bootstrap(document, ["module"]);
+		}
+	</script>
+</html>

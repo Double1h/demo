@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/fonticon/style.css" />
+		<link href="../../css/public.css" rel="stylesheet" />
+		<link href="../../css/normalize.css" rel="stylesheet" />
+		<link href="../../css/user/aboutUs.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/reset.css" />
+	</head>
+	
+	<body ng-controller="controller">
+		<header class="blackBg">
+		    <button class="back_btn icon_back" ng-click="close();"></button>
+		    <span>关于我们</span>
+		</header>
+		
+		<div class="body">
+			<div class="top">
+				<img src="../../img/logo1.png">
+				<div>
+					<p>广州揽兑城服</p>
+					<p>hhtp://www.landero2o.com/</p>
+				</div>
+			</div>
+			<p class="introduction">
+				广州揽兑城服网络科技有限公司是一家集技术开发及运营为一体，专注城市服务的公司。我司在成立初期就已经获得了各资本市场和各界人士的广泛关注，先后与苏宁（易付宝）、阿里巴巴（阿里旅行）、哆啦宝（微信支付）签订战略合作协议，成功的建立了深度的合作关系，成为易付宝，阿里旅行和哆啦宝在全国最具潜力的一级服务商。公司立足服务本质，聘请各行专家研发城服APP，旨为达到个人专长与市场需求精准匹配，实现线上发布线下服务的完美对接。公司势必将“城服”这个具有跨越性意义的APP发展为人与人直接的对接平台，力争实现平台梦，同心践行中国梦。
+			</p>
+			<p class="time">2015 - 2016</p>
+		</div>
+		
+		
+		
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+		
+		<script>
+		angular.module('module',["APP"])
+	    .controller('controller',['$scope','openWin',function($scope,openWin){
+	    		$scope.close =function(){
+					api.closeWin();
+				}
+		}])
+			
+		apiready = function(){
+			angular.bootstrap(document, ["module"]);
+		}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>animate库</title>
+	<style>
+	div{
+		width: 300px;
+		height: 300px;
+		background-color: cornflowerblue;
+		margin-top: 30px;
+	}
+	</style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+<script type="text/javascript">
+
+	window.onload = function(){
+		var div1 = document.getElementById("div1");
+		var div2 = document.getElementById("div2");
+//		uniformlyAnimate(div1,"left",500);		
+//		bufferAnimate( div1, "left",500 );
+//		opacityAnimate( div1, 20 );
+
+		var obj = {
+					{
+						ele : div1,
+						properties : "left",
+						target : "300"
+					},{
+						ele : div2,
+						properties : "left",
+						target : "500"
+					}
+				}
+		multiElementAnimate( obj );
+	}
+	
+	//匀速动画
+	function uniformlyAnimate( ele, properties, target ){
+		var speed = 2;
+		ele.style.position = "absolute";
+		ele.style[properties] = "0";
+		ele.timeId = setInterval(function(){
+			if( getStyle(ele,properties)+ speed < target )
+			{
+				ele.style[properties] = getStyle(ele,properties) + speed + "px";
+			}else{
+				ele.style[properties] = target + "px";
+				clearInterval(ele.timeId);
+			}
+		},30);
+	}
+	
+	//缓冲动画
+	function bufferAnimate( ele, properties, target ){
+		var speed = 0;
+		ele.style.position = "absolute";
+		ele.style[properties] = "0";
+		ele.timeId = setInterval(function(){
+			speed = ( target - getStyle(ele,properties) ) * 0.1;
+			speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+			if( getStyle(ele,properties)+ speed < target )
+			{
+				ele.style[properties] = getStyle(ele,properties) + speed + "px";
+			}else{
+				ele.style[properties] = target + "px";
+				clearInterval(ele.timeId);
+			}
+		},30);
+	}
+	
+	//透明度动画
+	function  opacityAnimate( ele, target ){
+		var speed = 6;
+		var count = 100;
+		ele.style.opacity = "1";
+		ele.style.filter = 'alpha(opacity:'+100+')';//基于IE的
+		ele.timeId = setInterval(function(){
+			if( count - target < 6 || (count - target >-6 && count -target <0)){
+				ele.style.opacity = target/100;
+				ele.style.filter = 'alpha(opacity:'+target+')';
+				clearInterval(ele.timeId);
+			}else{
+				count-=speed;
+				ele.style.opacity = count / 100;
+				ele.style.filter = 'alpha(opacity:'+ count +')';
+			}
+			
+		},30);
+	}
+	
+	//多物体动画
+	function multiElementAnimate( obj ){
+		
+	}
+	
+	function getStyle(ele,properties){
+		return parseFloat(window.getComputedStyle(ele,null).getPropertyValue(properties));
+	}
+</script>
+</body>
+</html>

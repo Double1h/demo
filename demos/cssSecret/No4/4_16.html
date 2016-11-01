@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>不规则投影</title>
+	<style>
+	.box{
+		width: 300px;
+		height: 300px;
+		position: relative;
+		background-color: #32B823;
+		-webkit-filter:drop-shadow(10px 10px 10px #494949);
+	}
+	.box:before{
+		content: "";
+		display: block;
+		position: absolute;
+		right: -10px;
+		top: 150px;
+		width: 20px;
+		height: 20px;
+		background-color: #32B823;
+	}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+</body>
+</html>

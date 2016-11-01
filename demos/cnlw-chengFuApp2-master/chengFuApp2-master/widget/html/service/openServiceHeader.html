@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/fonticon/style.css" />
+		<link href="../../css/public.css" rel="stylesheet" />
+		<link href="../../css/template/form1.css" rel="stylesheet" />
+		<link href="../../css/normalize.css" rel="stylesheet" />
+		<link href="../../css/service/openService1.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/reset.css" />
+	</head>
+
+	<body ng-controller="controller">
+		<header class="blackBg">
+			<button class="back_btn icon_back" ng-click="close();"></button>
+			<span>开启服务</span>
+		</header>
+
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script>
+			angular.module('module', ["APP"])
+				.controller('controller', ['$scope', 'openWin', function($scope, openWin) {
+					var param =api.pageParam;
+					//frameGroup 左右滑动
+					api.openFrameGroup({
+						name: 'openService',
+						background: '#fff',
+						scrollEnabled: false,
+						preload:3,
+						rect: {
+							x: 0,
+							y: 52,
+							w: 'auto',
+							h: 'auto'
+						},
+						index: 0,
+						frames: [{
+							name: 'openService1',
+							vScrollBarEnabled:false,
+							url: 'openService1.html',
+							bgColor: '#fff',
+							bounces: false
+						}, {
+							name: 'openService2',
+							vScrollBarEnabled:false,
+							url: 'openService2.html',
+							bgColor: '#fff',
+							bounces: false,
+							pageParam:param
+						}, {
+							name: 'openService3',
+							vScrollBarEnabled:false,
+							url: 'openService3.html',
+							bgColor: '#fff',
+							bounces: false
+						}]
+					}, function(ret, err) {
+
+					});
+
+					var setFrameGroupIndex = function(index) {
+						frameIndex=index;
+						api.setFrameGroupIndex({
+							name: 'openService',
+							index: index,
+							scroll: false
+						});
+					}
+					//监听事件广播
+					api.addEventListener({
+						name: 'serviceNextStep'
+					}, function(ret, err){
+						setFrameGroupIndex(ret.value.frameIndex);
+					});
+					
+					
+					var frameIndex = 0;
+					//后退操作
+					api.addEventListener({
+						name: 'keyback'
+					}, function(ret, err) {
+						switchs();
+					});
+					
+					//点击关闭按钮
+					$scope.close = function(){
+						switchs();
+				   }
+					
+					//切换frame
+					function switchs (){
+						switch(frameIndex){
+							case 0 : api.closeWin(); break;
+							case 1 : {
+								setFrameGroupIndex(0);
+								break;
+							}
+							case 2 : {
+								setFrameGroupIndex(1);
+								break;
+							}
+						}
+					}
+				}]);
+
+			apiready = function() {
+				angular.bootstrap(document, ["module"]);
+			}
+		</script>
+	</body>
+
+</html>

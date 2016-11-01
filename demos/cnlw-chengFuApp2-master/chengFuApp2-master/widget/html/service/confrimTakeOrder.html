@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<title>服务详情</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" type="text/css" href="../../css/service/confrimTakeOrder.css">
+</head>
+	<body  ng-controller="controller">
+		<header>
+			<span class="icon_back back_btn" onclick="api.closeWin();"></span>
+			<span>确认下单</span>
+		</header>
+		<form name="form">
+		<div class="content">
+			<div class="top">
+				<div class="top_left"><img src="{{url? url : '../../img/bgImg.jpg'}}" alt="服务title"/></div>
+				<div class="top_right">
+					<h2>{{::title}}</h2>
+					<p>￥{{::price}}/单</p>
+				</div>
+			</div>
+			<div class="time" ng-click="selectTime();">
+				<div class="left">选择服务提供时间</div>
+				<div class="right">{{ time | date:'yyyy/MM/dd' }}
+				<input type="hidden" ng-model="time" name="time" />
+				</div>
+			</div>
+			<div class="phone">
+				<span>联系电话</span><input type="number"  ng-pattern="/^1[3|4|5|7|8]\d{9}$/" name="phone" ng-model="phone" required/>
+			</div>
+			<div class="message">
+				<p>留言</p>
+				<textarea name="message" ng-model="message" required placeholder="请输入留言"></textarea>
+				<div class="div4height">{{message}}</div>
+			</div>
+		</div>
+		<div class="submit">
+			<button type="button" ng-click="takeOrder();">提交订单</button>
+		</div>
+		</form>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module("module", ["APP"])
+			.controller("controller", ["$scope","ajax","openWin",function($scope,ajax,openWin) {
+				$scope.url = api.pageParam.serviceUrl;
+				$scope.title = api.pageParam.serviceTitle;
+				$scope.price = api.pageParam.servicePrice;
+				$scope.serviceId = api.pageParam.serviceId;
+				$scope.phone = "";
+				
+				$scope.time = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),23,59,59).getTime();
+
+				// 获取默认手机号
+				ajax({
+					url: "user/query_user_phone",
+					method: "GET",
+					success: function(data, header) {
+						if( data.data )
+						{
+							$scope.phone = parseInt(data.data);
+						}
+					}
+				});
+
+				$scope.selectTime = function () {
+					api.openPicker({
+					    type: 'date'
+					}, function(ret, err){
+					    if( ret ){
+					         $scope.time = new Date(ret.year, ret.month-1, ret.day,23,59,59).getTime();
+					         $scope.$apply();
+					    }
+					});
+				}
+
+				$scope.takeOrder = function () {
+					if ( $scope.form.$invalid ) {
+						var errorMes = "";
+						if( $scope.form.phone.$error.pattern ) {
+							errorMes = "请输入正确的手机号";
+						}else if ( $scope.form.phone.$error.required ) {
+							errorMes = "请输入手机号";
+						}else if ( $scope.form.message.$error.required ) {
+							errorMes = "请输入留言";
+						}
+						api.toast({
+							msg: errorMes,
+							duration: 1000,
+							location: 'bottom'
+						});
+					}else if ( ( $scope.time - new Date().getTime() ) < 0 ){
+						api.toast({
+							msg: "请选择正确的时间",
+							duration: 1000,
+							location: 'bottom'
+						});
+					} else {
+						//发下单请求
+						ajax({
+							url: "service/to_pay",
+							method: "post",
+							data : {
+								'serviceId' : $scope.serviceId,
+								'remark' : $scope.message,
+								'time' : $scope.time,
+								'phone' : $scope.phone
+							},
+							success: function(data, header) {
+								$scope.data = data.data;
+								// 成功后支付,发参数来自那个页面和流水号
+								openWin({
+									name:"payService",
+									url:"../demand/pay.html",
+									pageParam : {
+										"source" : "service",
+										"id" : $scope.data.orderId,
+										"serialNumber" : $scope.data.serialNumber,
+										"price" : $scope.price,
+									}
+								});
+							}
+						});
+					}
+					
+				}
+			}]);
+
+		apiready = function() {
+			angular.bootstrap(document, ["module"]);
+		};
+	</script>
+</html>

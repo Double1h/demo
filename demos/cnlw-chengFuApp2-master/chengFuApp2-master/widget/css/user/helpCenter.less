@@ -1,0 +1,25 @@
+@import "../constant";
+
+header{
+    background:@subBtnColor;
+}
+.bottomNav{
+    width:100%;
+    height:50px;
+    display:-webkit-box;
+    display:box;
+    position:fixed;
+    bottom:0;
+    div{
+        -webkit-box-flex:1;
+        box-flex:1;
+        text-align:center;
+        color:#fff;
+        background:@subBtnColor;
+        font-size:30px;
+        line-height:50px;
+        &.active{
+            background:@mainBtnColor;   
+        }
+    }
+}

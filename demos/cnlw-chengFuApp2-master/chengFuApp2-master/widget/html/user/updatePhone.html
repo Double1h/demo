@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" type="text/css" href="../../css/user/bindPhone.css">
+</head>
+<body ng-controller="controller">
+	<header>
+		<span class="back_btn icon_back" onclick="api.closeWin();"></span>
+		<span>手机号码绑定</span>
+	</header>
+	<form name="phoneForm" novalidate="novalidate">
+		<div class="form_group">
+			<div class="form_row icon_phone">
+				<div class="form_row_left">
+					<input type="number" placeholder="请输入您的手机号" name="phone" ng-model="phone" ng-pattern="/^1[3|4|5|7|8]\d{9}$/" required>
+				</div>
+				<button class="send_code" type="button" ng-disabled="SMS" ng-click="sendSMS()">
+					<div ng-if="!SMS">发送验证码</div>
+					<div ng-if="SMS"><span ng-bind="SMS"></span> s</div>
+				</button>
+			</div>
+			<div class="form_row icon_test">
+				<div class="form_row_left">                                                                                                                      
+					<input type="number" placeholder="请输入验证码" ng-model="secCode" name="secCode" required>
+				</div>
+			</div>
+		</div>
+		<div class="btn">
+			<button ng-click="confirm();">确认</button>
+		</div>
+	</form>
+</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module('module',["APP"])
+	    .controller('controller',['$scope','countSMS','ajax',function($scope,countSMS,ajax){
+	    	$scope.totast = function(errorMessage) {
+				api.toast({
+					msg: errorMessage,
+					duration: 2000,
+					location: 'middle'
+				});
+			}
+	    	$scope.confirm =function(){
+	    		if($scope.phoneForm.$valid) {
+	 				ajax({
+					 	url: "user/update_phone",
+					 	method: "post",
+					 	dataType:"text",
+					 	data: { 
+					 		phone: $scope.phone,
+					 		code:$scope.secCode
+					 	},
+					 	success: function(data, header) {
+					 		api.sendEvent({
+							    name: 'updatePhone',
+							    extra: {
+							        phone:$scope.phone
+							    }
+							});
+					 	}
+					 })
+	    			api.closeWin();
+	    			
+	    		}else{
+	    			if($scope.phoneForm.phone.$error.required){
+						$scope.totast("请输入手机号码");
+					}else if($scope.phoneForm.phone.$error.pattern){
+						$scope.totast("请输入正确的手机号码");
+					}else if($scope.phoneForm.secCode.$error.required){
+		    			$scope.totast("请输入验证码");
+		    		}
+	    		}
+	    	}
+	    	
+	    	//发送验证码
+			$scope.sendSMS = function() {
+				if($scope.phoneForm.phone.$valid){
+					countSMS(true, $scope);
+					ajax({
+						url:'user/update_phone/code',
+						method:'get',
+						dataType:'text',
+						data:{phone:$scope.phone},
+						success:function(){
+							alert("发送成功");
+						}
+					});
+				}else{
+					if($scope.phoneForm.phone.$error.required){
+						$scope.totast("请输入手机号码");
+					}else if($scope.phoneForm.phone.$error.pattern){
+						$scope.totast("请输入正确的手机号码");
+					}
+				}
+				
+			};
+	    }]);
+	    
+	    apiready = function(){
+			angular.bootstrap(document, ["module"]);
+		}
+ 	</script>
+</html>

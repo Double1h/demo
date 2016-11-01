@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <!-- <link rel="stylesheet" type="text/css" href="../../css/reset.css"> -->
+  <link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+  <link rel="stylesheet" type="text/css" href="../../css/message/systemAlert.css">
+</head>
+<body ng-controller="controller">
+  <header>
+    <span>系统消息详情</span>
+  </header>
+  <div class="systemDetailContent">
+    <div class="content"></div>
+    <div class="right"></div>
+  </div>
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../js/app.js"></script>
+<script>
+angular.module("module", ["APP"])
+  .controller("controller",["$scope",function($scope) {
+    var content=document.querySelector(".content");
+    var createtTme=document.querySelector(".right");
+
+    var time=new Date(api.pageParam.createTime).toLocaleString();
+
+    content.innerHTML=api.pageParam.systemContent;
+    createtTme.innerHTML=time;
+  }]);
+apiready = function() {
+  angular.bootstrap(document, ["module"]);
+};
+</script>
+
+</html>

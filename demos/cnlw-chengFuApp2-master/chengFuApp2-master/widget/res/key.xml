@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<security>
+<item name="wxPay_appId" value="wx6399cee0ad48dc40"/>
+<item name="wxPay_mchId" value="1363720502"/>
+<item name="wxPay_partnerKey" value="abcdefghijklmnopqrstuvwxyz654321"/>
+<item name="wxPay_notifyUrl" value="http://101.201.69.188:8080/api/weixin/notify_url"/>
+</security> 

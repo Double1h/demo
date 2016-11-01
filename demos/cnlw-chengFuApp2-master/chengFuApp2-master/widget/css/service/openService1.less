@@ -1,0 +1,98 @@
+@import "../constant";
+
+.topUl{
+    margin:0 auto; 
+    margin-bottom:30px;
+    text-align:center;
+    li{ 
+        width:30%;
+        display:inline-block;
+        list-style:none;
+        height:34px;
+        line-height:34px;
+        font-size:12px;
+        color:@fontColor2;
+        position:relative;
+        &.active{
+            color:@fontColor1;
+            &:after{
+                 background:@fontColor2;
+            } 
+        }
+        &:after{
+            content:'';
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            background:@bannerColor;
+            position:absolute;
+            top:100%;
+            left:50%;
+            margin-left:-5px;
+            z-index:100;
+        }
+        
+        &:nth-child(2):before{
+            content:'';
+            position:absolute;
+            width:100%;
+            height:1px;
+            background:@bannerColor;
+            right:50%;
+            top:100%;
+            margin-top:5px;
+            margin-right:5px;
+        }
+          &:nth-child(3):before{
+            content:'';
+            position:absolute;
+            width:100%;
+            height:1px;
+            background:@bannerColor;
+            right:50%;
+            top:100%;
+            margin-top:5px;
+            margin-right:5px;
+        }
+    }
+}
+
+.ui_group{
+    margin-top:10px;
+    .ui_row_right{
+        input{
+            width:80%;
+            border:none;
+            height:18px;
+            margin-right:20px;
+        }
+    }
+}
+.ui_group .ui_row{
+    padding:10px 0;
+}
+
+.footer{
+    margin:30px @mainPadding 0;
+    button{
+        width:100%;
+        height:40px;
+        border-radius:15px;
+        border:none;
+        background:@mainBtnColor;
+        color:#fff;
+        font-size:@bigFontSize;
+        font-size:@bigFontSize;
+    }
+}
+
+.ui_group .ui_row span:nth-child(1){
+    margin-right:0;
+    position:relative;
+    left:16px;
+}
+.ui_group .ui_row span:nth-child(2){
+    margin-left:0;
+    width:20px;
+    margin-right:20px;
+}

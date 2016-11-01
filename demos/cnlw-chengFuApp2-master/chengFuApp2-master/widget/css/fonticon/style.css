@@ -1,0 +1,221 @@
+@font-face {
+  font-family: 'fonticon';
+  src:
+    url('fonts/fonticon.ttf?fq6mc3') format('truetype'),
+    url('fonts/fonticon.woff?fq6mc3') format('woff'),
+    url('fonts/fonticon.svg?fq6mc3#fonticon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon_"]:before, [class*=" icon_"]:before {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'fonticon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon_chat:before {
+  content: "\e900";
+}
+.icon_circle:before {
+  content: "\e901";
+}
+.icon_person:before {
+  content: "\e902";
+}
+.icon_message:before {
+  content: "\e903";
+}
+.icon_selected:before {
+  content: "\e904";
+}
+.icon_task:before {
+  content: "\e908";
+}
+.icon_message22:before {
+  content: "\e909";
+}
+.icon_completed:before {
+  content: "\e90a";
+}
+.icon_yes:before {
+  content: "\e90b";
+}
+.icon_add_2:before {
+  content: "\e90c";
+}
+.icon_agree:before {
+  content: "\e90d";
+}
+.icon_stars:before {
+  content: "\e90e";
+}
+.icon_zan:before {
+  content: "\e90f";
+}
+.icon_woman:before {
+  content: "\e910";
+}
+.icon_man:before {
+  content: "\e911";
+}
+.icon_notice1:before {
+  content: "\e912";
+}
+.icon_back:before {
+  content: "\e913";
+}
+.icon_phone:before {
+  content: "\e915";
+}
+.icon_alipay:before {
+  content: "\e916";
+}
+.icon_photo:before {
+  content: "\e917";
+}
+.icon_voice:before {
+  content: "\e918";
+}
+.icon_bank_card:before {
+  content: "\e919";
+}
+.icon_invitation_code2:before {
+  content: "\e91a";
+}
+.icon_invitation_code:before {
+  content: "\e91b";
+}
+.icon_test:before {
+  content: "\e91c";
+}
+.icon_message_1:before {
+  content: "\e91d";
+}
+.icon_me:before {
+  content: "\e91e";
+}
+.icon_error:before {
+  content: "\e91f";
+}
+.icon_wechat_1:before {
+  content: "\e920";
+}
+.icon_wechat:before {
+  content: "\e921";
+}
+.icon_weibo:before {
+  content: "\e922";
+}
+.icon_notice:before {
+  content: "\e923";
+}
+.icon_directories:before {
+  content: "\e924";
+}
+.icon_search:before {
+  content: "\e925";
+}
+.icon_message3:before {
+  content: "\e926";
+}
+.icon_publishService:before {
+  content: "\e927";
+}
+.icon_IDCard:before {
+  content: "\e928";
+}
+.icon_setup:before {
+  content: "\e929";
+}
+.icon_scan:before {
+  content: "\e92a";
+}
+.icon_task2:before {
+  content: "\e92b";
+}
+.icon_confirm:before {
+  content: "\e92c";
+}
+.icon_purse:before {
+  content: "\e92d";
+}
+.icon_man2:before {
+  content: "\e92e";
+}
+.icon_password:before {
+  content: "\e92f";
+}
+.icon_Qzone:before {
+  content: "\e930";
+}
+.icon_service_1:before {
+  content: "\e931";
+}
+.icon_service:before {
+  content: "\e932";
+}
+.icon_warning:before {
+  content: "\e933";
+}
+.icon_add:before {
+  content: "\e934";
+}
+.icon_star:before {
+  content: "\e935";
+}
+.icon_near_person:before {
+  content: "\e936";
+}
+.icon_publish_task:before {
+  content: "\e937";
+}
+.icon_publish:before {
+  content: "\e938";
+}
+.icon_order:before {
+  content: "\e939";
+}
+.icon_publishDemand:before {
+  content: "\e93a";
+}
+.icon_address:before {
+  content: "\e93b";
+}
+.icon_handle:before {
+  content: "\e93c";
+}
+.icon_face:before {
+  content: "\e93d";
+}
+.icon_help:before {
+  content: "\e93e";
+}
+.icon_QQ_1:before {
+  content: "\e93f";
+}
+.icon_right:before {
+  content: "\e940";
+}
+.icon_demandOrder:before {
+  content: "\e941";
+}
+.icon_receiveSrvice:before {
+  content: "\e942";
+}
+.icon_publish_service:before {
+  content: "\e946";
+}
+.icon_QQ:before {
+  content: "\e947";
+}
+

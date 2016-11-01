@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/fonticon/style.css" />
+		<link href="../../css/public.css" rel="stylesheet" />
+		<link href="../../css/normalize.css" rel="stylesheet" />
+		<link href="../../css/template/form1.css" rel="stylesheet" />
+		<link href="../../css/wallet/myAccount.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/reset.css" />
+		
+	</head>
+	<body ng-controller="controller">
+		<header class="blackBg">
+		    <button class="back_btn icon_back" ng-click="close();"></button>
+		    <span>我的账户</span>
+		</header>
+		<div class="purse">
+			<div class="icon_purse"></div>
+			<div>
+				<p>账户剩余</p>
+				<p ng-bind="balance | number : 2">1.00元</p>
+			</div>
+		</div>
+		
+		<div class="ui_group">
+			<label class="ui_row" ng-click="withDrawals();">
+				<div class="ui_row_left">提现</div>
+				<div class="ui_row_right icon_right"></div>
+			</label>
+			<label class="ui_row" ng-click="accountDetail();">
+				<div class="ui_row_left">查看账户明细</div>
+				<div class="ui_row_right icon_right">
+				</div>
+			</label>
+		</div>
+		
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script>
+			angular.module('module',['APP'])
+			.controller('controller',['$scope','openWin','ajax',function($scope,openWin,ajax){
+
+				// 获取账户余额
+				ajax({
+					url:'wallet/balance',
+					method:'get',
+					success:function(data){
+						$scope.balance=data.data;
+					}
+				})
+
+				$scope.close =function(){
+					api.closeWin();
+				}
+				$scope.withDrawals =function(){
+					openWin({
+						name:'withDrawals',
+						url:'Withdrawals.html',
+						reload:true
+					})
+				}
+				$scope.accountDetail =function(){
+					openWin({
+						name:'accountDetail_header',
+						url:'accountDetail_header.html'
+					})
+				}
+
+				//向提现页面发送余额
+				api.sendEvent({
+			    name: 'balance',
+			    extra: $scope.balance
+				});
+
+				//监听余额
+				api.addEventListener({
+			    name: 'Withdrawals'
+					}, function(ret, err) {
+					    $scope.balance=parseFloat($scope.balance).toFixed(2)-parseFloat(ret.value).toFixed(2);
+					    $scope.$apply();
+				});
+			}])
+			
+			apiready = function(){
+				angular.bootstrap(document, ["module"]);
+			}
+		</script>
+	</body>
+</html>

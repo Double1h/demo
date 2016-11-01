@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<title>服务详情</title>
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<!--<link rel="stylesheet" type="text/css" href="../../css/reset.css">-->
+		<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+		<link rel="stylesheet" type="text/css" href="../../css/service/serviceDetail.css">
+	</head>
+
+	<body ng-controller="controller">
+		<header>
+			<span class="icon_back back_btn" onclick="api.closeWin();"></span>
+			<span>{{::data.serviceDetail.nickname}}的服务</span>
+			<span ng-click="showAgreement()">协议</span>
+		</header>
+		<div class="service_cover" ng-click="showImg()">
+			<img src="{{data.serviceDetail.url?data.serviceDetail.url:'../../img/Img1.jpg'}}" alt="服务封面" />
+		</div>
+		<div class="service_detail">
+			<div class="service_detail_top icon_handle">
+				<div class="left">
+					<h2>操作方式：</h2>
+					<p>{{data.serviceDetail.serviceWay == "ONLINE" ? "线上" : "线下"}}</p>
+				</div>
+				<div class="right">
+					￥{{::data.serviceDetail.unitPrice}}/单
+				</div>
+				<div><button ng-hide="data.serviceDetail.isMine" class="icon_chat isme" ng-click="chat(data.serviceDetail.userId, true,$event);" style="font-size:25px;margin-left:15px;">
+				</button></div>
+			</div>
+			<div class="service_detail_wraper">
+				<div class="service_detail_row">
+					<h2>服务说明</h2>
+					<p>{{::data.serviceDetail.content}}</p>
+				</div>
+				<div class="service_detail_row">
+					<h2>注意事项</h2>
+					<p>{{::data.serviceDetail.attention}}</p>
+				</div>
+
+				<div class="service_detail_row">
+					<h2>评价</h2>
+					<ul class="comment_list">
+						<li ng-repeat="c in data.comments">
+							<div class="comment_list_top">
+								<div class="avatar">
+									<img src="{{c.user.avatarPath?c.user.avatarPath:'../../img/Img1.jpg'}}" alt="头像" />
+								</div>
+								<button class="icon_chat" ng-click="chat(c.user.id, true,$event);" style="font-size:25px;"></button>
+								<div class="detail">
+									<div class="left">
+										<div class='nickName'>{{::c.user.nickname}}</div>
+										<div class="time">{{ ::c.createTime | date:'yyyy/MM/dd' }}</div>
+									</div>
+								</div>
+							</div>
+							<div class="content">{{::c.content}}</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="service_detail_row" ng-if="data.serviceDetail.isMine && participant.length">
+					<h2>有下单人向你下单</h2>
+					<ul class="order_taker_list">
+						<li ng-repeat="p in participant">
+							<div class="order_taker_avatar">
+								<img src="../../img/head.png" ng-hide="p.avatarPath" alt="头像"/>
+	        					<img ng-src="{{p.avatarPath}}" ng-show="p.avatarPath" alt="头像"/>
+							</div>
+							<div>{{::p.nickname}}</div>
+							<div class="order_time">{{ ::p.time | date:'yyyy/MM/dd' }}
+							<button class="icon_chat" ng-click="chat(p.userId, true,$event);" style="font-size:25px;"></button>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="btn4other" ng-if="!data.serviceDetail.isMine">
+			<p ng-click="isAgreement()" ng-class="{true: 'icon_agree', false: 'icon_circle'}[agreement_checkbox]">同意本服务协议</p>
+			<div class="" ng-class="{true: 'btns btn4other_true', false: 'btns'}[agreement_checkbox]" ng-click="takeOrder()">立刻下单</div>
+		</div>
+		<!-- 协议1 -->
+		<div class="agreement_wraper" ng-if="agreement">
+			<div class="agreement">
+				<h2>APP免责声明</h2>
+				<div>
+					<p>1、一切移动客户端用户在下载并浏览城服APP软件（以下简称本APP）时均被视为已经仔细阅读本条款并完全同意。凡以任何方式登陆本APP，或直接、间接使用本APP资料者，均被视为自愿接受本网站相关声明 和用户服务协议的约束。</p>
+					<p>2、本手机APP转载的内容并不代表本APP之意见及观点，也不意味着本APP赞同其观点或证实其内容的真实性。</p>
+					<p>3、 本手机APP转载的文字、图片、音视频等资料均由本APP用户提供，其真实性、准确性和合法性由信息发布人负责。本APP不提供任何保证，并不承担任何法律责任。</p>
+					<p>4、本平台在发布的需求完成后，会从“酬金”中抽取10%的佣金作为平台服务费用。客户在发布需求时，点击最下方“同意本协议”，即代表已阅读并同意。</p>
+					<p>5、本协议的最终解释权归揽兑城服平台所有。</p>
+				</div><label></label>
+				<div class="close_btn" ng-click="closeAgreement()">确定</div>
+			</div>
+		</div>
+		<!-- 协议2 -->
+		<div class="agreement_wraper" ng-if="agreement2">
+			<div class="agreement">
+				<h2>APP免责声明</h2>
+				<div>
+					<p>1、一切移动客户端用户在下载并浏览城服APP软件（以下简称本APP）时均被视为已经仔细阅读本条款并完全同意。凡以任何方式登陆本APP，或直接、间接使用本APP资料者，均被视为自愿接受本网站相关声明 和用户服务协议的约束。</p>
+					<p>2、本手机APP转载的内容并不代表本APP之意见及观点，也不意味着本APP赞同其观点或证实其内容的真实性。</p>
+					<p>3、 本手机APP转载的文字、图片、音视频等资料均由本APP用户提供，其真实性、准确性和合法性由信息发布人负责。本APP不提供任何保证，并不承担任何法律责任。</p>
+					<p>4、本平台在发布的需求完成后，会从“酬金”中抽取10%的佣金作为平台服务费用。客户在发布需求时，点击最下方“同意本协议”，即代表已阅读并同意。</p>
+					<p>5、本协议的最终解释权归揽兑城服平台所有。</p>
+				</div>
+				<label><input type="checkbox" ng-model="$parent.once" name="once"><span>以后不要再弹出</span></label>
+				<div class="close_btn" ng-click="closeAgreement2()">确定</div>
+			</div>
+		</div>
+
+		</div>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module("module", ["APP"])
+			.controller("controller", ["$scope", "ajax", "openWin", "setStorage", "getStorage", function($scope, ajax, openWin, setStorage, getStorage) {
+				$scope.agreement_checkbox = false;
+				$scope.agreement = false;
+				$scope.serviceId = api.pageParam.serviceId;
+				$scope.serviceImg=[];
+
+				//聊天
+				$scope.chat=function(accepterId, isPublisher,event){
+					event.stopPropagation();
+					if(getStorage('MYUSERID')!=accepterId){
+						openWin({
+							name:"chat",
+							url:"../chat/chat.html",
+							auth:true,
+							pageParam:{
+								accepterId:accepterId
+							}
+						})
+					}else{
+						api.toast({
+							msg: "你不能和自己聊天",
+							duration: 1000,
+							location: 'bottom'
+						});
+					}
+				}
+
+				ajax({
+					url: "service/detail",
+					method: "get",
+					data: {
+						'serviceId': $scope.serviceId
+					},
+					success: function(data, header) {
+						$scope.data = data.data;
+						$scope.serviceImg.push($scope.data.serviceDetail.url);
+						if($scope.data.serviceDetail.isMine) {
+							ajax({
+								url: "service/participant",
+								method: "get",
+								data: {
+									'serviceId': $scope.serviceId
+								},
+								success: function(data, header) {
+									$scope.participant = data.data;
+								}
+							});
+						}
+					}
+				});
+
+				//协议2
+				$scope.closeAgreement2 = function() {
+					$scope.agreement2 = false;
+					if($scope.once) {
+						setStorage('serviceDetailAgreement', 1);
+					} else {
+						setStorage('serviceDetailAgreement', 0);
+					}
+					openWin({
+						name: "confrimTakeOrder",
+						url: "widget://html/service/confrimTakeOrder.html",
+						auth: true,
+						pageParam: {
+							serviceId: $scope.serviceId,
+							serviceUrl: $scope.data.serviceDetail.url,
+							serviceTitle: $scope.data.serviceDetail.title,
+							servicePrice: $scope.data.serviceDetail.unitPrice
+						}
+					});
+				}
+
+				$scope.takeOrder = function() {
+					if($scope.agreement_checkbox == false) {
+						api.toast({
+							msg: "请同意本服务协议",
+							duration: 1000,
+							location: 'bottom'
+						});
+					} else {
+						// 选了以后不提示
+						if(getStorage('serviceDetailAgreement') == 1) {
+							openWin({
+								name: "confrimTakeOrder",
+								url: "widget://html/service/confrimTakeOrder.html",
+								auth: true,
+								pageParam: {
+									serviceId: $scope.serviceId,
+									serviceUrl: $scope.data.serviceDetail.url,
+									serviceTitle: $scope.data.serviceDetail.title,
+									servicePrice: $scope.data.serviceDetail.unitPrice
+								}
+							});
+						} else {
+							$scope.agreement2 = true;
+						}
+					}
+				}
+				$scope.showAgreement = function() {
+					$scope.agreement = true;
+				}
+				$scope.closeAgreement = function() {
+					$scope.agreement = false;
+				}
+
+				//serviceDetail
+				api.addEventListener({
+					name: 'paySuccess'
+				}, function(ret, err) {
+					openWin({
+						name: 'service_order_detail',
+						url: '../order/service_order_detail.html',
+						pageParam: {
+							"id": ret.value.id
+						}
+					});
+					api.closeWin({
+						name:"confrimTakeOrder",
+						animation:{
+							type:"none",
+							subType:"none",
+							duration:0
+						}
+					});
+					api.closeWin({
+						name:"payService",
+						animation:{
+							type:"none",
+							subType:"none",
+							duration:0
+						}
+					});
+				});
+
+				$scope.isAgreement = function() {
+					$scope.agreement_checkbox = ($scope.agreement_checkbox == true ? false : true);
+				}
+
+				var showingImg = false;
+				//浏览图片
+				var photoBrowser = api.require('photoBrowser');
+				$scope.showImg=function(){
+					showingImg = true;
+					photoBrowser.open({
+						images: $scope.serviceImg,
+						placeholderImg: 'widget://res/img/apicloud.png',
+						bgColor: '#000'
+					}, function(ret, err) {
+						if(ret.eventType == "click"){
+							photoBrowser.close();
+							showingImg = false;
+						}
+					});
+					photoBrowser.setIndex({index: 0});
+				}
+
+				//点开协议时keyback
+				api.addEventListener({
+					name: 'keyback'
+				}, function(ret, err) {
+					if(showingImg){
+						photoBrowser.close();
+						showingImg = false;
+						return;
+					}
+
+					if($scope.agreement == true) {
+						$scope.agreement = false;
+						$scope.$apply();
+					} else if($scope.agreement2 == true) {
+						$scope.agreement2 = false;
+						$scope.$apply();
+					} else {
+						api.closeWin();
+					}
+				});
+			}]);
+
+		apiready = function() {
+			angular.bootstrap(document, ["module"]);
+		};
+	</script>
+
+</html>

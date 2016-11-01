@@ -1,0 +1,100 @@
+.ui_group {
+  background: #fff;
+  margin-top: 20px;
+  font-size: 14px;
+}
+.ui_group:last-child {
+  margin-bottom: 20px;
+}
+.ui_group .ui_row {
+  display: box;
+  display: -webkit-box;
+  padding: 16px 0px;
+  text-indent: 20px;
+  position: relative;
+  -webkit-box-align: center;
+  box-align: center;
+  border-bottom: 1px solid #ebecee;
+}
+.ui_group .ui_row [class*=" icon_"]:before {
+  margin-right: 10px;
+  font-size: 28px;
+  display: inline;
+  vertical-align: middle;
+}
+.ui_group .ui_row .ui_row_left[class*=" icon_"]:before {
+  color: #7dcefd;
+}
+.ui_group .ui_row .ui_row_right[class*=" icon_"]:before {
+  color: #ebeaf0;
+}
+.ui_group .ui_row img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+}
+.ui_group .ui_row.icon_right {
+  padding-right: 25px;
+}
+.ui_group .ui_row.icon_right:before {
+  font-size: 14px;
+}
+.ui_group .ui_row:before {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  height: 1em;
+  font-size: 18px;
+  color: #ccc;
+}
+.ui_group .ui_row .ui_row_left {
+  color: #000;
+}
+.ui_group .ui_row .ui_row_right {
+  text-align: right;
+  -webkit-box-flex: 1;
+  margin-right: 10px;
+  color: #999;
+  box-flex: 1;
+  padding-right: 15px;
+}
+.ui_group .ui_row .ui_row_right input {
+  text-align: right;
+}
+.ui_group .list {
+  padding: 5px 0;
+  height: 40px;
+}
+.ui_row_left img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.describe {
+  display: inline-block;
+  text-indent: 4px;
+  vertical-align: middle;
+  font-size: 12px;
+  height: 28px;
+  line-height: 120%;
+}
+.describe p:nth-child(1) {
+  color: #000;
+}
+.describe p:nth-child(2) {
+  color: #797979;
+}
+.ui_row_right span {
+  color: #969593;
+  font-size: 12px;
+  vertical-align: top;
+}
+.ui_group .alreadyAttention {
+  color: #dededc;
+}

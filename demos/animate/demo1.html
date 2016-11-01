@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		ul{
+			position: relative;
+			cursor: pointer;
+			text-align: center;
+		}
+		li{
+			background-color: #1BBF1B;
+			margin-bottom: 10px;
+			height: 30px;
+			color: #fff;
+			text-align: center;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+	<ul>
+		<li>list1</li>
+		<li>list2</li>
+		<li>list3</li>
+	</ul>
+	
+	<script>
+		window.onload = function(){
+			var lis = document.getElementsByTagName("li");
+			var lisLength = lis.length;
+			for( var i = 0; i < lisLength; i++)
+			{
+				(function(i){
+					setTimeout(function(){	
+						moveDown(lis[i],40*(i+1),step1);
+					},30*(lisLength-i));
+				})(i);
+			}
+		}
+		
+		function moveDown( ele, height, callback ){
+			//给绝对定位
+			ele.style.position = 'absolute';
+			ele.style.top = height - 40 + 'px';
+			var speed = 0;
+			ele.timeId = setInterval(function(){
+				if( height - getTop(ele) > 1 ){
+					speed = ( height - getTop(ele) ) * 0.2;
+					ele.style.top = getTop(ele) + speed + 'px';
+				}else{
+					ele.style.top = Math.ceil( getTop(ele) ) + 'px';
+					clearInterval(ele.timeId);
+					callback();
+				}
+			},30);
+		}
+
+		function step1(){
+			if( step1.flag ){
+				step1.flag++;
+			}else{
+				step1.flag = 1;
+			}
+			if( step1.flag == 3){
+				step2();
+			}
+		}
+
+		function step2(){
+			var ul = document.getElementsByTagName("ul")[0];
+			var lis = ul.getElementsByTagName("li");
+			var newLi = document.createElement("li");
+			newLi.innerHTML = "list4";
+			newLi.style.opacity="0";
+			ul.insertBefore(newLi,lis[0]);
+			showNewLi(newLi);
+			for(var i=0; i < lis.length ; i++){
+				lis[i].style.position = "static";
+			}
+		}
+
+		function getTop(ele){
+			return parseFloat(window.getComputedStyle(ele,null).getPropertyValue("top"));
+		}
+
+		
+		function showNewLi(ele){
+			var i = 1;
+			var timeid = setInterval(function(){
+				if( i <= 10 ){
+					ele.style.transform = "scale("+0.1*i+","+ 0.1*i+")";
+					ele.style.opacity="1";
+					i++;
+				}else{
+					clearInterval(timeid);
+				}
+			},30);
+		}
+	</script>
+</body>
+</html>

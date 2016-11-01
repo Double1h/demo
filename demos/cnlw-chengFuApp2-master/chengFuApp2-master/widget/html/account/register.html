@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/reset.css">
+		<link rel="stylesheet" href="../../css/account/account.css">
+		<link rel="stylesheet" href="../../css/fonticon/style.css">
+		<link rel="stylesheet" href="../../css/account/index.css" />
+	</head>
+	<body ng-controller="controller">
+		<form name="form">
+			<div class="header">
+				<div class="logo"><img src="../../img/logo.png"  alt=""></div>
+				<h2>注册</h2>
+			</div>
+			<div class="form_row  icon_phone">
+				<input type="number" name="phone" id="registerPhone" ng-model="phone" ng-pattern="/^1[3|4|5|7|8]\d{9}$/" required placeholder="请输入您的手机号" />
+			</div>
+			<div class="form_row  icon_password">
+				<input type="password" ng-model="password" name="password" required placeholder="请输入您的登录密码" />
+			</div>
+			<div class="form_row  icon_password">
+				<input type="password" ng-model="password2" name="password2" required placeholder="请再次输入您的登录密码" />
+			</div>
+			<div class="form_row  icon_test">
+				<input type="number" ng-model="secCode" name="secCode" required placeholder="请输入短信验证码" maxlength="6" />
+				<button class="send_code" type="button" ng-click="sendSMS();">
+					<div ng-if="!SMS">获取验证码</div>
+					<div ng-if="SMS"><span ng-bind="SMS"></span> s</div>
+				</button>
+			</div>
+			<div class="form_row icon_invitation_code ">
+				<input type="text" placeholder ="邀请码" ng-model="invitation" name="invitation" class="invitation" required />
+				<button type="button" class="icon_scan" ng-click="scan()"></button>
+			</div>
+			<button type="button" class="btn" ng-click="register()">注册</button>
+		</form>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module('module',["APP"])
+		.controller('controller',['$scope','openWin','countSMS','ajax',"setStorage","removeStorage",function($scope,openWin,countSMS,ajax,setStorage,removeStorage){
+			$scope.SMS = false;
+			$scope.register = function(){
+				if ( $scope.form.$invalid ) {
+					//表单未通过验证，提示用户 form.$error包含提示信息
+					var errorMes = "";
+					if( $scope.form.phone.$error.pattern ) {
+						errorMes = "请输入正确的手机号";
+					}else if ( $scope.form.phone.$error.required ) {
+						errorMes = "请输入手机号";
+					}else if ( $scope.form.password.$error.required ) {
+						errorMes = "请输入密码";
+					}else if ( $scope.form.secCode.$error.required ) {
+						errorMes = "请输入验证码";
+					}else if ( $scope.form.secCode.$error.maxlength ) {
+						errorMes = "请输入正确的验证码";
+					}else if ( $scope.form.invitation.$error.required ) {
+						errorMes = "请输入邀请码";
+					}
+					
+					api.toast({
+						msg: errorMes,
+						duration: 1000,
+						location: 'bottom'
+					});
+					
+				} else {
+					if( $scope.password2 != $scope.password ) {
+						api.toast({
+							msg: "您两次输入的密码不一致",
+							duration: 1000,
+							location: 'bottom'
+						});
+					}else{
+					//清除登录信息
+					removeStorage("flag");
+
+					// 注册
+					ajax({
+						url: "account/register",
+						method: "POST",
+						data : {
+						  "identifyingCode": $scope.secCode,
+						  "password": $scope.password,
+						  "phone": $scope.phone,
+						  "inviteCode":$scope.invitation
+						},
+						success: function(data, header) {
+							setStorage('TOKEN', 'SECCSION='+data.data);
+							//保存用phone 和password
+							setStorage('phone', $scope.phone);
+							setStorage('password', $scope.password);
+							
+							api.setFrameGroupIndex({
+								name: 'loginRegister',
+								index: 1,
+								scroll: false
+							});
+						}
+					});
+
+					}
+				}
+			}
+
+			// 扫描二维码
+			$scope.scan = function () {
+				var FNScanner = api.require('FNScanner');
+				FNScanner.openScanner({
+				    autorotation: true
+				}, function(ret, err){        
+				    if( ret ){
+				        if( ret.content !== "" && ret.content !== undefined ){
+				        	$scope.invitation = ret.content;
+				        	$scope.$apply();
+				        }
+				    }
+				});
+			}
+
+			//发送验证码
+			$scope.sendSMS = function () {
+				if( $scope.form.phone.$invalid || $scope.SMS ) {
+					if( $scope.form.phone.$invalid ) {
+						api.toast({
+							msg: "请输入手机号",
+							duration: 1000,
+							location: 'bottom'
+						});
+					}
+				} else {
+					// 发送验证码
+					ajax({
+						url: "account/register/sendcode",
+						method: "get",
+						data : {
+							"phone" : $scope.phone
+						},
+						success : function(data, header) {
+							 // 计时
+							 countSMS(true, $scope);
+						}
+					});
+
+				}
+			};
+			
+		}])
+		
+		apiready = function(){
+			angular.bootstrap(document, ["module"])
+		}
+	</script>
+</html>

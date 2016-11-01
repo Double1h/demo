@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>伪随机背景</title>
+	<style>
+	/*普通平铺盒子*/
+	.box{
+		width: 1000px;
+		height: 300px;
+		background: #B9D933;
+		background-image: linear-gradient(to right,#70DDF1 10px,#CDFFAE 0 ,#CDFFAE 20px,#BACFFC 0,#BACFFC 30px,transparent 0,transparent 40px);
+		background-size: 40px 100%;
+	}
+	/*普通伪随机*/
+	.box2{
+		width: 1000px;
+		height: 300px;
+		background: #B9D933;
+		margin-top: 10px;
+		background-image: linear-gradient(to right,#70DDF1 10px,transparent 0),
+		                  linear-gradient(to right,#CDFFAE 20px,transparent 0),
+		                  linear-gradient(to right,#BACFFC 30px,transparent 0);
+		background-size: 40px 100%,50px 100%,90px 100%;
+	}
+	/*蝉伪随机*/
+	.box3{
+		width: 1000px;
+		height: 300px;
+		background: #B9D933;
+		margin-top: 10px;
+		background-image: linear-gradient(to right,#70DDF1 10px,transparent 0),
+		                  linear-gradient(to right,#CDFFAE 20px,transparent 0),
+		                  linear-gradient(to right,#BACFFC 30px,transparent 0);
+		background-size: 41px 100%,61px 100%,83px 100%;
+	}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+	<div class="box2"></div>
+	<div class="box3"></div>
+</body>
+</html>

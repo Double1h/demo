@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="../../css/reset.css">
+  <link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+  <link rel="stylesheet" type="text/css" href="../../css/message/systemAlert.css">
+</head>
+<body ng-controller="controller">
+  <header>
+    <span class="icon_back back_btn" onclick="api.closeWin();"></span>
+    <span>系统消息</span>
+  </header>
+  <ul style="margin-top:52px;" class="alert_messages" ngd-click="showDetail(m)" selector="li">
+    <li ng-repeat="m in message" ng-class="{true: '', false: 'icon_right'}[m.business == 'USER']">
+      <div class="message_group">
+        <div class="msg_type">
+          <span class="newMsg" ng-if="m.status=='NOTREAD'"></span>
+        </div>
+        <div class="alert_content">{{::m.content}}</div>
+        <div class="right">{{::getDateDiff(m.createTime)}}</div>
+      </div>
+    </li>
+  </ul>
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../libs/angular-delegates.js"></script>
+<script src="../../js/app.js"></script>
+<script>
+  angular.module("module", ["APP", "DelegateEvents"])
+  .controller("controller", ["$scope", 'ajax', 'openWin', function($scope, ajax, openWin) {
+    $scope.page = 0;
+    $scope.message = [];
+    loadData();
+    
+    // 获取消息
+    function loadData() {
+      ajax({
+        url: "message/readSys",
+        method: "get",
+        data: {page: $scope.page},
+        success: function(data, header) {
+          $scope.message = $scope.message.concat(data.data);
+        }
+      });
+    }
+    
+    //将时间戳转换成xx天前之类
+    $scope.getDateDiff = function (dateTimeStamp) {
+      var minute = 1000 * 60;
+      var hour = minute * 60;
+      var day = hour * 24;
+      var halfamonth = day * 15;
+      var month = day * 30;
+      var now = new Date().getTime();
+      var diffValue = now - dateTimeStamp;
+      if(diffValue < 0) {
+        return;
+      }
+      var monthC = diffValue / month;
+      var weekC = diffValue / (7 * day);
+      var dayC = diffValue / day;
+      var hourC = diffValue / hour;
+      var minC = diffValue / minute;
+      if(monthC >= 1) {
+        result = "" + parseInt(monthC) + "月前";
+      } else if(weekC >= 1) {
+        result = "" + parseInt(weekC) + "周前";
+      } else if(dayC >= 1) {
+        result = "" + parseInt(dayC) + "天前";
+      } else if(hourC >= 1) {
+        result = "" + parseInt(hourC) + "小时前";
+      } else if(minC >= 1) {
+        result = "" + parseInt(minC) + "分钟前";
+      } else
+        result = "刚刚";
+        
+      return result;
+    }
+    
+    $scope.showDetail = function(message) {
+//       alert(JSON.stringify(message));
+      //将消息标志为已读
+      ajax({
+        url:'message/noted',
+        method:'get',
+        isChat:true,
+        data:{messageId:message.id},
+        success:function(){
+          //发送消息已读
+          api.sendEvent({
+            name: 'sysNum',
+          });
+        }
+      });
+            
+      message.status='READ';
+      if(message.business == "USER") {
+        
+         openWin({
+          name:"systemDetail",
+          url:"systemDetail.html",
+          auth:true,
+          pageParam:{
+            systemContent:message.content,
+            createTime:message.createTime
+
+          }
+         })
+      } else if(message.business == "TASK") {
+        openWin({
+          name: "demandsDetail",
+          url: "../demand/demandsDetail.html",
+          pageParam: {
+            taskId: message.businessId
+          }
+        });
+      } else if(message.business == "SERVICE") {
+        openWin({
+          name: "serviceDetail",
+          url: "../service/serviceDetail.html",
+          pageParam: {
+            serviceId: message.businessId
+          }
+        });
+      } else if(message.business == "ORDER") {
+        if(message.type == "SERVICE") {
+          openWin({
+            name: "service_order_detail",
+            url: "../order/service_order_detail.html",
+            pageParam: {
+              id: message.businessId
+            }
+          });
+        } else if(message.type == "TASK") {
+          //进行判断，是调到那个页面
+          if(((message.orderStatus == 'WAITING_TAKE' || message.orderStatus == 'TAKED') && !message.isProvider) ||
+            (message.orderStatus == 'WAITING_TAKE' && message.isProvider)) {
+            //报名，进行中
+            openWin({
+              name: 'demandOrderSignUp',
+              url: '../order/demandOrderSignUp.html',
+              pageParam: {
+                orderId: message.businessId
+              }
+            })
+          } else {
+            openWin({
+              name: "demand_orderDetail",
+              url: "../order/demand_orderDetail.html",
+              pageParam: {
+                id: message.businessId
+              }
+            });
+          }
+        }
+      }
+    }
+      //下拉刷新
+    api.setRefreshHeaderInfo({
+      visible: true,
+      bgColor: '#ccc',
+      textColor: '#fff',
+      textDown: '下拉刷新...',
+      textUp: '松开刷新...',
+      showTime: true
+    }, function(ret, err) {
+      $scope.page = 0;
+      ajax({
+        url: "message/readSys",
+        method: "get",
+        data: {page: $scope.page},
+        success: function(data, header) {
+          $scope.message =data.data;
+          api.refreshHeaderLoadDone();
+        }
+      });
+    });
+
+    // 上拉加载
+    api.addEventListener({
+      name: "scrolltobottom"
+    }, function(ret, err) {
+      $scope.page++;
+      $scope.$apply();
+      loadData();
+    });
+  }]);
+
+
+apiready = function() {
+  angular.bootstrap(document, ["module"]);
+};
+</script>
+
+</html>

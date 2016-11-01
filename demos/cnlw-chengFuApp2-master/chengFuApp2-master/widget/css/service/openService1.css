@@ -1,0 +1,89 @@
+.topUl {
+  margin: 0 auto;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.topUl li {
+  width: 30%;
+  display: inline-block;
+  list-style: none;
+  height: 34px;
+  line-height: 34px;
+  font-size: 12px;
+  color: #969593;
+  position: relative;
+}
+.topUl li.active {
+  color: #1f1a17;
+}
+.topUl li.active:after {
+  background: #969593;
+}
+.topUl li:after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #dededc;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  z-index: 100;
+}
+.topUl li:nth-child(2):before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: #dededc;
+  right: 50%;
+  top: 100%;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+.topUl li:nth-child(3):before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: #dededc;
+  right: 50%;
+  top: 100%;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+.ui_group {
+  margin-top: 10px;
+}
+.ui_group .ui_row_right input {
+  width: 80%;
+  border: none;
+  height: 18px;
+  margin-right: 20px;
+}
+.ui_group .ui_row {
+  padding: 10px 0;
+}
+.footer {
+  margin: 30px 20px 0;
+}
+.footer button {
+  width: 100%;
+  height: 40px;
+  border-radius: 15px;
+  border: none;
+  background: #ff7f66;
+  color: #fff;
+  font-size: 16px;
+}
+.ui_group .ui_row span:nth-child(1) {
+  margin-right: 0;
+  position: relative;
+  left: 16px;
+}
+.ui_group .ui_row span:nth-child(2) {
+  margin-left: 0;
+  width: 20px;
+  margin-right: 20px;
+}

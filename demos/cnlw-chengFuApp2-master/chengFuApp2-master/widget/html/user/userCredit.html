@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<title>个人信用</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" type="text/css" href="../../css/user/userCredit.css">
+</head>
+	<body ng-controller="controller">
+		<header>
+			<span class="icon_back back_btn" onclick="api.closeWin();"></span>
+			<span>个人信用</span>
+		</header>
+		<form novalidate="novalidate" name="creditForm">
+			<div class="form_group">
+				<div class="form_row realname">
+					<span>真实姓名</span>
+					<input type="type" placeholder="请输入姓名" name="realname" ng-model="data.realname" required />
+				</div>
+			</div>
+			<div class="upload_IDCard_show">
+					<div ng-class = "{true: 'icon_IDCard', false: ''}[!isIDCard]" >
+						<img src="{{data.url}}" alt="身份证照片" ng-if="isIDCard"/>
+					</div>
+					<p>请上传身份证正面照片，请务必确保画面清晰。</p>
+			</div>
+			<div class="upload_IDCard">
+				<div class="shot_IDCard" ng-click="photo()">拍摄身份证</div>
+				<div class="open_album" ng-click="openAlbum()">打开相册</div>
+			</div>
+			
+			<div class="form_group">
+				<div class="form_row">
+					<span>身份证号</span>
+					<input type="text" placeholder="请输入身份证号" name="idCardNumber" ng-model="data.idCardNumber" ng-pattern="/^[1-9]{1}[0-9]{14}$|^[1-9]{1}[0-9]{16}([0-9]|[xX])$/" required class="id_card_number"/>
+				</div>
+				<div class="form_row icon_right" ng-click="bindPhone();">
+					<span>联系电话</span>
+					<input type="type" name="phone" ng-model="data.phone" required readonly />
+				</div>
+				<div class="form_row icon_right" ng-click="selectCard();">
+					<span>选择银行</span>
+					<input type="type" name="bankName" ng-model="data.bankName" required readonly />
+				</div>
+				<div class="form_row">
+					<span>银行卡号</span>
+					<input type="text" placeholder="请输入银行卡号" name="bankCard" ng-model="data.bankCard" ng-pattern="/^(\d{16}|\d{19})$/" required class="card_number"/>
+				</div>
+			</div>
+			
+			<div class="form_group confirm_wraper">
+				<button type="button" class="confirm_btn" ng-click="confirm();">确定</button>
+			</div>
+		</form>
+		<!-- 上传进度 -->
+		<div class="percent_wraper" ng-if="isPercent">
+			<p>{{percent}}%</p>
+		</div>
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script>
+			angular.module('module',['APP'])
+			.controller('controller',['$scope','openWin','ajax',function($scope,openWin,ajax){
+				$scope.data = {
+					  "bankCard": "",
+					  "bankId": 0,
+					  "idCardNumber": "",
+					  "phone": "",
+					  "realname": "",
+					  "type": "",
+					  "url": ""
+					};
+
+				// 获取个人信用
+				ajax({
+					url:'user/query_credit',
+					method:'get',
+					success:function(data){
+						if(	data.data != null ){
+							$scope.data = data.data;
+							$scope.isIDCard = true;
+						}
+					}
+				})
+
+				//绑定手机
+				$scope.bindPhone = function () {
+					 openWin({
+					 	name:'bindPhone',
+					 	url:'bindPhone.html',
+					 	pageParam:{
+					 		'source' : 'user/upload_credit/code'
+					 	}
+					 })
+				}
+
+				//选择银行
+				$scope.selectCard =function(){
+					openWin({
+						name:'selectCard',
+						url:'../wallet/selectCard.html'
+					})
+				}
+
+				//表单验证
+				$scope.totast = function(errorMessage) {
+					api.toast({
+						msg: errorMessage,
+						duration: 2000,
+						location: 'middle'
+					});
+				}
+
+				// 绑定手机号的监听事件
+				api.addEventListener({
+				    name: 'bindPhone'
+				}, function(ret, err) {
+					if( ret.value.source == "user/upload_credit/code" ){
+						$scope.data.phone = ret.value.phone;
+						$scope.$apply();
+					}
+					
+				});
+
+				// 选择银行卡的监听事件
+				api.addEventListener({ name: 'bankMessage'}, function(ret,err) {
+					if( ret.value )	{
+						$scope.data.bankId = ret.value.cardId;
+						$scope.data.type = ret.value.mainStyle;
+						$scope.data.bankName = ret.value.bankName;
+						$scope.$apply();
+					}
+				});
+
+				$scope.confirm =function(){
+					if($scope.creditForm.$valid) {
+							if( $scope.data.url == ""){ 
+								$scope.totast("请上传身份证图片"); 
+							} else {
+								// 保存个人信用
+								ajax({
+									url:'user/upload_credit',
+									method:'post',
+									data:$scope.data,
+									success:function(data){
+										api.closeWin();
+									}
+								})
+							}
+							
+					}else{
+						if($scope.creditForm.realname.$error.required){
+							$scope.totast("请填写真实姓名");
+						}else if($scope.creditForm.phone.$error.required){
+							$scope.totast("联系电话不能为空");
+						}else if($scope.creditForm.phone.$error.pattern){
+							$scope.totast("联系电话格式不合法");
+						}else if($scope.creditForm.bankName.$error.required){
+							$scope.totast("请选择银行");
+						}else if($scope.creditForm.bankCard.$error.required){
+							$scope.totast("请填写银行卡号");
+						}else if($scope.creditForm.bankCard.$error.pattern){
+							$scope.totast("银行卡号填写错误");
+						}else if($scope.creditForm.idCardNumber.$error.required){
+							$scope.totast("请填写身份证号");
+						}else if($scope.creditForm.idCardNumber.$error.pattern){
+							$scope.totast("请输入正确的身份证号");
+						}
+					}
+				}
+				
+				$scope.isIDCard = false;
+
+				// 上传进度
+				$scope.percent = 0;
+				$scope.isPercent = false;
+				
+				//打开相册
+				$scope.openAlbum = function () {
+					api.getPicture({
+						    sourceType: 'album',
+						    encodingType: 'jpg',
+						    allowEdit: true,
+						    quality: 50,
+						    targetHeight: 800
+						}, function(ret, err) {
+    				    	if ( ret && ret.data && ret.data != "") {
+	    				  		// 图片上传
+	    						$scope.percent = 0;
+	           		 			$scope.isPercent = true;
+		       		  			var fileName = new Date().getTime();
+		       		  			api.require('qiniuUpfile').upfile({
+		       		  				file: ret.data,
+		       		  				name: fileName
+		       		  			}, function(ret, err) {
+		       		  				if (ret.status) {
+		       		  					if ( ret.oper == "complete" ) { //上传成功
+		       		  						$scope.data.url = 'http://od61wmx26.bkt.clouddn.com/' + fileName;
+		       		  						$scope.isIDCard = true;
+		       		  						$scope.isPercent = false;
+		       		  						$scope.$apply();
+		       		  					}else if ( ret.oper == "progress" ) {
+		        							$scope.percent = Math.floor(ret.percent);
+		       		  						$scope.$apply();
+		       		  					}
+		       		  				} else {
+		       		  					alert(JSON.stringify(err));
+		       		  				}
+		       		  			});
+						    }
+						});
+				}
+
+				// 打开摄像机
+				$scope.photo = function () {
+					 api.getPicture({
+					     sourceType: 'camera',
+					     encodingType: 'jpg',
+					     mediaValue: 'pic',
+					     destinationType: 'url',
+					     allowEdit: true,
+					     quality: 50,
+					     saveToPhotoAlbum: true
+					 }, function(ret, err){ 
+    				    if ( ret && ret.data && ret.data != "") {
+     				  		// 图片上传
+     						$scope.percent = 0;
+            		 		$scope.isPercent = true;
+ 	       		  			var fileName = new Date().getTime();
+ 	       		  			api.require('qiniuUpfile').upfile({
+ 	       		  				file: ret.data,
+ 	       		  				name: fileName
+ 	       		  			}, function(ret, err) {
+ 	       		  				if (ret.status) {
+ 	       		  					if ( ret.oper == "complete" ) { //上传成功
+ 	       		  						$scope.data.url = 'http://od61wmx26.bkt.clouddn.com/' + fileName;
+     									$scope.isIDCard = true;
+     									$scope.isPercent = false;
+     									$scope.$apply();
+ 	       		  					}else if ( ret.oper == "progress" ) {
+ 	        							$scope.percent = Math.floor(ret.percent);
+ 	       		  						$scope.$apply();
+ 	       		  					}
+ 	       		  				} else {
+ 	       		  					alert(JSON.stringify(err));
+ 	       		  				}
+ 	       		  			});
+					     }
+					 });
+				}
+				
+			}])
+			
+	
+			apiready = function(){
+				angular.bootstrap(document, ["module"]);
+			}
+		</script>
+	</body>
+</html>

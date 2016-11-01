@@ -1,0 +1,220 @@
+.prompt {
+  height: 40px;
+  line-height: 40px;
+  font-size: 12px;
+  color: #969593;
+  text-align: center;
+  background: #fff;
+}
+.img1 {
+  height: 200px;
+  width: 100%;
+}
+.person {
+  display: box;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  box-align: center;
+  height: 50px;
+  padding: 0 20px;
+}
+.person img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+.person ul {
+  margin-left: 10px;
+}
+.person ul li {
+  list-style: none;
+  font-size: 12px;
+  line-height: 150%;
+  color: #1f1a17;
+}
+.person ul li:nth-child(2) {
+  color: #969593;
+}
+.person ul li span {
+  margin-left: 10px;
+  color: pink;
+}
+.provideService {
+  background: #fff;
+  border-radius: 5px;
+  margin: 0 10px;
+}
+.provideService p:nth-child(1) {
+  font-size: 14px;
+  height: 36px;
+  line-height: 36px;
+  color: #1f1a17;
+  padding-left: 10px;
+  position: relative;
+}
+.provideService p:nth-child(1):before {
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: #ff7f66;
+  position: absolute;
+  left: 0px;
+  top: 8px;
+}
+.provideService img {
+  width: 100%;
+}
+.provideService .midP {
+  height: 36px;
+  line-height: 36px;
+  color: #969593;
+  padding-left: 10px;
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 14px;
+}
+.provideService .priceP {
+  height: 40px;
+  line-height: 40px;
+  padding-left: 10px;
+  color: #7dcefd;
+  font-size: 14px;
+}
+.personIntroduce {
+  background: #fff;
+  margin: 10px;
+}
+.personIntroduce p:nth-child(1) {
+  height: 36px;
+  line-height: 36px;
+  color: #1f1a17;
+  padding-left: 10px;
+  position: relative;
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 14px;
+}
+.personIntroduce p:nth-child(1):before {
+  content: '';
+  width: 3px;
+  height: 16px;
+  background: #ff7f66;
+  position: absolute;
+  left: 0px;
+  top: 8px;
+}
+.personIntroduce div {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.personIntroduce div textarea {
+  width: 100%;
+  line-height: 20px;
+  resize: none;
+  border: none;
+  font-size: 14px;
+}
+.topUl li:nth-child(3):before,
+.topUl li:nth-child(2):before {
+  background: #969593;
+}
+.btn {
+  margin: 30px 20px;
+}
+.btn button {
+  width: 100%;
+  line-height: 40px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #ff7f66;
+  border: none;
+  border-radius: 20px;
+}
+.dialog_mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-size: 0;
+}
+.dialog_mask:after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.dialog {
+  border-radius: 4px;
+  font-size: 16px;
+  background: #f3f4f6;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+  width: 250px;
+}
+.dialog_title {
+  padding: 4px 15px 0px;
+  text-align: left;
+  margin: 7px 0;
+  font-size: 20px;
+}
+.dialog_title h4 {
+  height: 20px;
+  line-height: 20px;
+  margin: 0px;
+  font-size: 18px;
+  text-align: center;
+}
+.dialog_title p {
+  font-size: 14px;
+  height: 20px;
+  line-height: 20px;
+  margin-top: 2px;
+}
+.dialog_body {
+  padding: 4px 15px;
+  color: #969593;
+}
+.dialog_btns h4,
+p {
+  padding: 0;
+  margin: 0;
+}
+.dialog_body textarea {
+  line-height: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4px;
+  border: none;
+  overflow: hidden;
+  resize: none;
+}
+.dialog_body p {
+  font-size: 14px;
+  line-height: 300%;
+}
+.cancelBtn,
+.confirmBtn {
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  padding: 0;
+  text-align: center;
+  line-height: 300%;
+  width: 50%;
+  margin: 0;
+}
+.cancelBtn {
+  float: left;
+  background: #3e454d;
+  border-radius: 0 0 0 4px;
+}
+.confirmBtn {
+  background: #ff7f66;
+  border-radius: 0 0 4px 0;
+}
+.mask .dialog_title {
+  text-align: center;
+}

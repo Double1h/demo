@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>打乱数组</title>
+	</head>
+	<body>
+		<div id="result"></div>
+		<script>
+			var result = document.getElementById("result");
+			var arr = [1,2,3,4,5,6,7,8,9,10];
+			arr.sort(function(){
+				return Math.random()>0.5?1:0;
+			})
+			result.innerHTML = arr.join(",");
+		</script>
+	</body>
+</html>

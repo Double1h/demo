@@ -1,0 +1,214 @@
+@import "../constant";
+
+body{
+	background-color: @mainBgColor;
+	color: @fontColor1;
+	font-size: 14px;
+}
+
+// header
+header{
+	width: 100%;
+	position: fixed;
+	top:0;
+	left: 0;
+	line-height: 52px;
+	height: 52px;
+	background-color: @headerBgColor;
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+	z-index: 1000;
+	span{
+		font-size: 16px;
+	}
+
+	.back_btn{
+		position: absolute;
+		left: 20px;
+		&:before{
+			font-size: 22px;
+			line-height: 52px !important;
+		}
+	}
+}
+
+form{
+	margin-top: 52px;
+}
+
+
+
+// form_group
+.form_group{
+	background-color: #fff;
+	border-top: solid 10px @mainBgColor;
+	border-bottom: solid 10px @mainBgColor;
+	font-size: 14px;
+}
+.form_row{
+	height: 40px;
+	line-height: 40px;
+	position: relative;
+	span{
+		position: absolute;
+		left: 20px;
+		top: 0;
+		font-size: 14px;
+	}
+	input{
+		text-align: right;
+		width: 100%;
+		font-size: 14px;
+		box-sizing: border-box;
+		padding: 0 40px 0 134px;
+		border: none;
+		line-height: 16px;
+	}
+	.id_card_number,.card_number{
+		padding: 0 20px 0 134px;
+	}
+
+	&:after{
+		content:"";
+		display:block;
+		height:1px;
+		position:absolute;
+		left: 0;
+		bottom: 0;
+		width:100%;
+		background:@mainBgColor;
+		-webkit-transform:scaleY(0.5);
+		transform: scaleY(0.5);
+	}
+}
+.realname input{
+	padding: 0 20px 0 134px;
+}
+.icon_right{
+	position: relative;
+	&:before{
+	    position: absolute;
+        right: 20px;
+        top: 0;
+        color: #c2c1c1;
+        font-size: 18px;
+        margin: auto 0;
+        top: 0;
+        bottom: 0;
+        height: 1em;
+	}
+}
+.upload_IDCard_show{
+	background: #fff;
+	padding:10px 0;
+	text-align: center;
+	p{
+		margin-top: 20px;
+		font-size: 12px;
+		color: @fontColor2;
+	}
+	img{
+		width: 170px;
+		height: 104px;
+	}
+}
+.icon_IDCard{
+	font-size: 104px;
+	background-color: #000;
+	text-align: center;
+	width: 170px;
+	height: 104px;
+	overflow: hidden;
+	margin:0 auto;
+	&:before{
+		color: #fff;
+		background-color: #000;
+	}
+}
+
+.upload_IDCard{
+	text-align: center;
+	color: @mainBtnColor;
+	background-color: #fff;
+	line-height: 50px;
+	border-top: solid 10px @mainBgColor;
+	font-size: 14px;
+}
+.shot_IDCard{
+	position: relative;
+	&:after{
+		content:"";
+		display:block;
+		height:1px;
+		position:absolute;
+		left: 0;
+		bottom: 0;
+		width:100%;
+		background:@mainBgColor;
+		-webkit-transform:scaleY(0.5);
+		transform: scaleY(0.5);
+	}
+}
+
+.icon_alipay,.icon_wechat_1{
+	position: relative;
+}
+.icon_alipay:before,.icon_wechat_1:before{
+	font-size: 32px;
+	position: absolute;
+	top: 10px;
+}
+.icon_alipay:before{
+	color: #55ABE4;
+}
+.icon_wechat_1:before{
+	color: #10CD6D;
+}
+.pay_detail{
+	padding-left: 42px;
+	color: @fontColor2;
+	font-size: 14px;
+}
+
+.confirm_btn{
+	background-color: @mainBtnColor;
+	border-radius: 22px;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	color: #fff;
+	font-size: 14px;
+	border: none;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.confirm_wraper{
+	background-color: @mainBgColor;
+	padding: 0 @mainPadding;
+}
+
+// percent
+.percent_wraper{
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	text-align: center;
+	background-color: rgba(0,0,0,.5);
+	z-index: 1000;
+	vertical-align: middle;
+	p{
+		color: #fff;
+		display: inline-block;
+		font-size: 20px;
+	}
+
+	&:after{
+		content:"";
+		display:inline-block;
+		height:100%;
+		vertical-align:middle;
+	}
+}

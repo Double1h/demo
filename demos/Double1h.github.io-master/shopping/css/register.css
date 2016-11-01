@@ -1,0 +1,218 @@
+.forIndexNav{padding-left:30px;height: 50px;line-height: 50px;background-color: #fff;}.forIndexNav a{margin-right: 15px;color: #000;text-decoration: none;}.forIndexNav a.current{color: #3fb27a}body {
+  font-family: arial, "宋体";
+  font-size: 12px;
+}
+body,
+ul,
+ol,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+ul,
+ol,
+li,
+menu {
+  list-style: none;
+}
+fieldset,
+img {
+  border: none;
+}
+img,
+object,
+select,
+input,
+textarea,
+button {
+  vertical-align: middle;
+}
+caption,
+th {
+  text-align: left;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+select,
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+i,
+b,
+strong,
+small,
+th,
+var,
+abbr {
+  font-size: 100%;
+  font-style: normal;
+}
+ins,
+s,
+u,
+del {
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+a:focus {
+  outline: none;
+}
+input,
+textarea:focus {
+  outline: none;
+}
+input {
+  border: none;
+}
+a,
+input,
+button {
+  outline: none;
+}
+::-moz-focus-inner {
+  border: 0px;
+}
+.header {
+  width: 100%;
+  height: 85px;
+  background-color: #1d7ad9;
+  color: #fff;
+}
+.headerCont {
+  background: url(../images/register/logo.png) no-repeat left center;
+  width: 320px;
+  height: 85px;
+  line-height: 85px;
+  padding-left: 140px;
+  margin: 0 auto;
+}
+.headerCont h1 {
+  font: normal 22px/85px "微软雅黑";
+}
+.main {
+  width: 640px;
+  border: solid 1px #e8e8e8;
+  margin: 10px auto 30px auto;
+  padding: 70px 0 55px 0;
+  color: #999999;
+}
+.main ul {
+  width: 395px;
+  margin: 0 auto;
+  *zoom: 1;
+}
+.main ul:before,
+.main ul:after {
+  display: table;
+  content: "";
+}
+.main ul:after {
+  clear: both;
+}
+.main li {
+  height: 50px;
+  line-height: 50px;
+}
+.main ul label {
+  float: right;
+  position: relative;
+}
+.main ul label span {
+  font-size: 20px;
+  color: red;
+  position: absolute;
+  left: -15px;
+  top: 5px;
+}
+.main .text {
+  width: 310px;
+  height: 38px;
+  border: solid 1px #cccccc;
+  margin: 5px 0 15px 20px;
+  background: no-repeat 275px center;
+  float: right;
+}
+.main input[type="text"],
+.main input[type="password"] {
+  height: 38px;
+  line-height: 38px;
+  color: #000000;
+  padding-left: 3px;
+  margin-top: -13px;
+  width: 240px;
+}
+.main .userName {
+  background-image: url(../images/register/user.png);
+}
+.main .password {
+  background-image: url(../images/register/passwork.png);
+}
+.main .eMail {
+  background-image: url(../images/register/passwork.png);
+}
+.main input[type="button"] {
+  display: block;
+  width: 314px;
+  height: 35px;
+  line-height: 35px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin: 30px 0 35px 0;
+  border: solid 1px #bfd3e8;
+  color: #606060;
+  background-image: -moz-linear-gradient(top, #fafafa, #d0d0d0);
+  /* FF3.6+ */
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#d0d0d0));
+  /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #fafafa, #d0d0d0);
+  /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image: -ms-linear-gradient(top, #fafafa, #d0d0d0);
+  /* IE10 */
+  background-image: -o-linear-gradient(top, #fafafa, #d0d0d0);
+  /* Opera 11.10+ */
+  background-image: linear-gradient(top, #fafafa, #d0d0d0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#fffafafa,endColors=#ffd0d0d0);
+  cursor: pointer;
+  margin: 0 auto;
+  font-weight: bold;
+}
+.main .readAndAgreeBox {
+  width: 290px;
+  margin: 50px auto 35px auto;
+}

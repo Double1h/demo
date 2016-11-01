@@ -1,0 +1,169 @@
+@import "../constant";
+header {
+    overflow: hidden;
+    div span {
+        display: inlne-block;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+        box-sizing: border-box;
+        padding: 6px 16px;
+        border: 1px solid #fff;
+        &.active {
+            background: #fff;
+            color: @fontColor1;
+        }
+        &:nth-child(1) {
+            border-radius: 20px 0 0 20px;
+        }
+        &:nth-child(2) {
+            border-radius: 0 20px 20px 0;
+        }
+    }
+}
+.moduleList {
+    margin-top: 10px;
+}
+.workContent {
+    margin-bottom: 20px;
+}
+.workList {
+    height: 36px;
+    line-height: 36px;
+    background: #fff;
+    padding: 0 20px;
+    li {
+        list-style: none;
+        display: inline-block;
+        color: @fontColor2;
+        font-size: @minFontSize;
+        padding-right: 8px;
+        &:not(:last-of-type) {
+            margin-right: 0;
+        }
+        &.activeLi {
+            color: @fontColor1;
+        }
+    }
+}
+.moduleList {
+    padding-top:10px;
+}
+.workBottom {
+    font-size: @minFontSize;
+    line-height:26px;
+    div:nth-child(1) {
+        color: @fontColor3;
+        .person {
+            display: inline-block;
+            margin-left: 20px;
+            line-height: 26px;
+            height: 26px;
+        }
+       
+    }
+    div:nth-child(2) {
+        text-align:right;
+         position:relative;
+         padding-top:6px; 
+         padding-bottom:6px;
+        &:before{
+            content:'';
+            position:absolute;
+            left:0;
+            top:0;
+            height:1px;
+            width:100%;
+            background:@mainBgColor;
+            transform:scaleY(0.5);
+            -webkit-transform:scaleY(0.5);
+        }
+        button {
+            color: #fff;
+            background: @topBgColor;
+            border: none;
+            padding: 4px 5px;
+            border-radius: 4px;
+            min-width: 60px;
+            font-size: @minFontSize;
+        }
+    }
+}
+.highLight {
+    color: @mainBtnColor;
+}
+.content {
+    position: relative;
+    .conentDetail{
+        color:@fontColor2;
+        word-wrap:break-word;
+    }
+    .icon_completed {
+        position: absolute;
+        bottom: 6px;
+        right: 10px;
+        font-size: 36px;
+        color: @mainBtnColor;
+    }
+}
+.order_TAKED,
+.order_WAITING_TAKE { 
+    color: #7dcefd;
+}
+.order_TAKED .order_status_text,.order_WAITING_TAKE .order_status_text{
+  color: #7dcefd;
+}
+.order_UNPAID  .order_status_text,.order_APPLYING_FINISH .order_status_text{
+    color:@mainBtnColor;
+}
+.order_UNPAID,.order_FINISHED {
+    color: @mainBtnColor;
+}
+.top {
+    display: box;
+    display: -webkit-box;
+    box-pack: justify;
+    -webkit-box-pack: justify;
+    color:@fontColor1;
+    
+    span{
+        margin:0 3px;
+    }
+}
+.order_FINISHED .order_status_text{
+  display:none;
+}
+.moduleList:not(.order_FINISHED) .score_stars{
+  display:none;
+}
+
+
+//提示无订单
+body,html{
+    height:100%;
+}
+.tips{
+    text-align:center;
+    background:#fff;
+    box-sizing:border-box;
+    height:100%;
+    padding-top:50%;
+    font-size:18px;
+    color:@fontColor3;
+}
+
+//标签太多，用省略号表示
+.top p:first-of-type{
+    width:70%;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+//标签太多，用省略号表示
+.tag{
+    max-width:70%;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}

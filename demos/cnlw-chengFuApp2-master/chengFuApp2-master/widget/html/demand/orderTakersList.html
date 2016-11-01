@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<title>接单人列表</title>
+	<link rel="stylesheet" href="../../css/fonticon/style.css" />
+	<link href="../../css/reset.css" rel="stylesheet" />
+	<link href="../../css/public.css" rel="stylesheet" />
+	<link href="../../css/demand/orderederList.css" rel="stylesheet" />
+	<link href="../../css/demand/orderTakerList.css" rel="stylesheet" />
+	<style>
+		body{opacity:0;}
+	</style>
+</head>
+<body ng-controller="controller">
+	<div class="task_detail">
+		<p>{{::demandContent}}</p>
+	</div>
+	<ul class="order_takers">
+		<li ng-repeat="o in orderTakers">
+			<div class="top">
+				<div class="top_left">
+					<div class="avatar">
+						<img src="../../img/head.png" ng-hide="o.avatarPath">
+        				<img ng-src="{{o.avatarPath}}" ng-show="o.avatarPath">
+					</div>
+					<div class="message">
+						<h2>{{::o.nickname}} <span ng-class="{0: 'icon_man',1: 'icon_woman'}[o.gender]"></span></h2>
+						<p class="icon_address">{{::o.address}}</p>
+					</div>
+					<div class="top_right">
+						<p ng-if="o.isPass" class="success">成功接单</p>
+						<p ng-if="!o.isPass" class="false">已报名</p>
+					</div>
+				</div>
+			</div>
+			<div class="bottom">
+				<div class="saying" ng-if="o.remark">
+					<span>他说：{{::o.remark}}</span>
+				</div>
+				<div class="tags" ng-if="o.tag">
+					<span ng-repeat="t in o.tag">{{::t}}</span>
+				</div>
+			</div>
+		</li>
+	</ul>
+		
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+	angular.module('module',['APP'])
+	.controller('controller',['$scope','openWin','refreshHeaderLoadDone','ajax',function($scope,openWin,refreshHeaderLoadDone,ajax){
+		$scope.orderTakers = [];
+	    $scope.taskId =  api.pageParam.taskId;
+	    $scope.userId =  api.pageParam.userId;
+	    $scope.demandContent = api.pageParam.demandContent;
+	    $scope.page =0;
+		
+		$scope.confirm =$scope.reset = function(){
+			$scope.recevieToggle =false;
+		}
+		
+		//获取接单人列表
+		ajax({
+			url: "task/participant",
+			method: "get",
+			dataType:'text',
+			data: {
+				taskId : $scope.taskId,
+				page:$scope.page
+			},
+			success: function(data, header) {
+				$scope.orderTakers = data.data;
+			}
+		});
+		
+		// 下拉刷新
+		api.setRefreshHeaderInfo({
+		    visible: true,
+		    bgColor: '#ccc',
+		    textColor: '#fff',
+		    textDown: '下拉刷新...',
+		    textUp: '松开刷新...',
+		    showTime: true
+		}, function(ret, err) {
+			$scope.page=0;
+			$scope.orderTakers=[];
+		   	loadData();
+		    api.refreshHeaderLoadDone()
+		});
+		
+		//上拉加载
+		api.addEventListener({
+			name: "scrolltobottom"
+		}, function(ret, err) {
+			if($scope.datas && $scope.datas.length>0){
+				loadData();
+			}
+		});
+		
+		//加载任务
+		var loadData =  function(){
+			ajax({
+				url: "task/participant",
+				method: "get",
+				dataType:'text',
+				data: {
+					taskId : $scope.taskId,
+					page:$scope.page
+				},
+				success: function(data, header) {
+					$scope.orderTakers = $scope.orderTakers.concat(data.data);
+					if(data.data.length){
+						$scope.page+=1;
+					}
+				}
+			});
+		};
+	}]);
+	
+	apiready = function(){
+		angular.bootstrap(document, ["module"]);
+	}
+	</script>
+</body>
+</html>

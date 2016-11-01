@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+		<link rel="stylesheet" type="text/css" href="../../css/public.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+		<link rel="stylesheet" href="../../css/order/orderDetail_new.css">
+		<style>
+			.order_type {
+				max-width: 70%;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			
+			.order_type span {
+				margin-right: 5px;
+			}
+		</style>
+	</head>
+
+	<body ng-controller="controller">
+		<header>
+			<button class="icon_back back_btn" onclick="api.closeWin();"></button>
+			<span>订单详情</span>
+		</header>
+
+		<div class="order_detail">
+			<div class="order_detail_top">
+				<div class="order_type">类别：<span ng-repeat="tag in order.tags">{{::tag}}</span></div>
+				<div class="order_status" id="order_status">{{status[order.status]}}</div>
+			</div>
+			<div class="order_content">{{::order.content}}</div>
+			<div class="order_price">酬金<span>￥{{::order.money}}/单</span></div>
+			<div class="order_time">{{::order.time|date:'yyyy/MM/dd'}}</div>
+		</div>
+
+		<div class="topic" ng-if="order.status=='TAKED' || order.status=='APPLYING_FINISH'">
+			<h2>图片</h2>
+			<!-- 图片上传 -->
+			<div ng-if="order.status=='TAKED'">
+				<div class="re_img" id="reImg">
+					<div class="re_img_item" ng-show="descriptImg.length" ng-repeat="i in descriptImg" ngd-click="delImg($index)" selector=".icon_error">
+						<div class="img_wrap"><img src="{{i}}" /></div>
+						<div class="icon_error"></div>
+					</div>
+					<div class="add_img_wraper">
+						<img src="../../img/add.jpg" id="reAdd" ng-click="addImg()">
+					</div>
+				</div>
+			</div>
+			<div ng-if="order.status=='APPLYING_FINISH'">
+				<ul class="imgList" ngd-click="showImage($index);" selector="img">
+					<li ng-repeat="url in content.url"><img ng-src="{{url}}" alt="" /></li>
+				</ul>
+			</div>
+		</div>
+
+		<!--输入审核内容-->
+		<div class="content" ng-show="order.status=='TAKED' || order.status=='APPLYING_FINISH'">
+			<h2>内容</h2>
+			<div ng-show="order.status=='TAKED'">
+				<div class="textarea_wraper">
+					<textarea placeholder="请输入正文内容" ng-model="con" name="content" required></textarea>
+					<div class="div4height">{{con}}</div>
+				</div>
+			</div>
+			<p ng-if="order.status=='APPLYING_FINISH'" class="reviewing_content">{{con?con:content.content}}</p>
+		</div>
+		<div class="handler">
+			<div ng-if="order.status=='TAKED' && order.isProvider">
+				<button type="button" class="upload_review" ng-click="review()">提交审核资料</button>
+			</div>
+			<div ng-if="order.status=='APPLYING_FINISH' && !order.isProvider">
+				<div ng-click="showScore()" ng-show="again">
+					<button type="button">确认完成</button>
+				</div>
+				<div class="btns" ng-click="applyArbitration()" ng-show="again">
+					<button type="button">重新提交审核资料</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- 上传进度 -->
+		<div class="percent_wraper" ng-if="isPercent">
+			<p>{{percent}}%</p>
+		</div>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../libs/angular-delegates.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module('module', ["APP", 'DelegateEvents'])
+			.controller('controller', ['$scope', 'openWin', 'ajax', function($scope, openWin, ajax) {
+				$scope.status = {
+					"WAITING_TAKE": "待接单",
+					"TAKED": "进行中",
+					"APPLYING_FINISH": "待审核",
+					"FINISHED": "已完成"
+				}
+				
+				$scope.descriptImg = [];
+				$scope.isShowScore = false;
+				var itemId = api.pageParam.id;
+				$scope.flag = api.pageParam.flag;
+				$scope.con = '';
+				$scope.toggle = true;
+				$scope.again = true;
+				var showingImg = false;
+				
+				//浏览图片
+				var photoBrowser = api.require('photoBrowser');
+				$scope.showImage = function(index){
+					showingImg = true;
+					photoBrowser.open({
+						images: $scope.content.url,
+						placeholderImg: 'widget://res/img/apicloud.png',
+						bgColor: '#000'
+					}, function(ret, err) {
+						
+					});
+					photoBrowser.setIndex({index: 0});
+				}
+				
+				//按退出键
+				api.addEventListener({
+					name: 'keyback'
+				}, function(ret, err) {
+					if(showingImg){
+						photoBrowser.close();
+						showingImg = false;
+					} else {
+						api.closeWin();
+					}
+				});
+				
+				//评分
+				$scope.showScore = function() {
+					ajax({
+						url: 'order/confirm_complete',
+						method: "post",
+						dataType: 'text',
+						data: {
+							orderId: itemId
+						},
+						success: function(data, header) {
+							$scope.isShowScore = true;
+							// 完成评分，发请求
+							api.toast({
+								msg: "确认完成成功",
+								duration: 1000,
+								location: 'bottom'
+							});
+							$scope.again = false;
+						}
+					});
+
+				}
+
+				//ajax加载数据
+				ajax({
+					url: 'order/detail',
+					method: "get",
+					dataType: 'text',
+					data: {
+						orderId: itemId
+					},
+					success: function(data, header) {
+						$scope.order = data.data.order;
+						$scope.content = data.data;
+						if($scope.order.isProvider) {
+							$scope.toggle = true;
+						}
+					}
+				});
+
+				// 图片上传
+				$scope.addImg = function() {
+					api.getPicture({
+						sourceType: 'album',
+						encodingType: 'jpg',
+						allowEdit: true,
+						quality: 50,
+						targetHeight: 800
+					}, function(ret, err) {
+						if(ret && ret.data && ret.data != "") {
+							// 图片上传
+							$scope.percent = 0;
+							$scope.isPercent = true;
+							var fileName = new Date().getTime();
+							api.require('qiniuUpfile').upfile({
+								file: ret.data,
+								name: fileName
+							}, function(ret, err) {
+								if(ret.status) {
+									if(ret.oper == "complete") { //上传成功
+										$scope.isPercent = false;
+										$scope.descriptImg.push('http://od61wmx26.bkt.clouddn.com/' + fileName);
+										$scope.$apply();
+									} else if(ret.oper == "progress") {
+										$scope.percent = Math.floor(ret.percent);
+										$scope.$apply();
+									}
+								} else {
+									alert(JSON.stringify(err));
+								}
+							});
+						}
+					});
+				} // 删除上传图片
+				$scope.delImg = function(index) {
+					$scope.descriptImg.splice(index, 1);
+				}
+
+				//提交审核资料
+				$scope.review = function() {
+					if($scope.descriptImg.length == 0) {
+						api.toast({
+							msg: "请上传审核图片",
+							duration: 1000,
+							location: 'bottom'
+						});
+					} else if($scope.con.trim() == "") {
+						api.toast({
+							msg: "请输入审核内容",
+							duration: 1000,
+							location: 'bottom'
+						});
+					} else {
+						ajax({
+							url: 'order/upload_certificate',
+							method: "post",
+							data: {
+								content: $scope.con,
+								orderId: itemId,
+								url: $scope.descriptImg
+							},
+							success: function(data, header) {
+								api.toast({
+									msg: "资料提交成功",
+									duration: 1000,
+									location: 'bottom'
+								});
+
+								if($scope.content && !$scope.content.isProvider) {
+									$scope.order.status = "APPLYING_FINISH";
+								}
+
+								//再次加载数据
+								ajax({
+									url: 'order/detail',
+									method: "get",
+									dataType: 'text',
+									data: {
+										orderId: itemId
+									},
+									success: function(data, header) {
+										$scope.order = data.data.order;
+										$scope.content = data.data;
+										if($scope.order.isProvider) {
+											$scope.toggle = true;
+										}
+									}
+								});
+							}
+						});
+					}
+				}
+
+				//重新提交审核资料
+				$scope.applyArbitration = function() {
+					ajax({
+						url: 'order/reject',
+						method: "post",
+						dataType: 'text',
+						data: {
+							orderId: itemId
+						},
+						success: function(data, header) {
+							//							$scope.order.status='TAKED';
+							document.querySelector('#order_status').innerHTML = '进行中';
+							api.toast({
+								msg: "操作成功",
+								duration: 1000,
+								location: 'bottom'
+							});
+							//隐藏“重新提交审核资料”按钮
+							$scope.again = false;
+						}
+					});
+					//				}
+				}
+			}]);
+
+		apiready = function() {
+			angular.bootstrap(document, ["module"]);
+		}
+	</script>
+
+</html>

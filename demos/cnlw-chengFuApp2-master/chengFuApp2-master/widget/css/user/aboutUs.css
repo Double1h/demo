@@ -1,0 +1,30 @@
+.top {
+  height: 60px;
+  display: -webkit-box;
+  display: box;
+  -webkit-box-pack: center;
+  box-pack: center;
+  margin-top: 10px;
+}
+.top img {
+  height: 50px;
+}
+.top div {
+  color: #7dcefd;
+  margin-left: 10px;
+  padding-top: 10px;
+}
+.introduction {
+  margin: 0 10px;
+  padding: 10px;
+  background: #fff;
+  font-size: 14px;
+  text-indent: 32px;
+  line-height: 150%;
+  color: #969593;
+}
+.time {
+  text-align: center;
+  margin-top: 30px;
+  color: #969593;
+}

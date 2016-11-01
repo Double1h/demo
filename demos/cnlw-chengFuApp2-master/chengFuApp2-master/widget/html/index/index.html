@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" href="../../css/reset.css">
+	<link rel="stylesheet" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" href="../../css/index/worldTask.css">
+	<link rel="stylesheet" href="../../css/public.css" />
+</head>
+<body ng-controller="controller">
+	<header>
+		<button ng-click="specialColumn();">
+			<div class="icon_publish_service"></div>
+			<div class="publish_text">发布专长</div>
+		</button>
+		<button ng-click="search();" class="search_btn icon_search"></button>
+		<button ng-click="publish();">
+			<div class="icon_publish_task"></div>
+			<div class="publish_text">发布任务</div>
+		</button>
+	</header>
+	
+	<!--任务类型-->
+	<div class="tabs border_bottom">
+		<span class="nearTask" ng-click="changeTab(0,'nearTask');">附近任务</span>
+		<span class="worldTask active" ng-click="changeTab(1,'worldTask');">世界任务</span>
+		<span class="demand" ng-click="changeTab(2,'demand');">发现专长</span>
+	</div>
+	
+	<footer class="border_top" style="position: absolute;">
+		<div id="task" class="icon_task" 			ng-class="{'icon_task':tab=='task','icon_task2':tab!='task'}" data-tab="task">首页</div>
+		<div id="message" class="icon_message_1"	ng-class="{'icon_message':tab=='message','icon_message_1':tab!='message'}" data-tab="message">消息
+			<span class="newMsg" ng-if="newMsg">{{newMsg}}</span>
+		</div>
+		<div id="person" class="icon_me" 			ng-class="{'icon_person':tab=='person','icon_me':tab!='person'}" data-tab="person">用户</div>
+	</footer>
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../js/app.js"></script>
+<script type="text/javascript">
+	angular.module("module",["APP"])
+	.controller('controller', ['$scope','openWin','openFrame','ajax','setStorage','getStorage', function($scope,openWin,openFrame,ajax,setStorage,getStorage){
+		var flag=false;
+		$scope.tab='task';
+
+		setStorage('qrcodeShow','0');
+		setStorage('systemAlert_opening','0','systemAlertChange');
+		setStorage('userIndex_opening','0','userIndexChange');
+
+		//获取未读取的消息数量
+		ajax({
+				url: "message/unread",
+				method: "get",
+				success: function(data, header) {
+					$scope.newMsg = data.data;
+				}
+		});
+
+		setInterval(function(){
+			ajax({
+				url: "message/unread",
+				method: "get",
+				isChat:true,
+				success: function(data, header) {
+					$scope.newMsg = data.data;
+				}
+			});
+		},5000)
+		
+		//搜索
+		$scope.search=function(){
+			openWin({
+				name:"searchIndex",
+				url:"searchIndex.html"
+			});
+		}
+		//发布需求
+		$scope.publish = function () {
+			openWin({
+			 	name:"demand",
+			 	auth:true,
+			 	url:"../demand/demand.html"
+			});
+		}
+		//发布任务
+		$scope.specialColumn =function(){
+			openWin({
+			 	name:"newService",
+			 	auth:true,
+			 	url:"../service/newService.html"
+			});
+		}
+		
+		//切换tab
+		$scope.changeTab=function(index,cls){
+			document.querySelector(".tabs .active").classList.remove("active");
+			document.querySelector("."+cls).classList.add("active");
+			api.setFrameGroupIndex({
+				name: 'taskGroup',
+				index: index,
+				scroll: true
+			});
+		}
+
+		//监听用户中心的退出
+		api.addEventListener({
+			name: 'unLogin'
+		}, function(ret, err) {
+			$scope.tab = 'task';
+			$scope.$apply();
+			api.setFrameAttr({
+				name: 'systemAlert',
+				hidden:true
+			});
+			api.setFrameAttr({
+				name: 'userIndex',
+				hidden:true
+			});
+		});
+
+		api.openFrameGroup({
+			name: 'taskGroup',
+			scrollEnabled: true,
+			preload:0,
+			index: 1,
+			rect: {
+				x: 0,
+				y: 92,
+				marginBottom: 48
+			},
+			frames: [{
+				vScrollBarEnabled:false,
+				name: 'nearTask',
+				url: 'nearTask.html',
+				bounces:false
+			},{
+				vScrollBarEnabled:false,
+				name: 'worldTask',
+				url: 'worldTask.html',
+				bounces:false
+			}, {
+				vScrollBarEnabled:false,
+				name: 'demand',
+				url: 'demand.html',
+				bounces:false
+			}]
+		}, function(ret, err) {
+			document.querySelector(".tabs .active").classList.remove("active");
+			document.querySelector("."+ret.name).classList.add("active");
+		});
+		
+		api.addEventListener({
+			name:"loginSuccess"
+		}, function(ret, err){
+			var target = ret.value.target
+			if(target && target.indexTab){
+				document.querySelector("#"+target.indexTab).click();
+			}
+		});
+		
+		//底部页面跳转
+		document.querySelector("footer").addEventListener("click", function(e) {
+			var tab = e.target.dataset.tab;
+			switch(tab){
+				case 'task':{
+					setStorage('systemAlert_opening','0','systemAlertChange');
+					setStorage('userIndex_opening','0','userIndexChange');
+					$scope.tab = tab;
+					$scope.$apply();
+					api.setFrameAttr({
+						name: 'systemAlert',
+						hidden:true
+					});
+					api.setFrameAttr({
+						name: 'userIndex',
+						hidden:true
+					});
+					break;
+				}
+				
+				case 'message': {
+					var flag = openFrame({
+						name:'systemAlert',
+						url:'../message/systemAlert.html',
+						auth:true,
+						indexTab:"message",
+						rect:{
+							x:0,
+							y:0,
+							marginBottom:48
+						}
+					});
+					
+					if(flag){
+						$scope.tab = tab;
+						$scope.$apply();
+						// 双击bug
+						setStorage('systemAlert_opening','0','systemAlertChange');
+						setStorage('systemAlert_opening','1','systemAlertChange');
+						setStorage('userIndex_opening','0','userIndexChange');
+					}
+					break;
+				}
+						
+				case 'person': {
+					var flag = openFrame({
+						name:'userIndex',
+						url:'../user/userIndex.html',
+						auth:true,
+						indexTab:"person",
+						
+						rect:{
+							x:0,
+							y:0,
+							marginBottom:48
+						}
+					});
+					
+					if(flag){
+						$scope.tab = tab;
+						$scope.$apply();
+
+						setStorage('userIndex_opening','0','userIndexChange');
+						setStorage('userIndex_opening','1','userIndexChange');
+						setStorage('systemAlert_opening','0','systemAlertChange');
+					}
+					
+					break;
+				}
+			}
+		},false);
+
+		//退出登录
+		api.addEventListener({
+			name:"unLogin"
+		}, function(ret, err){
+			setStorage('systemAlert_opening','0','systemAlertChange');
+			setStorage('userIndex_opening','0','userIndexChange');
+			$scope.tab = "task";
+			$scope.$apply();
+			api.setFrameAttr({
+			    name: 'systemAlert',
+			    hidden:true
+			});
+			api.setFrameAttr({
+			    name: 'userIndex',
+			    hidden:true
+			});
+		});
+
+		//处理用户中心的keyback事件
+		api.addEventListener({
+		    name: 'keyback'
+		}, function(ret, err) {
+		    if(getStorage('qrcodeShow')=="1"){
+		    	api.sendEvent({
+				    name: 'qrcodeShow',
+				});
+		    }else if( getStorage('systemAlert_opening') == "1" ){
+    	    	api.sendEvent({
+    			    name: 'systemAlertClose',
+    			});
+		    }else if(getStorage('userIndex_opening') == "1"){
+    	    	api.sendEvent({
+    			    name: 'userIndexClose',
+    			});
+		    }else{
+		    	api.closeWin();
+
+		    	api.sendEvent({
+		    		name:'closeApp'
+		    	});
+		    }
+		});
+		
+		if(flag){		//已经登录过
+			//获取定位
+			var map = api.require('bMap');
+			map.getLocation({
+				accuracy: '100m',
+				autoStop: true,
+				filter: 1
+			}, function(ret, err) {
+				if(ret.status) {
+					$scope.lon = ret.lon;
+					$scope.lat = ret.lat;
+					$scope.$apply();
+					map.getNameFromCoords({
+					    lon: ret.lon,
+					    lat: ret.lat
+					},function(ret,err){
+					    if(ret.status){
+					    	// 获取地址
+					    	$scope.address = ret.address;
+					    	$scope.$apply();
+					    }
+					});
+				}
+			});
+		}
+		
+		//引导页
+		if(!getStorage("firstStartUp")){
+			setStorage("firstStartUp", 1);
+			api.openFrameGroup({
+                name: 'welcomePages',
+                background: '#fff',
+                scrollEnabled: true,
+                index: 0,
+                preload:3,
+                frames: [{
+                    name: 'welcomePage_1',
+                    url: 'welcomePage.html',
+                    pageParam: {
+                        page:0
+                    },
+                    bounces: false,
+                }, {
+                    name: 'welcomePage_2',
+                    url: 'welcomePage.html',
+                    pageParam: {
+                        page:1
+                    },
+                    bounces: false,
+                }, {
+                    name: 'welcomePage_3',
+                    url: 'welcomePage.html',
+                    pageParam: {
+                        page:2
+                    },
+                    bounces: false,
+                }]
+            }, function(ret, err) {
+            });
+		}
+	}]);
+
+	apiready = function() {
+		angular.bootstrap(document, ["module"]);
+		if(api.systemType=="ios"){
+			api.setStatusBarStyle({
+				style: 'light'
+			});
+		}
+	};
+</script>
+</html>

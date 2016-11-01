@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/fonticon/style.css" />
+		<link href="../../css/public.css" rel="stylesheet" />
+		<link href="../../css/template/form1.css" rel="stylesheet" />
+		<link href="../../css/normalize.css" rel="stylesheet" />
+		<link href="../../css/service/openService1.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/reset.css" />
+	</head>
+	<body ng-controller="controller">
+		<ul class="topUl">
+			<li class="active">个人基本资料</li>
+			<li>个人与服务介绍</li>
+			<li>提交审核</li>
+		</ul>
+		<form method="post" name="serviceForm" novalidate="novalidate">
+			<div class="ui_group">
+				<label class="ui_row">
+					<div class="ui_row_left">姓名</div>
+					<div class="ui_row_right">
+						<input type="text" name="realName" ng-model="person.realName"  required>
+					</div>
+				</label>
+			</div>
+			
+			<div class="ui_group">
+				<label class="ui_row">
+					<div class="ui_row_left">任职单位</div>
+					<div class="ui_row_right">
+						<input type="text" name="company" ng-model="person.company"  required>
+					</div>
+				</label>
+			</div>
+			
+			<div class="ui_group">
+				<label class="ui_row">
+					<div class="ui_row_left">职位</div>
+					<div class="ui_row_right">
+						<input type="text" name="position" ng-model="person.position"  required>
+					</div>
+				</label>
+			</div>
+			
+			<div class="ui_group" ng-click="selectLabel();">
+				<label class="ui_row">
+					<div class="ui_row_left">个人标签</div>
+					<div class="ui_row_right">
+						<span ng-bind="tags"></span>
+						<span class="icon_right right"></span>
+					</div>
+					<input type="hidden" ng-model="person.tags" name="tags" required />
+				</label>
+			</div>
+			
+			<div class="ui_group">
+				<label class="ui_row"  ng-click="bindPhone();">
+					<div class="ui_row_left">电话</div>
+					<div class="ui_row_right">
+						<span ng-bind="person.servicePhone"></span>
+						<span class="icon_right right"></span>
+					</div>
+					<input type="hidden" ng-model="person.servicePhone" name="servicePhone"  required/>
+				</label>
+			</div>
+		   <div class="footer"><button type="submit"  ng-click="save();">下一步</button></div>
+		</form>
+		
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script>
+			angular.module('module',["APP"])
+		    .controller('controller',['$scope','openWin','ajax',function($scope,openWin,ajax){
+		    	$scope.person={};
+		    	
+				api.addEventListener({
+				    name: 'selectLabel_right'
+				}, function(ret, err){
+					if(ret.value.source=='user/tags'){
+					    $scope.person.tags =ret.value.labelStr;
+					    $scope.tags = $scope.person.tags.join(" ");
+					    $scope.$apply();
+						
+					}
+				});
+				
+				api.addEventListener({
+				    name: 'bindPhone'
+				}, function(ret, err){
+					if(ret.value.source ='service/sendcode'){
+					    $scope.person.servicePhone =ret.value.phone;
+					    $scope.$apply();
+					}
+				});
+				
+				$scope.totast = function(errorMessage) {
+					api.toast({
+						msg: errorMessage,
+						duration: 2000,
+						location: 'middle'
+					});
+				}
+				
+				$scope.save =function(){
+					if($scope.serviceForm.$valid) {
+						//
+						ajax({
+							url: "service/apply/first",
+							method: "post",
+							data : $scope.person,
+							success: function(data, header) {
+								//跳转到下一步(统一由win管理跳转过程)
+								api.sendEvent({
+									name: 'serviceNextStep',
+									extra: {
+										frameIndex:1
+									}
+								});
+							}
+						})
+						
+					}else if($scope.serviceForm.realName.$error.required){
+						$scope.totast("请填写姓名");
+					}else if($scope.serviceForm.company.$error.required){
+						$scope.totast("任职单位不能为空");
+					}else if($scope.serviceForm.position.$error.required){
+						$scope.totast("职位不能为空");
+					}else if($scope.serviceForm.tags.$error.required){
+						$scope.totast("请选择个人标签");
+					}else if($scope.serviceForm.servicePhone.$error.required){
+						$scope.totast("请编辑电话号码");
+					}
+				}
+				
+				$scope.bindPhone =function(){
+					openWin({
+						name:'bindPhone',
+						url:'../user/bindPhone.html',
+						pageParam:{
+							source:'service/sendcode'
+						}
+					})
+					
+				}
+				
+				$scope.selectLabel = function(){
+					
+					openWin({
+						name:'selectLabel',
+						url:'selectLabel.html',
+						pageParam:{
+							source:'user/tags'
+						}
+					})
+					
+				}
+				
+				//若是曾经填写了开启服务第一步的内容，将数据渲染
+				ajax({
+					url: "service/status",
+					method: "get",
+					success: function(data, header) {
+						if(data.data.applyInfo){
+							$scope.content = data.data.applyInfo;
+							$scope.person.realName = $scope.content.realName;
+							$scope.person.company = $scope.content.company;
+							$scope.person.position = $scope.content.position;
+							$scope.person.tags = $scope.content.tags;
+							$scope.person.servicePhone = $scope.content.servicePhone;
+							
+							$scope.tags = $scope.person.tags.join(" ");
+					   		$scope.$apply();
+						}
+					}
+				})
+				
+			}]);
+			
+			apiready = function(){
+				angular.bootstrap(document, ["module"]);
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/fonticon/style.css" />
+		<link href="../../css/public.css" rel="stylesheet" />
+		<link href="../../css/template/form.css" rel="stylesheet" />
+		<link href="../../css/normalize.css" rel="stylesheet" />
+		<link href="../../css/service/openService1.css" rel="stylesheet" />
+		<link href="../../css/service/openService2.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/reset.css" />
+	</head>
+
+	<body ng-controller="controller">
+		<ul class="topUl">
+			<li class="active">个人基本资料</li>
+			<li class="active">个人与服务介绍</li>
+			<li>提交审核</li>
+		</ul>
+		<form name="serviceForm" novalidate="novalidate">
+			<div id="upload" ng-class="{false: 'upload_photo icon_photo', true: 'upload_photo_0'}[isPhoto]" ng-click="uploadPhoto()">
+				<img class="uploadImg" src="{{url}}" alt="身份证照片" ng-if="isPhoto" />
+				<button type="button" ng-class="{false: 'upload_btn_0', true: 'upload_btn_1'}[isPhoto]">上传服务配图</button>
+				<input type="hidden" name="picture" ng-model="url" required/>
+			</div>
+
+			<div class="center">
+				<div><img ng-src="{{param.imgSrc}}" /></div>
+				<p>{{param.nickname}}</p>
+				<ul>
+					<li ng-repeat="tag in tags" ng-bind="tag"></li>
+				</ul>
+			</div>
+			<div class="introduction">
+				<p>个人介绍</p>
+				<textarea rows="4" name="introduce" ng-model="introduction" required></textarea>
+			</div>
+
+		</form>
+		<div class="footer"><button ng-click="nextStep();">下一步</button></div>
+
+		<!-- 上传进度 -->
+		<div class="percent_wraper" ng-if="isPercent">
+			<p>{{percent}}%</p>
+		</div>
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+
+		<script>
+			angular.module('module', ["APP"])
+
+			.controller('controller', ['$scope', 'openWin', 'ajax', function($scope, openWin, ajax) {
+				$scope.param = api.pageParam;
+				$scope.nextStep = function() {
+					//进行表单验证
+					if($scope.serviceForm.$valid) {
+						ajax({
+							url: "service/apply/second",
+							method: "post",
+							data: {
+								introduction: $scope.introduction,
+								url: $scope.url
+							},
+							success: function(data, header) {
+								//跳转到下一步(统一由win管理跳转过程)
+
+								api.sendEvent({
+									name: 'serviceNextStep',
+									extra: {
+										frameIndex: 2,
+										introduction: $scope.introduction,
+										url: $scope.url
+									}
+								});
+
+								//告诉用户服务已开启，等待审核
+								api.sendEvent({
+									name: 'serviceStatus',
+									extra: {
+										serviceStatus: 'APPLYING'
+									}
+								});
+							}
+						})
+					} else if($scope.serviceForm.picture.$error.required) {
+						$scope.totast("请上传服务配图");
+					} else if($scope.serviceForm.introduce.$error.required) {
+						$scope.totast("请填写个人介绍");
+					}
+
+				}
+
+				// 上传服务配图
+				$scope.isPhoto = false;
+				$scope.uploadPhoto = function() {
+					api.getPicture({
+						sourceType: 'album',
+						encodingType: 'jpg',
+						allowEdit: true,
+						quality: 50,
+						targetHeight: 800
+					}, function(ret, err) {
+						if(ret && ret.data && ret.data != "") {
+							// 图片上传
+							$scope.percent = 0;
+							$scope.isPercent = true;
+							var fileName = new Date().getTime();
+							api.require('qiniuUpfile').upfile({
+								file: ret.data,
+								name: fileName
+							}, function(ret, err) {
+								if(ret.status) {
+									if(ret.oper == "complete") { //上传成功
+										$scope.isPhoto = true;
+										$scope.isPercent = false;
+										$scope.url = 'http://od61wmx26.bkt.clouddn.com/' + fileName;
+										$scope.$apply();
+									} else if(ret.oper == "progress") {
+										$scope.percent = Math.floor(ret.percent);
+										$scope.$apply();
+									}
+								} else {
+									alert(JSON.stringify(err));
+								}
+							});
+						}
+					});
+				}
+
+				//获取标签
+				api.addEventListener({
+					name: 'selectLabel_right'
+				}, function(ret, err) {
+					if(ret.value.source == 'user/tags') {
+						$scope.tags = ret.value.labelStr;
+						$scope.$apply();
+					}
+				});
+
+				$scope.totast = function(errorMessage) {
+					api.toast({
+						msg: errorMessage,
+						duration: 2000,
+						location: 'middle'
+					});
+				}
+
+			}])
+
+			apiready = function() {
+				angular.bootstrap(document, ["module"]);
+			}
+		</script>
+	</body>
+
+</html>

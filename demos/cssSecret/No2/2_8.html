@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>连续的图像边框</title>
+	<style>
+	/*背景随尺寸放大而放大的box*/
+	.box {
+		background: linear-gradient(#fff,#fff),url(img/0a3d21919114ed6f2ae6bb5d1a17ed2c33d37ba87fca-Ztlu5q_fw658.jpg);
+		padding: 20px;
+		border: solid 20px transparent;
+		background-size: cover;
+		background-clip:padding-box,border-box;
+		background-origin: border-box;
+		width: 300px;
+		height: 200px;
+	}
+
+	/*老式信封效果*/
+	.box2 {
+		width: 300px;
+		height: 200px;
+		margin-top: 10px;
+		background: linear-gradient(#fff,#fff),repeating-linear-gradient(-60deg,#5D2E2E,#5D2E2E 10px,#fff 0,#fff 20px,#5198F0 0,#5198F0 30px,#fff 0,#fff 40px);
+		background-clip:padding-box,border-box;
+		padding:12px;
+		border: solid 12px transparent;
+		background-origin: border-box;
+	}
+
+	/*蚂蚁行军效果*/
+	@keyframes ants
+	{
+	form {background-position: 0 0;}
+	to {background-position: 100% 100%;}
+	}
+
+	.box3 {
+		width: 300px;
+		height: 200px;
+		margin-top: 10px;
+		background: linear-gradient(#fff,#fff),repeating-linear-gradient(45deg,#5D2E2E,#5D2E2E 3px,#fff 0,#fff 6px);
+		/*不规定size就是默认一张渐变铺满整个背景，不会有动画*/
+		background-size: .6em .6em;
+		background-clip:padding-box,border-box;
+		padding:20px;
+		border: solid 1px transparent;
+		animation: ants 1s linear  infinite;
+	}
+
+
+
+	</style>
+</head>
+<body>
+	<div class="box">hhhha aa ahh hh aaa ahh h aaa</div>
+	<div class="box2">hhhha aa ahh hh aaa ahh h aaa</div>
+	<div class="box3">hhhha aa ahh hh aaa ahh h aaa</div>
+</body>
+</html>

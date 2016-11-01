@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ng-repeat过滤器</title>
+</head>
+<body  ng-controller="controller">
+	<ul>
+		<li ng-repeat="i in list | limitTo:3 ">{{i}}</li>
+	</ul>
+<script src="../../chengFuApp2/libs/angular.min.js"></script>
+<script>
+
+	angular.module("module", [])
+	.controller("controller", ['$scope',function($scope) {
+		$scope.list=["1","2","3","4","5","6"];
+	}]);
+
+	angular.bootstrap(document, ["module"]);
+
+</script>
+</body>
+</html>

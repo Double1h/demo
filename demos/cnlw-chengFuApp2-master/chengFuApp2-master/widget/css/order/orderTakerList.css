@@ -1,0 +1,158 @@
+body {
+  background-color: #E6E6E6;
+}
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  line-height: 52px;
+  background-color: #3e454d;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  z-index: 1000;
+  font-size: 16px;
+}
+header .back_btn {
+  position: absolute;
+  left: 20px;
+}
+header .back_btn:before {
+  font-size: 22px;
+  line-height: 52px !important;
+}
+.task_detail {
+  font-size: 12px;
+  color: #969593;
+  border-bottom: solid 10px #E6E6E6;
+  padding: 0 20px;
+  margin-top: 52px;
+  background-color: #fff;
+}
+.task_detail p {
+  padding: 10px 0;
+}
+.order_takers {
+  background-color: #E6E6E6;
+  padding: 0 10px;
+}
+.order_takers li {
+  border-bottom: solid 10px #E6E6E6;
+  background-color: #fff;
+}
+.order_takers li:last-child {
+  border-bottom: none;
+}
+.order_takers .top {
+  padding: 10px;
+  overflow: hidden;
+}
+.order_takers .avatar {
+  float: left;
+}
+.order_takers .avatar img {
+  width: 34px;
+  height: 34px;
+  border-radius: 30px;
+}
+.order_takers .message {
+  float: left;
+  margin: 4px 0 4px 10px;
+  font-size: 12px;
+}
+.order_takers .message h2 {
+  font-weight: normal;
+  color: #1f1a17;
+}
+.order_takers .message p {
+  color: #969593;
+}
+.order_takers .top_right {
+  float: right;
+}
+.order_takers .seleted_btn {
+  color: #ff7f66;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 22px;
+  border: solid 1px #ff7f66;
+  height: 20px;
+  line-height: 22px;
+  width: 50px;
+}
+.order_takers .content {
+  margin: 0 10px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 12px;
+  text-align: center;
+  color: #969593;
+  background-color: #E6E6E6;
+}
+.order_takers .content span {
+  width: 40%;
+  display: inline-block;
+}
+.order_takers .bottom {
+  padding: 10px 10px 0 10px;
+  color: #1f1a17;
+  font-size: 12px;
+}
+.order_takers .bottom .saying {
+  font-size: 14px;
+}
+.order_takers .bottom .saying span {
+  color: #969593;
+}
+.order_takers .bottom .tags {
+  padding: 10px 0;
+}
+.order_takers .bottom .tags span {
+  color: #969593;
+  border: solid 1px #969593;
+  margin-right: 10px;
+  text-align: center;
+  border-radius: 22px;
+  width: 50px;
+  height: 20px;
+  line-height: 22px;
+  display: inline-block;
+  font-size: 14px;
+}
+.order_takers .action {
+  color: #1f1a17;
+  overflow: hidden;
+}
+.order_takers .action:before {
+  content: "";
+  display: block;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background: #E6E6E6;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
+.order_takers .action div {
+  float: left;
+  height: 40px;
+  line-height: 40px;
+  width: 33%;
+  text-align: center;
+  font-size: 14px;
+}
+.order_takers .action div:before {
+  color: #ff7f66;
+  font-size: 14px;
+  padding-right: 4px;
+}
+.icon_man,
+.icon_woman {
+  color: #ff7f66;
+}
+body {
+  opacity: 0;
+}
+/*# sourceMappingURL=orderTakerList.css.map */

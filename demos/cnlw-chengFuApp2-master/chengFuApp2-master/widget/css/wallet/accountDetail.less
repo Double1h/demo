@@ -1,0 +1,39 @@
+@import "../constant";
+
+.listUl{
+    background:#fff;
+    li{
+        list-style:none;  
+        height:40px;
+        font-size:@midFontSize;
+        line-height:40px;
+        border-bottom:1px solid @mainBgColor;
+        padding:0 @mainPadding 0 34px;
+        position:relative; 
+        
+        &:not(:last-child):after{
+            content:'';
+            width:12px;
+            height:12px;
+            border-radius:50%;
+            background:#ddd;
+            position:absolute;
+            top:100%;
+            margin-top:-6px;
+            left:14px;
+        }
+        .OUTGOING{
+            color:@mainBtnColor;
+        }
+        .INCOME{
+            color:@topBgColor;
+        }
+        p:nth-child(1){
+            float:left;
+        }
+          p:nth-child(2){
+            float:right;
+            color:@fontColor2;
+        }
+    }
+}

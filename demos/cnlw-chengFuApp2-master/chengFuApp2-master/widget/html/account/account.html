@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" href="../../css/fonticon/style.css" />
+	<link rel="stylesheet" href="../../css/public.css" />
+	<link rel="stylesheet" href="../../css/reset.css" />
+	<link rel="stylesheet" href="../../css/account/login.css" />
+</head>
+<body ng-controller="controller">
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../js/app.js"></script>
+<script>
+	angular.module("module", ["APP"])
+	.controller("controller", ["$scope", "ajax", "openWin", "openFrame","setStorage","removeStorage","getStorage",function($scope, ajax, openWin, openFrame,setStorage,removeStorage,getStorage) {
+		api.openFrameGroup({
+			name: 'loginRegister',
+			background: 'widget://img/bgImg.jpg',
+			scrollEnabled: false,
+			preload:0,
+			index: 0,
+			frames: [{
+				name: 'index',
+				url: 'index.html',
+				bounces:false
+			}, {
+				name: 'login',
+				url: 'login.html',
+				bounces:false,
+				pageParam:{
+					target:api.pageParam.target
+				}
+			}, {
+				name: 'register',
+				url: 'register.html',
+				bounces:false,
+				allowEdit:'true',
+				pageParam:{
+					target:api.pageParam.target
+				}
+			}, {
+				name: 'retrievePassword',
+				url: 'retrievePassword.html',
+				bounces:false,
+				pageParam:{
+					target:api.pageParam.target
+				}
+			}]
+		}, function(ret, err) {
+			if(ret.index == 0){  //若是当前页面是登录frame，后退则清除跳转信息，正常退出
+				if(getStorage('flag')){
+					removeStorage("flag");
+				}
+			}
+		});
+		
+		function setFrameGroupIndex(index){
+			api.setFrameGroupIndex({
+				name: 'loginRegister',
+				index: index,
+				scroll: false
+			});
+		}
+		
+		//登录成功关闭当前页，跳转到目标页
+		api.addEventListener({
+			name:"loginSuccess"
+		}, function(ret, err){
+			if(api.pageParam.target){
+				if(!api.pageParam.target.indexTab){
+					if(api.pageParam.type==1){
+						openWin(api.pageParam.target);
+					} else {
+						openFrame(api.pageParam.target);
+					}
+				}
+			} else {
+				api.closeToWin({
+					name: 'root'
+				});
+			}
+			
+			api.closeWin({
+				name:"loginWin"
+			});
+		})
+		
+		//后退操作
+		api.addEventListener({
+			name: 'keyback'
+		}, function(ret, err) {
+			if(getStorage('flag')){
+				switch(getStorage('flag')){
+					case 'IndexToLogin':  	setFrameGroupIndex(0);  break;
+					case 'IndexToRegister':  setFrameGroupIndex(0);  break;
+					case 'loginToRetrieve': setFrameGroupIndex(1);  break;
+					case 'loginToRegister': setFrameGroupIndex(1);  break;
+				}
+				removeStorage("flag");
+			}else{
+				//关闭窗口
+				api.closeWin();
+			}
+		});		
+	}])
+
+	apiready = function() {
+		angular.bootstrap(document, ["module"]);
+	};
+</script>
+</html>

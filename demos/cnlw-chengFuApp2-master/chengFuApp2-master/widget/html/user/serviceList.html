@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" type="text/css" href="../../css/template/indexList.css">
+	<link rel="stylesheet" type="text/css" href="../../css/user/serviceList.css">
+</head>
+<body ng-controller="controller">
+	<ul ngd-click="showServiceDetail($event, task.id)" selector="li">
+		<li class="task" ng-repeat="task in services">
+			<div class="task_info_row">
+				<div class="task_row_left" ng-bind="task.title"></div>
+				<div class="task_row_right">
+					<span class="price" ng-bind="task.unitPrice+'/单'">500/单</span>
+				</div>
+			</div>
+			<div class="task_content" ng-bind="task.content">
+				艺术高端定制网站，企业网站，地推服务艺术高端定制网站，企业网站，地推服务
+			</div>
+			<div class="label_list">
+				<span class="label" ng-repeat="tag in task.tags" ng-bind="tag">艺术</span>
+			</div>
+			<div class="task_footer task_info_row">
+				<div class="task_row_left">
+					<span class="icon_address" ng-bind="task.area">广州天河区</span>
+				</div>
+				<div class="task_row_right" ng-bind="task.createTime | date:'yyyy/MM/dd'">2016/07/27</div>
+			</div>
+		</li>
+	</ul>
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../libs/angular-delegates.js"></script>
+<script src="../../js/app.js"></script>
+<script>
+	angular.module("module",['APP','DelegateEvents'])
+	.controller('controller', ['$scope','openWin','ajax','refreshHeaderLoadDone', function($scope,openWin,ajax,refreshHeaderLoadDone){
+		var page=0;
+		$scope.task={};
+
+		//获取后台的需求列表
+		ajax({
+			url:'service/user/service',
+			method:'get',
+			data:{
+				page:page
+			},
+			success:function(data){
+				$scope.services=data.data;
+			}
+		})
+
+		// 跳转到服务详情页
+		$scope.showServiceDetail=function(e,id){
+			openWin({
+				name:'serviceDetail',
+				url:'../service/serviceDetail.html',
+				pageParam:{
+					serviceId:id
+				}
+			})
+		}
+
+		// 上拉加载数据
+		api.addEventListener({
+			name:"scrolltobottom"
+		},
+		function(ret,err){
+			ajax({
+				url:"service/user/service",
+				method:"get",
+				data:{
+					page:++page
+				},
+				success:function(data,header){
+					$scope.services=$scope.services.concat(data.data);
+				}
+			});
+		});
+
+		// 下拉刷新
+		api.setRefreshHeaderInfo({
+		    visible: true,
+		    bgColor: '#ccc',
+		    textColor: '#fff',
+		    textDown: '下拉刷新...',
+		    textUp: '松开刷新...',
+		    showTime: true
+		}, function(ret, err) {
+				page=0;
+		    //获取后台的需求列表
+				ajax({
+					url:'service/user/service',
+					method:'get',
+					data:{
+						page:page
+					},
+					success:function(data){
+						$scope.services=data.data;
+						api.refreshHeaderLoadDone();
+					}
+				})
+		});
+	}])
+
+	apiready = function(){
+	    angular.bootstrap(document,['module']);
+	}
+	    
+</script>
+</html>

@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta charset="UTF-8">
+	<title>个人详情页</title>
+	<link rel="stylesheet" href="personal.css">
+</head>
+<body>
+  <div class="nav">
+		    可点击的链接：
+		    <a href="../students/students.html">同学圈</a>
+		    <a href="../notice/notice.html">通知</a>
+			<a href="#" class="current">个人主页</a>
+			<a href="../../index.html#page3">返回简历页面</a>
+
+	</div>
+  <div class="personalMes">
+  	<ul>
+  		<li><img src="images/1.png"  alt="avatar"></li>
+  		<li><h2>用户名</h2></li>
+  		<li><p>简介</p></li>
+  		<li><p>学号：2013084643100</p></li>
+  		<li><p>邮箱：494727888@qq.com</p></li>
+  		<li><p>密码：sjfalfja</p></li>
+  		<li class="btn current"><h3>我的帖子</h3></li>
+  		<li class="btn"><h3>我的好友</h3></li>
+  		<li class="btn"><h3>个人信息修改</h3></li>
+  	</ul>
+  </div>
+  <div class="content">
+	<div class="cards">
+		<table>
+			<tr>
+				<td class="time"><span class="t1">28</span><span class="t2">/</span><span class="t3">1</span></td>
+				<td><h4>标题</h4><p>1:51</p><p>说了什么balalalalalala</p></td>
+			</tr>
+			<tr >
+				<td><h4>标题</h4><p>1:51</p><p>说了什么balalalalalala</p></td>
+				<td class="time"><span class="t1">28</span><span class="t2">/</span><span class="t3">1</span></td>
+			</tr>
+		</table>
+	</div>
+	<div class="friends hide">
+		<ul>
+			<li>
+				<img src="images/4.png" alt="avatar">
+				<h4>昵称</h4>
+				<p>简介：啊啊啊</p>
+			</li>
+			<li>
+				<img src="images/4.png" alt="avatar">
+				<h4>昵称</h4>
+				<p>简介：啊啊啊</p>
+			</li>
+			<li>
+				<img src="images/4.png" alt="avatar">
+				<h4>昵称</h4>
+				<p>简介：啊啊啊</p>
+			</li>
+			<li>
+				<img src="images/4.png" alt="avatar">
+				<h4>昵称</h4>
+				<p>简介：啊啊啊</p>
+			</li>
+			<li>
+				<img src="images/4.png" alt="avatar">
+				<h4>昵称</h4>
+				<p>简介：啊啊啊</p>
+			</li>
+			<li>
+				<img src="images/4.png" alt="avatar">
+				<h4>昵称</h4>
+				<p>简介：啊啊啊</p>
+			</li>
+		</ul>
+	</div>
+	<div class="MesChange hide">
+	<form action="">
+	    <div class="formrow">
+		<div class="lable">所属部门：</div>
+		<select name="" id="department">
+		<option value="">部门A</option>
+		<option value="">部门A</option>
+		<option value="">部门A</option>
+		<option value="">部门A</option>
+		<option value="">部门A</option>
+		<option value="">部门A</option>
+		</select>
+		</div>
+        <div class="formrow">
+		<div class="lable">头像：</div>
+		<img src="images/1.png" alt="avatar">
+        <input type="file" name="" id="avatar">
+        </div>
+        <div class="formrow">
+        <div class="lable">用户名：</div>
+        <input type="text" name="" id="username">
+        </div>
+        <div class="formrow">
+        <div class="lable">账户：</div>
+        <input type="text" name="" id="account">
+        </div>
+        <div class="formrow">
+        <div class="lable">密码：</div>
+        <input type="text" name="" id="code">
+        </div>
+        <div class="formrow">
+        <div class="lable">性别:</div>
+        <input type="radio" name="sex" id="boy">&nbsp;男
+        <input type="radio" name="sex" id="girl">&nbsp;女
+        </div>
+        <div class="formrow">
+        <div class="lable">角色：</div>
+        <input type="checkbox" name="role" id="role">&nbsp;管理员
+        <input type="checkbox" name="role" id="role">&nbsp;一般用户
+        <input type="checkbox" name="role" id="role">&nbsp;test
+        </div>
+        <div class="formrow">
+        <div class="lable">电子邮箱：</div>
+        <input type="text" name="" id="email">
+        </div>
+        <div class="formrow">
+        <div class="lable">手机号：</div>
+        <input type="text" name="" id="phone">
+        </div>
+        <div class="formrow">
+         <input type="submit" value="提交" id="submit">
+         <p class="btn">提交</p>
+        </div>
+	</form>
+	</div>
+ </div>
+    <script src="jquery-1.11.0.min.js"></script>
+    <script src="personal.js"></script>
+</body>
+</html>

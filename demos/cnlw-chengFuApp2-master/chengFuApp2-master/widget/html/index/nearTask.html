@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" type="text/css" href="../../css/template/indexList.css">
+	<link rel="stylesheet" type="text/css" href="../../css/index/worldTask.css">
+</head>
+<body ng-controller="controller">
+	<div class="slide"></div>
+	<ul  ngd-click="showNearTaskDetail($event, task.id)" selector="li">
+		<li class="task" ng-repeat="task in tasks">
+			<div class="task_info_row">
+				<div class="task_row_left" ng-bind="task.title"></div>
+				<div class="task_row_right">
+					<div class="task_row_right price_wraper">
+						<span class="price">{{::task.unitPrice}}/</span>
+						<span class="unit">单</span>
+					</div>
+				</div>
+			</div>
+			<div class="task_content">
+				<p id="task_content">{{::task.content}}</p>
+				<p>详情<span class="icon_right"></span></p>
+			</div>
+			<div class="label_list">
+				<span class="label" ng-repeat="tag in task.tags">{{::tag}}</span>
+			</div>
+			<div class="task_footer task_info_row">
+				<div class="task_row_left"><span class="icon_address">{{::task.area}}</span></div>
+				<div class="task_row_right">{{::task.createTime | date:'yyyy/MM/dd'}}</div>
+			</div>
+		</li>
+	</ul>
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../libs/angular-delegates.js"></script>
+<script src="../../js/app.js"></script>
+<script type="text/javascript">
+	angular.module("module",["APP",'DelegateEvents'])
+	.controller('controller', ['$scope','openWin','ajax','refreshHeaderLoadDone', function($scope,openWin,ajax,refreshHeaderLoadDone){
+		//初始化任务对象
+		$scope.tasks=[];
+		$scope.slideImages=[];
+		$scope.slideImgUrls=[];
+		// 定义获取后台数据的页数变量
+		var page=0;
+		// 默认是在经典居
+		var maxLongitude = 113.383931;
+		var minLongitude = 113.263931;
+		var maxLatitude = 23.152727;
+		var minLatitude = 23.0647270;
+		// 附近任务
+		api.require('bMap').getLocation({
+			accuracy: '100m',
+			autoStop: true,
+			filter: 1
+		}, function(ret, err) {
+			if(ret.status) {
+				maxLongitude = ret.lon * 1 + 0.06;
+				minLongitude = ret.lon * 1 - 0.06;
+				maxLatitude = ret.lat * 1 + 0.044;
+				minLatitude = ret.lat * 1 - 0.044;
+			} else {
+				api.toast({
+					msg: '获取定位失败',
+					duration: 1000,
+					location: 'bottom'
+				});
+			}
+			// 获取附近任务
+			ajax({
+				url: "index/around_task",
+				method: "get",
+				data : {
+					page : page,
+					minLongitude : minLongitude,
+					maxLongitude : maxLongitude,
+					minLatitude : minLatitude,
+					maxLatitude :maxLatitude
+				},
+				success: function(data, header) {
+					$scope.tasks = data.data;
+				}
+			});
+		});
+
+		// 跳转到附近任务详情页
+		$scope.showNearTaskDetail=function(e,id){
+			openWin({
+				name:'demandsDetail',
+				url:'../demand/demandsDetail.html',
+				pageParam:{
+					taskId:id
+				}
+			})
+		}
+
+		ajax({
+			url:"index/slide",
+			method:'get',
+			success:function(data){
+				var slideImages=data.data;
+				var slideImgUrls = [];
+				for(var i=0;i<slideImages.length;i++){
+					slideImgUrls[i]=slideImages[i].imageUrl;
+				}
+				
+				if(slideImgUrls.length>0){
+					/*轮播*/
+					UIScrollPicture = api.require('UIScrollPicture');
+					UIScrollPicture.open({
+						rect: {x: 0, y: 0, w: api.winWidth, h: 160 },
+						data: {
+							paths: slideImgUrls
+						},
+						styles: {
+							indicator: {
+								align: 'center',
+								color: '#FFFFFF',
+								activeColor: '#ff7f00',
+							}
+						},
+						placeholderImg: 'widget://img/Img1.jpg',
+						contentMode: 'scaleToFill', // 填充
+						interval:20,
+						loop: true,
+						fixedOn: api.frameName,
+						fixed: false // true不随之滚动
+					}, function(ret, err) {
+						if(ret.eventType =='click'){
+							if(slideImages[ret.index].linkUrl){
+								api.openWin({
+									name:'Advertisement',
+									url:slideImages[ret.index].linkUrl
+								})
+							}else if(slideImages[ret.index].business=="SERVICE"){
+								// 跳转到服务详情页
+								openWin({
+									name:'serviceDetail',
+									url:'../service/serviceDetail.html',
+									pageParam:{
+										serviceId:slideImages[ret.index].id
+									}
+								})
+								
+							}else if(slideImages[ret.index].business=="TASK"){
+								// 跳转到任务详情页
+								openWin({
+									name:'demandsDetail',
+									url:'../demand/demandsDetail.html',
+									pageParam:{
+										taskId:slideImages[ret.index].id
+									}
+								})
+
+							}
+						}
+					});
+				}
+				
+			}
+		})
+
+
+		// 上拉加载数据
+		api.addEventListener({
+			name:"scrolltobottom"
+		},function(ret,err){
+			if($scope.tasks.length>0){
+				ajax({
+					url:"index/around_task",
+					method:"get",
+					data:{
+						page:++page,
+						minLongitude : minLongitude,
+						maxLongitude : maxLongitude,
+						minLatitude : minLatitude,
+						maxLatitude :maxLatitude
+					},
+					success:function(data,header){
+						$scope.tasks=$scope.tasks.concat(data.data);
+					}
+				});
+			} 
+		});
+
+		// 下拉刷新
+		api.setRefreshHeaderInfo({
+			visible: true,
+			bgColor: '#ccc',
+			textColor: '#fff',
+			textDown: '下拉刷新...',
+			textUp: '松开刷新...',
+			showTime: true
+		}, function(ret, err) {
+			page=0;
+			ajax({
+				url: "index/around_task",
+				method: "get",
+				data : {
+					page : page,
+					minLongitude : minLongitude,
+					maxLongitude : maxLongitude,
+					minLatitude : minLatitude,
+					maxLatitude :maxLatitude
+				},
+				success: function(data, header) {
+					$scope.tasks = data.data;
+					api.refreshHeaderLoadDone();
+				}
+			});
+		});
+
+	 }])
+
+	apiready = function(){
+	    // 启动angular
+		angular.bootstrap(document,["module"]);
+	}
+	    
+</script>
+</html>

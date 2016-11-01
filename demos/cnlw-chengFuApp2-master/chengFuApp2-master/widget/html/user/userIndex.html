@@ -1,0 +1,85 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" type="text/css" href="../../css/user/userIndex.css">
+</head>
+<body ng-controller="controller">
+	<header>我的</header>
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../js/app.js"></script>
+<script type="text/javascript">
+	angular.module("module",['APP'])
+	.controller('controller', ['$scope','openFrame','setStorage','getStorage','removeStorage', function($scope,openFrame,setStorage,getStorage,removeStorage){
+		openFrame({
+			name:"userCenter",
+			url:"userCenter.html",
+			rect:{
+				x:0,
+				y:52,
+				marginBottom: 48
+			}
+		});
+
+		// 这是tab的关闭方式+进入渲染
+		api.addEventListener({
+			name: 'userIndexChange'
+		}, function(ret, err) {
+			if ( getStorage("userIndex_opening") == "1" ) {
+				openFrame({
+					name:"userCenter",
+					url:"userCenter.html",
+					rect:{
+						x:0,
+						y:52,
+						marginBottom: 48
+					}
+				});
+			} else {
+				api.setFrameAttr({
+					name: 'userCenter',
+					hidden:true
+				});
+			}
+		}); 
+	
+		// 这是正常的关闭按钮
+		$scope.close =function(){
+			setStorage('userIndex_opening','0','userIndexChange');
+			api.setFrameAttr({
+				name: 'userCenter',
+				hidden:true
+			});
+			api.sendEvent({
+				name: 'unLogin'
+			});
+		}
+
+		// 监听用户的登录是否已过期
+		api.addEventListener({
+			name: 'unLogin'
+		},function(){
+			api.closeFrame({
+				name: 'userCenter'
+			})
+		})
+
+		//这是Keyback的关闭方式 
+		api.addEventListener({
+			name: 'userIndexClose'
+		}, function(ret, err) {
+			$scope.close();
+		});  
+
+	}])
+
+	apiready = function(){
+		angular.bootstrap(document,['module']);
+	}
+</script>
+</html>

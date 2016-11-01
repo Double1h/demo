@@ -1,0 +1,209 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>购物车</title>
+	<link rel="stylesheet" href="css/shoppingCart.css">
+</head>
+<body>
+<div class="forIndexNav">
+  可以点击的链接：
+  <a href="index.html">首页</a>
+  <a href="select.html">筛选页</a>
+  <a href="detailsPage.html">详细页</a>
+  <a href="#" class="current">购物车</a>
+  <a href="productClassify.html">产品分类</a>
+  <a href="register.html">注册</a>
+  <a href="../index.html#page3">返回简历页面</a>
+</div>
+	<div class="header">
+		<div class="headerTop">
+			<div class="headerTopCont">
+				<p>收藏慕课</p>
+				<p>欢迎来到慕课网！[ 登陆 ] [ 免费注册 ]</p>
+			</div>
+		</div>
+		<div class="headerBottom">
+			<div class="headerBottomCont">
+				<img src="images/shoppingCart/shoppingProcess.png" alt="购买流程"/>
+			</div>
+		</div>
+	</div>
+	<!-- end of header -->
+	<div class="main">
+	   <form action="" method="post">
+	    <!-- 收货信息 -->
+		<div class="receivingInformation">
+			<dd>收货信息</dd>
+			<dt>
+						
+					<p>
+						<span>*</span>
+						<span>详细地址：</span>
+						<span class="text">
+	                    	<input type="text" value="最多输入26个汉字" class="requried"/>
+	                    </span>
+					</p>
+					<p>
+						<span>*</span>
+	                    <span>收货人：</span>
+	                    <span class="text">
+	                    	<input type="text" value="最多10个汉字" class="requried"/>
+	                    </span>
+					</p>
+					<p>
+						<span>*</span>
+						<span>手机：</span>
+						<span class="text">
+	                    	<input type="text" value="如18826277348" class="requried_0"/>
+	                    </span>
+	                    <span>
+	                    或固定电话：</span>
+	                    <span class="text">
+	                    <input type="text" value="区号" class="requried_1">
+	                    </span>
+	                    <span>-</span>
+	                    <span class="text"> 
+	                    	<input type="text" value="电话号码" class="requried_1"/>
+	                    </span><span>-</span>
+	                    <span class="text">
+	                    	<input type="text" value="分机号（可选）"/>
+	                    </span>
+					</p>
+						<input type="submit" value="确认收货地址">
+					<div class="submitBtn">确认收货地址</div>
+			</dt>
+		</div>
+		<!-- end of 收货信息  -->
+		<!-- 支付方式 -->
+		<div class="paymentMethod">
+			<dd>支付方式</dd>
+			<dt>
+					<p>
+					<input type="radio" name="payment" value="0" checked="checked"/>&#12288;微信支付&#12288;&#12288;
+					<img src="images/shoppingCart/wechat.png" alt="微信图标"/>
+					用微信扫一扫就能支付！
+					</p>
+					<p>
+					<input type="radio" name="payment" value="1"/>&#12288;货到付款&#12288;&#12288;
+					送货上门后再付款，使用现金或刷银行卡。
+					</p>
+			</dt>
+		</div>
+		<!-- end of 支付方式 -->
+		<!-- 发票信息 -->
+		<div class="invoiceInformation">
+			<dd>发票信息</dd>
+			<dt>
+			    <form action="">
+				<p><input type="checkbox" checked="checked">&#12288;需要发票</p>
+				<p>
+						<span>*</span>
+						<span>发票类型：</span>
+						<select name="invoiceType" id=""  >
+							<option value="0">商业零售发票</option>
+							<option value="1">商业零售发票</option>
+							<option value="2">商业零售发票</option>
+						</select>
+				</p>
+				<p>
+						<span>*</span>
+						<span>发票抬头：</span>
+						<select name="invoicePerson" id="">
+							<option value="0">个人</option>
+							<option value="1">公司</option>
+							<option value="2">还有什么</option>
+						</select>
+						<span class="text"><input type="text" value="阿斯顿"/></span>
+				</p>
+				<div class="saveBtn">保存</div>
+				<div class="cancelBtn">取消</div>
+				</form>
+			</dt>
+		</div>
+		<!-- end of 发票信息 -->
+		<!-- 送货清单 -->
+		<div class="deliveryList">
+			<dd>送货清单</dd>
+			<dt>
+				<table>
+						<tr>
+							<th>商品名称</th>
+							<th>单价</th>
+							<th>返现</th>
+							<th>数量</th>
+							<th>小计</th>
+						</tr>
+                        <tr>
+                        	<td>
+                        		<img src="images/shoppingCart/goods-1.png" alt="商品1"/>
+                        		<p>Hisense 海信 BCD-202D 202升 三门冰箱 (银色)</p>
+                        		<p>[赠品] 保鲜盒.抽真空保鲜盒-海信冰箱赠品</p>
+                        	</td>
+                        	<td>
+                        		<p>￥1459.00</p>
+                        	</td>
+                        	<td>
+                        		<p>￥0.00</p>
+                        	</td>
+                        	<td>
+                        	    <p>1</p>
+                        	    <p>1</p>
+                        	</td>
+                        	<td>
+                        		<p>￥1459.00</p>
+                        	</td>
+                        </tr>
+				</table>
+				<div class="haspaddingleft">
+				<p><input type="text" value="若你对包裹有任何要求，请在此留言"/></p>
+				<p class="notice">
+				抱歉，以下商品暂时不能购买，已帮您自动在本次结算中剔除并扣减对应金额，您可以先购买其他商品:&#12288;)
+				</p>
+				<ul class="canNotBuy">
+					<li>
+						<img src="images/shoppingCart/goods-2.png" alt="商品2"/>
+				        <p>清风 欧院系列 清香型 100抽3层 测试是否生成省略号</p>
+				        <p>数量1</p>
+				        <p>￥4.90 <span>(无货)</span></p>
+					</li>
+				</ul>
+				</div>
+			</dt>
+		</div>
+		<!-- end of 送货清单 -->
+		<!-- 订单结算 -->
+		<div class="orderSettlement">
+			<dd>订单结算</dd>
+			<dt>
+			<p>总计<span>￥1459.00</span></p>
+		    <a href="#">提交订单</a>
+			</dt>
+		</div>
+		<!-- end of 订单结算 -->
+	  </form>
+	</div>
+	<!-- end of main -->
+	<!-- 页尾 -->
+    <div class="end">
+    	<a href="#"> 慕课简介|</a>
+    	<a href="#"> 慕课公告|</a>
+    	<a href="#"> 招纳贤士|</a>
+    	<a href="#"> 联系我们|</a>
+    	<span>客服热线：400-675-1234|</span>
+    	<p>
+    	Copyright © 2006 - 2014 慕课版权所有   京ICP备09037834号   京ICP证B1034-8373号   某市公安局XX分局备案编号：123456789123
+    	</p>
+    	<div class="image">
+    	<img src="images/shoppingCart/icon3.png" alt=""/>
+    	<img src="images/shoppingCart/icon3.png" alt=""/>
+    	<img src="images/shoppingCart/icon3.png" alt=""/>
+    	<img src="images/shoppingCart/icon3.png" alt=""/>
+    	</div>
+    </div>
+    <!-- 页尾尾 -->
+	<script src="script/jquery-1.11.0.min.js"></script>
+	<script src="script/shoppingCart.js"></script>
+</body>
+</html>
+

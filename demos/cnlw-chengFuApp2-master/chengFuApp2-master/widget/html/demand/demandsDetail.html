@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<link rel="stylesheet" href="../../css/fonticon/style.css" />
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link href="../../css/public.css" rel="stylesheet" />
+	<link href="../../css/normalize.css" rel="stylesheet" />
+	<link href="../../css/template/module.css" rel="stylesheet" />
+	<link href="../../css/demand/demandsDetail.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../../css/reset.css" />
+	<style>
+		.content img{
+			width:50px;
+			height:50px;
+			display:inline-block;
+			margin:10px;
+			margin-left:0;
+		}
+		.list{
+			height:auto!important;
+		}
+		.ui_row{
+			text-indent: 15px!important;
+		}
+	</style>
+</head>
+<body ng-controller="controller">
+	<header class="blackBg">
+		<button class="back_btn icon_back" ng-click="close();"></button>
+		<span>需求详情</span>
+	</header>
+	<div class="body">
+		<div class="list_content">
+			<div class="listTop">
+				<div class="contentTop_left">
+					<img src="../../img/head.png" ng-hide="task.taskDetail.userAvatar">
+					<img ng-src="{{task.taskDetail.userAvatar}}" ng-show="task.taskDetail.userAvatar">
+					<div class="person">
+						<p><span ng-bind="task.taskDetail.nickname"></span><span class="gender" ng-class="{true: 'icon_man', false: 'icon_woman'}[task.taskDetail.gender==0]"></span>
+						</p>
+						<p ng-bind="task.taskDetail.company"></p>
+					</div>
+					<button class="icon_chat" ng-click="chat(task.taskDetail.userId, true,$event);" style="font-size:25px;"></button>
+				</div>
+			</div>
+			
+			<div class="list">
+				<div class="moduleList">
+					<div class="top">
+						<p>类别:<span ng-repeat="tag in task.taskDetail.tags" ng-bind="tag+' '"></span></p>
+					</div>
+					<div class="content">
+						<p class="conentDetail" ng-bind="task.taskDetail.content"></p>
+						<div class="bottom border_top" ngd-click="showImage($index);" selector="img" style="font-size:0;">
+							<img ng-src="{{i}}" ng-repeat="i in task.taskDetail.taskImg"/>
+						</div>
+						<div class="contentReward">
+							<div>
+								<p>酬金</p>
+								<p class="inline"></p>
+							</div>
+							<div>
+								<span ng-bind="'￥'+task.taskDetail.unitPrice+'/单'"></span>
+							</div>
+						</div>
+						<div class="bottom">
+							<p ng-if="task.taskDetail.endTime == '已结束'">任务已结束，剩余{{task.taskDetail.quantityLeft}}单</p>
+							<p ng-if="task.taskDetail.endTime != '已结束'">离结束还剩{{task.taskDetail.endTime}}，剩余{{task.taskDetail.quantityLeft}}单</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="listCenter">
+				<p class="title">接单人</p>
+				<ul class="ui_group" id="personList">
+					<li class="ui_row list" ng-repeat="takers in takerOrder|limitTo:3">
+						<div class="ui_row_left">
+							<img src="../../img/head.png" ng-hide="takers.avatarPath"/>
+        					<img ng-src="{{takers.avatarPath}}" ng-show="takers.avatarPath"/>
+        					<div class="user_info">
+								<span>{{::takers.nickname}}</span>
+        						<span class="time">{{::takers.time|date:'yyyy/MM/dd'}}</span>
+        					</div>
+						</div>
+						<div class="ui_row_right">
+							<button ng-click="chat(takers.userId, false, $event);" class="icon_chat" style="font-size:25px;margin-right:15px;"></button>
+						</div>
+					</li>
+				</ul>
+				<p class="total" style="margin-top:7px;">共<span>{{takerOrder.length}}</span>人接单</p>
+			</div>
+		</div>
+
+		<!-- 点击按钮，弹窗  -->
+	</div>
+	<button class="bottonBtn" ng-click="takeOrder()" id="takeOrder">接单</button>
+	
+		
+	<!--接单成功-->
+	<div class="dialog_mask ng-hide" ng-show="receiveToggle">
+		<div class="dialog">
+			<div class="dialog_title">
+				<h4>接单</h4>
+			</div>
+			<div class="dialog_body">
+				<textarea type="text" rows="3" style="padding:6px;font-size:16px;" placeholder="可以为发布者留言" ng-model="remark"></textarea>
+			</div>
+			<div class="dialog_btns">
+				<button class="cancelBtn" ng-click="receiveToggle=false">取消</button>
+				<button class="confirmBtn" ng-click="receiveCofirm();">确定</button>
+			</div>
+		</div>
+	</div>
+
+	<!--提示登录成功-->
+	<div class="dialog_mask ng-hide" ng-show="loginToggle">
+		<div class="dialog">
+			<div class="dialog_title">
+				<h4>登录提示</h4>
+			</div>
+			<div class="dialog_body">
+				<p>用户尚未登录，请先登陆</p>
+			</div>
+			<div class="dialog_btns">
+				<button class="cancelBtn" ng-click="loginToggle=false">取消</button>
+				<button class="confirmBtn" ng-click="login()">登录</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 协议 -->
+	<div class="agreement_wraper" ng-if="agreement">
+		<div class="agreement">
+			<h2>APP免责声明</h2>
+			<div>
+				<p>1、一切移动客户端用户在下载并浏览城服APP软件（以下简称本APP）时均被视为已经仔细阅读本条款并完全同意。凡以任何方式登陆本APP，或直接、间接使用本APP资料者，均被视为自愿接受本网站相关声明 和用户服务协议的约束。</p> 
+				<p>2、本手机APP转载的内容并不代表本APP之意见及观点，也不意味着本APP赞同其观点或证实其内容的真实性。</p>
+				<p>3、 本手机APP转载的文字、图片、音视频等资料均由本APP用户提供，其真实性、准确性和合法性由信息发布人负责。本APP不提供任何保证，并不承担任何法律责任。</p>
+				<p>4、本平台在发布的需求完成后，会从“酬金”中抽取10%的佣金作为平台服务费用。客户在发布需求时，点击最下方“同意本协议”，即代表已阅读并同意。</p>
+				<p>5、本协议的最终解释权归揽兑城服平台所有。</p>
+			</div>
+			<label><input type="checkbox" ng-model="once" name="once" id="checkInput"><span>以后不要再弹出</span></label>
+			<div class="close_btn" ng-click="closeAgreement()">确定</div>
+		</div>
+	</div>
+	
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../libs/angular-delegates.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+	angular.module('module', ['APP', "DelegateEvents"])
+		.controller('controller', ['$scope', 'openWin', 'ajax','getStorage','setStorage','removeStorage',function($scope, openWin, ajax,getStorage,setStorage,removeStorage) {
+			$scope.taskId = api.pageParam.taskId;
+			$scope.isMine = true;
+			$scope.takerOrder =[];
+			$scope.loginToggle=false;
+			$scope.receiveToggle = false;
+			// 获取需求详情
+			ajax({
+				url: "task/detail",
+				method: "get",
+				data: {
+					taskId: $scope.taskId
+				},
+				success: function(data, header) {
+					$scope.task = data.data;
+					$scope.task.taskDetail.endTime = getDateDiff($scope.task.taskDetail.endTime);
+					$scope.isMine =$scope.task.taskDetail.isMine;
+					
+					//任务过期
+					if($scope.task.taskDetail.endTime =='已结束'){
+						forbiddenBtn("已过期");
+					}else if($scope.task.taskDetail.quantityLeft==0){
+						forbiddenBtn("领取人数已满");
+					}else if($scope.task.taskDetail.isMine){
+						forbiddenBtn("自己的需求");
+					}else if($scope.task.isTake){
+						forbiddenBtn("已接单");
+					}
+				}
+			});
+			
+			var showingImg = false;
+			//浏览图片
+			var photoBrowser = api.require('photoBrowser');
+			$scope.showImage = function(index){
+				showingImg = true;
+				photoBrowser.open({
+					images: $scope.task.taskDetail.taskImg,
+					placeholderImg: 'widget://res/img/apicloud.png',
+					bgColor: '#000'
+				}, function(ret, err) {
+					if(ret.eventType == "click"){
+						photoBrowser.close();
+						showingImg = false;
+					}
+				});
+				photoBrowser.setIndex({index: index});
+			}
+			
+			//禁用底部按钮
+			function forbiddenBtn(message){
+				document.querySelector('#takeOrder').innerHTML = message;
+				document.querySelector('#takeOrder').disabled=true;
+				document.querySelector('#takeOrder').classList.add('disable');
+			}
+
+			//获取接单人列表
+			ajax({
+				url: "task/participant",
+				method: "get",
+				dataType: 'text',
+				data: {
+					taskId: $scope.taskId,
+					page: 0
+				},
+				success: function(data, header) {
+					$scope.takerOrder = data.data;
+					$scope.takerOrderLength = $scope.takerOrder.length;
+				}
+			});
+
+			$scope.close = function() {
+				api.closeWin();
+			}
+
+			//点击“接单”按钮
+			$scope.takeOrder = function() {
+				//用户未登录，须先登录才能接单
+				if(!getStorage('TOKEN')) {
+					$scope.loginToggle = true; //显示登录提示按钮
+					return;
+				}
+				if(!getStorage('once')){
+					$scope.agreement = true;
+					return;
+				}else{
+					$scope.agreement = false;
+					$scope.receiveToggle=true;
+				}
+			}
+
+			//跳转到登录页面
+			$scope.login = function() {
+				openWin({
+					name: 'acccount',
+					url: '../account/account.html'
+				})
+			}
+			
+			// 监听个人信息修改
+			api.addEventListener({
+			    name: 'userIndex'
+			}, function(ret, err){
+				$scope.imgSrc=ret.value.imgSrc;
+				$scope.nickname = ret.value.nickname;
+		    	$scope.$apply();
+			});
+			
+			$scope.receiveCofirm = function() {
+				//接单接口
+				ajax({
+					url: "task/take",
+					method: "post",
+					data: {
+						quantity: $scope.task.taskDetail.quantityLeft,
+						remark: $scope.remark,
+						taskId: $scope.taskId
+					},
+					success: function(data, header) {
+						$scope.receiveToggle = false;
+						//将接单按钮隐藏
+						$scope.task.taskDetail.isMine = $scope.task.isTake = false;
+						//已接单，进行“接单”按钮，改为“已接单”
+						document.querySelector('#takeOrder').innerHTML = '已接单';
+						document.querySelector('#takeOrder').disabled=true;
+						document.querySelector('#takeOrder').classList.add('disable');
+
+						//重新获取接单人列表
+						ajax({
+							url: "task/participant",
+							method: "get",
+							dataType: 'text',
+							data: {
+								taskId: $scope.taskId,
+								page: 0
+							},
+							success: function(data, header) {
+								$scope.takerOrder = data.data;
+								$scope.takerOrderLength = $scope.takerOrder.length;
+							}
+						});
+					}
+				});
+
+			}
+
+			//点击接单人，页面跳转
+			document.querySelector("#personList").addEventListener("click", function(e) {
+				openWin({
+					name: 'orderTakerList_header',
+					auth:true,
+					url: 'widget://html/demand/orderTakerList_header.html',
+					pageParam:{
+						taskId:$scope.taskId,
+						userId:$scope.task.taskDetail.userId,
+						demandContent:$scope.task.taskDetail.content
+					}
+				});
+			}, false);
+
+			//将时间戳转换成还剩xx天之类
+			function getDateDiff(dateTimeStamp) {
+				var minute = 1000 * 60;
+				var hour = minute * 60;
+				var day = hour * 24;
+				var halfamonth = day * 15;
+				var month = day * 30;
+				var now = new Date().getTime();
+				var diffValue = dateTimeStamp - now;
+				if(diffValue < 0) {
+					return result="已结束";
+				}
+				var monthC = diffValue / month;
+				var weekC = diffValue / (7 * day);
+				var dayC = diffValue / day;
+				var hourC = diffValue / hour;
+				var minC = diffValue / minute;
+				if(monthC >= 1) {
+					result = "" + parseInt(monthC) + "个月";
+				} else if(weekC >= 1) {
+					result = "" + parseInt(weekC) + "周";
+				} else if(dayC >= 1) {
+					result = "" + parseInt(dayC) + "天";
+				} else if(hourC >= 1) {
+					result = "" + parseInt(hourC) + "小时";
+				} else if(minC >= 1) {
+					result = "" + parseInt(minC) + "分钟";
+				} else{
+					result = "已结束";
+				}
+				return result;
+			}
+			
+			api.addEventListener({
+				name: 'keyback'
+			}, function(ret, err) {
+				if(showingImg){
+					photoBrowser.close();
+					showingImg = false;
+					return;
+				}
+				
+				if($scope.receiveToggle){
+					$scope.receiveToggle = false;
+					$scope.$apply();
+				}else if($scope.loginToggle){
+					$scope.loginToggle = false;
+					$scope.$apply();
+				}else if($scope.agreement){
+					$scope.agreement = false;
+					$scope.$apply();
+				}else{
+					api.closeWin();
+				}
+			});
+			
+			//关闭协议
+			$scope.closeAgreement = function(){
+				if(document.getElementById('checkInput').checked){
+					//存储
+					setStorage('once',1);  //1表示不再弹出
+				}
+				$scope.agreement = false;
+				$scope.receiveToggle = true;
+			}
+			
+			//聊天
+			$scope.chat=function(accepterId, isPublisher,event){
+				event.stopPropagation();
+				if(getStorage('MYUSERID')!=accepterId) {
+					openWin({
+						name:"chat",
+						url:"../chat/chat.html",
+						auth:true,
+						pageParam:{
+							accepterId:accepterId
+						}
+					})
+				}else{
+					api.toast({
+						msg: "你不能和自己聊天",
+						duration: 1000,
+						location: 'bottom'
+					});
+				}
+			}
+		}])
+
+	apiready = function() {
+		angular.bootstrap(document, ["module"]);
+	}
+</script>
+</body>
+
+</html>

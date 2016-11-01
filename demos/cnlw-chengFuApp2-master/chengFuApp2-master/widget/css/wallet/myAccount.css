@@ -1,0 +1,19 @@
+.purse {
+  background: #fff;
+  padding: 20px 0;
+}
+.purse div:nth-child(1) {
+  margin-top: 20px;
+  font-size: 100px;
+  text-align: center;
+  color: #ff7f66;
+}
+.purse div:nth-child(2) {
+  text-align: center;
+}
+.purse div:nth-child(2) p:nth-child(1) {
+  color: #969593;
+}
+.purse div:nth-child(2) p:nth-child(2) {
+  color: #1f1a17;
+}

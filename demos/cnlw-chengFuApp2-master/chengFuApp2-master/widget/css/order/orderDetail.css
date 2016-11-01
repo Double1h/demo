@@ -1,0 +1,218 @@
+.handler {
+  margin: 15px 20px 0 20px;
+}
+.handler p {
+  font-size: 12px;
+  color: #969593;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.handler p:before {
+  color: #2184c5;
+  position: relative;
+  left: -4px;
+}
+.handlers {
+  padding: 30px 20px;
+}
+.handlers button,
+.btns {
+  background-color: #ff7f66;
+  border-radius: 22px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.agreement {
+  color: #969593;
+  font-size: 14px;
+  background-color: #fff;
+  width: 100%;
+  box-sizing: border-box;
+  vertical-align: middle;
+  display: inline-block;
+  padding: 10px 20px 20px 20px;
+  position: relative;
+}
+.agreement_wraper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 0;
+  text-align: center;
+}
+.agreement_wraper:after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.close_btn {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  color: #2184c5;
+}
+/* 弹窗组件 */
+.dialog_mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-size: 0;
+}
+.dialog_mask:after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.dialog {
+  font-size: 16px;
+  background: #f3f4f6;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  width: 294px;
+}
+.dialog_title {
+  padding: 4px 15px;
+  margin-top: 10px;
+}
+.dialog_body {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.dialog_btns {
+  padding: 6px 10px;
+  font-size: 0;
+  text-align: right;
+}
+.dialog_btns:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+  font-size: 0;
+}
+.confirmBtn {
+  border: none;
+  background: #f3f4f6;
+  color: #ff7f66;
+  margin-top: 20px;
+  font-size: 16px;
+}
+input {
+  border: none;
+  width: 254px;
+  height: 30px;
+  font-size: 14px;
+  padding-left: 10px;
+}
+/* 星星 */
+.star_bg {
+  width: 120px;
+  height: 20px;
+  background: url("../../img/star_1.png") repeat-x;
+  position: relative;
+  overflow: hidden;
+  left: 67px;
+  margin: 16px 0;
+}
+.star {
+  height: 100%;
+  width: 24px;
+  line-height: 6em;
+  position: absolute;
+  z-index: 3;
+}
+.star:hover {
+  background: url("../../img/star_1.png") repeat-x 0 -20px !important;
+  left: 0;
+  z-index: 2;
+}
+.star_1 {
+  left: 0;
+}
+.star_2 {
+  left: 24px;
+}
+.star_3 {
+  left: 48px;
+}
+.star_4 {
+  left: 72px;
+}
+.star_5 {
+  left: 96px;
+}
+.star_1:hover {
+  width: 24px;
+}
+.star_2:hover {
+  width: 48px;
+}
+.star_3:hover {
+  width: 72px;
+}
+.star_4:hover {
+  width: 96px;
+}
+.star_5:hover {
+  width: 120px;
+}
+label {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+.score {
+  position: absolute;
+  clip: rect(0 0 0 0);
+}
+.score:checked + .star {
+  background: url("../../img/star_1.png") repeat-x 0 -20px;
+  left: 0;
+  z-index: 1;
+}
+.score_1:checked ~ .star_1 {
+  width: 24px;
+}
+.score_2:checked ~ .star_2 {
+  width: 48px;
+}
+.score_3:checked ~ .star_3 {
+  width: 72px;
+}
+.score_4:checked ~ .star_4 {
+  width: 96px;
+}
+.score_5:checked ~ .star_5 {
+  width: 120px;
+}
+.star_bg:hover .star {
+  background-image: none;
+}
+.applyAlert .dialog {
+  text-align: left;
+  width: 250px;
+}
+.applyAlert .confirmBtn {
+  color: #7dcefd;
+}
+.topic #reImg p {
+  color: #969593;
+  font-size: 14px;
+}
+.order_type span {
+  margin-right: 3px;
+}

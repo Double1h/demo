@@ -1,0 +1,66 @@
+body {
+  background-color: #e6e6e6;
+  font-size: 14px;
+}
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  line-height: 52px;
+  height: 52px;
+  background-color: #3e454d;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  z-index: 1000;
+}
+header span {
+  font-size: 16px;
+}
+header .back_btn {
+  position: absolute;
+  left: 20px;
+}
+header .back_btn:before {
+  font-size: 22px;
+  line-height: 52px !important;
+}
+form {
+  margin-top: 52px;
+}
+.border_bottom:after {
+  content: "";
+  display: block;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #e6e6e6;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
+.ui_group {
+  background-color: #fff;
+  color: #1f1a17;
+}
+.ui_group p {
+  height: 40px;
+  line-height: 40px;
+  padding-left: 20px;
+  background-color: #e6e6e6;
+}
+.ui_group .ui_row {
+  padding: 0 20px;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  line-height: 40px;
+}
+.ui_group .ui_row .ui_row_left {
+  float: left;
+}
+.ui_group .ui_row .ui_row_right {
+  float: right;
+}

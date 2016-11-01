@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+		<link rel="stylesheet" type="text/css" href="../../css/user/editUserInfo.css">
+	</head>
+
+	<body ng-controller="controller">
+		<header>
+			<span class="back_btn icon_back" onclick="api.closeWin();"></span>
+			<span class="title">更改个人信息</span>
+		</header>
+		<form name="userForm">
+			<div class="change_img">
+				<img src="../../img/head.png" ng-hide="user.avatarPath" ng-click="updateAvatar();">
+				<img ng-src="{{user.avatarPath}}" ng-show="user.avatarPath" id="personImg" ng-click="updateAvatar();">
+				<p class="change_portrait" ng-click="updateAvatar();">更换头像</p>
+			</div>
+			<div class="ui_group">
+				<div class="ui_row">
+					<div class="ui_row_left">昵称</div>
+					<div class="ui_row_right">
+						<input type="text" ng-model="user.nickname" value="">
+					</div>
+				</div>
+				<div class="ui_row" ng-click="selectGender();">
+					<div class="ui_row_left">性别</div>
+					<div class="ui_row_right icon_right"><span>{{sex[user.gender]}}</span></div>
+				</div>
+				<div class="ui_row">
+					<div class="ui_row_left">职位</div>
+					<div class="ui_row_right">
+						<input type="text" ng-model="user.position" value="">
+					</div>
+				</div>
+				<div class="ui_row" ng-click="selectTags();">
+					<div class="ui_row_left">标签</div>
+					<div class="ui_row_right icon_right">
+						<div class="tags"><span class="label" ng-repeat="tag in user.tags" ng-bind="tag"></span></div>
+					</div>
+				</div>
+				<div class="ui_row" ng-click="updatePhone();">
+					<div class="ui_row_left">绑定手机</div>
+					<div class="ui_row_right icon_right"><span>{{user.phone}}</span></div>
+				</div>
+				<div class="ui_row">
+					<div class="ui_row_left">任职单位</div>
+					<div class="ui_row_right">
+						<input type="text" ng-model="user.company" value="">
+					</div>
+				</div>
+				<div class="profile_row">
+					<div class="profile_row_left">个人简介</div>
+					<div class="profile_row_right">
+						<textarea name="profile" placeholder="请简述你的个人特点" ng-model="user.introduction"></textarea>
+						<div class="profileHeight">{{user.introduction}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="btn">
+				<button ng-click="save();">保存</button>
+			</div>
+		</form>
+		<!-- 上传进度 -->
+		<div class="percent_wraper" ng-if="isPercent">
+			<p>{{percent}}%</p>
+		</div>
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script>
+			angular.module('module', ['APP'])
+				.controller('controller', ['$scope', 'openWin', 'ajax', function($scope, openWin, ajax) {
+					$scope.user = {};
+					$scope.sex = {
+						MALE: '男',
+						FEMALE: '女',
+						UNKOWN: '未知'
+					};
+					$scope.genderCode = {
+						MALE: 0,
+						FEMALE: 1,
+						UNKOWN: 2
+					}
+					
+					// 获取后台数据
+					ajax({
+						url: 'user/index',
+						method: 'get',
+						success: function(data) {
+							$scope.isServiceOn = data.data.isServiceOn;
+							$scope.user = data.data.user;
+						}
+					})
+					$scope.socialTools = function() {
+						openWin({
+							name: 'bindSocialAccounts',
+							url: 'bindSocialAccounts.html'
+						})
+					}
+
+					// 修改手机
+					$scope.updatePhone = function() {
+						openWin({
+							name: 'updatePhone',
+							url: 'updatePhone.html'
+						})
+					}
+
+					// 获取新手机号码
+					api.addEventListener({
+						name: 'updatePhone'
+					}, function(ret, err) {
+						$scope.user.phone = ret.value.phone;
+						$scope.$apply();
+					});
+
+					// 选择标签
+					$scope.selectTags = function() {
+						openWin({
+							name: 'selectTags',
+							url: '../service/selectLabel.html',
+							pageParam: {
+								source: 'user/tags'
+							}
+						})
+					}
+
+					// 获取用户选择的标签
+					api.addEventListener({
+						name: 'selectLabel_right'
+					}, function(ret, err) {
+						if(ret.value.source == "user/tags") {
+							$scope.user.tags = ret.value.labelStr;
+							$scope.$apply();
+						}
+					});
+
+					// 图像上传进度
+					$scope.percent = 0;
+					$scope.isPercent = false;
+
+					// 更换头像
+					$scope.updateAvatar = function() {
+						api.getPicture({
+							sourceType: 'album',
+							encodingType: 'jpg',
+							allowEdit: true,
+							quality: 50,
+							targetHeight: 800
+						}, function(ret, err) {
+							if(ret && ret.data && ret.data != "") {
+								// 图片上传
+								$scope.percent = 0;
+								$scope.isPercent = true;
+								var fileName = new Date().getTime();
+								api.require('qiniuUpfile').upfile({
+									file: ret.data,
+									name: fileName
+								}, function(ret, err) {
+									if(ret.status) {
+										if(ret.oper == "complete") { //上传成功
+											$scope.isPhoto = true;
+											$scope.isPercent = false;
+											$scope.user.avatarPath = 'http://od61wmx26.bkt.clouddn.com/' + fileName;
+											$scope.$apply();
+										} else if(ret.oper == "progress") {
+											$scope.percent = Math.floor(ret.percent);
+											$scope.$apply();
+										}
+									} else {
+										alert(JSON.stringify(err));
+									}
+								});
+							}
+						});
+					}
+					
+					// 选择性别
+					// 选择城市
+					var selector = api.require('UIActionSelector');
+					$scope.selectGender = function(event) {
+						$scope.genderToggle = true;
+						var gender = $scope.user.gender;
+						if(gender=="UNKOWN"){
+							gender = "FEMALE";
+						}
+						
+						selector.open({
+							datas: [{name:"男"},{name:'女'}],
+							actives: [$scope.genderCode[gender]],
+							layout: {
+								row: 2,
+								col: 1,
+								colSpacing: 0,
+								colorSelected: '#ffd147'
+							},
+							cancel: {
+								text: '取消',
+								size: 12,
+								w: 90,
+								h: 35,
+								bg: '#fff',
+								bgActive: '#ccc',
+								color: '#888',
+								colorActive: '#fff'
+							},
+							ok: {
+								text: '确定',
+								size: 12,
+								w: 90,
+								h: 35,
+								bg: '#fff',
+								bgActive: '#ccc',
+								color: '#888',
+								colorActive: '#fff'
+							}
+						}, function(value, err) {
+							$scope.genderToggle = false;
+							//修改性别
+							if(value.level1 != undefined) {
+								$scope.user.gender = value.level1 == "女" ? "FEMALE" : "MALE";
+								$scope.$apply();
+							}
+							selector.close();
+						});
+					}
+
+					// 保存修改
+					$scope.save = function() {
+						if($scope.userForm.$valid) {
+							$scope.user.gender = $scope.genderCode[$scope.user.gender];
+							ajax({
+								url: 'user/update_user_info',
+								method: 'POST',
+								data: $scope.user,
+								success: function() {
+									// 发送性别更新事件
+									api.sendEvent({
+										name: "updateUserInfo",
+										extra: $scope.user
+									});
+									api.closeWin();
+								}
+							});
+						}
+					}
+
+					// 监听keyback事件
+					api.addEventListener({
+						name: 'keyback'
+					}, function(ret, err) {
+						if($scope.genderToggle) {
+							selector.close();
+						} else {
+							api.closeWin();
+						}
+					});
+
+				}])
+
+			apiready = function() {
+				angular.bootstrap(document, ["module"]);
+			}
+		</script>
+	</body>
+
+</html>

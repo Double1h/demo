@@ -1,0 +1,168 @@
+body {
+  background-color: #e6e6e6;
+  color: #1f1a17;
+}
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  line-height: 52px;
+  background-color: #3e454d;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  z-index: 1000;
+  font-size: 16px;
+}
+header .back_btn {
+  position: absolute;
+  left: 20px;
+}
+header .back_btn:before {
+  font-size: 22px;
+  line-height: 52px !important;
+}
+header span:nth-child(3) {
+  position: fixed;
+  right: 20px;
+}
+.alert_message {
+  padding: 10px 20px;
+  color: #969593;
+  font-size: 12px;
+  margin-top: 52px;
+}
+.money {
+  background-color: #fff;
+  color: #1f1a17;
+  font-size: 14px;
+}
+.money div {
+  padding: 0 20px;
+  height: 50px;
+  line-height: 50px;
+}
+.balance {
+  position: relative;
+}
+.balance:after {
+  content: "";
+  display: block;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #e6e6e6;
+  -webkit-transform: scaleY(0.5);
+  -ms-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+}
+.pay {
+  text-align: right;
+  font-size: 14px;
+}
+.pay span {
+  color: #ff7f66;
+}
+input[type="radio"] {
+  float: right;
+  display: block;
+  height: 32px;
+}
+.pay_method > h2 {
+  height: 50px;
+  line-height: 50px;
+  color: #969593;
+  font-size: 12px;
+  font-weight: normal;
+  padding-left: 20px;
+}
+.payment_word {
+  padding-top: 2px;
+}
+form {
+  background-color: #fff;
+}
+form label {
+  display: block;
+  overflow: hidden;
+  padding: 10px 20px;
+}
+form label:after {
+  content: "";
+  display: block;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #e6e6e6;
+  -webkit-transform: scaleY(0.5);
+  -ms-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+}
+form .submit_btn {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30px 20px 0 20px;
+  background-color: #e6e6e6;
+}
+form button {
+  background-color: #ff7f66;
+  color: #fff;
+  border: none;
+  border-radius: 22px;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
+  font-size: 14px;
+}
+form .payment_word {
+  float: left;
+}
+form .title {
+  font-size: 12px;
+}
+form .detial {
+  font-size: 12px;
+  color: #969593;
+  margin-top: 2px;
+}
+form .radio {
+  float: right;
+}
+.icon_alipay,
+.icon_wechat_1,
+.icon_purse {
+  font-size: 32px;
+  padding-right: 10px;
+  position: relative;
+  padding-left: 40px;
+}
+.icon_alipay:before,
+.icon_wechat_1:before,
+.icon_purse:before {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+}
+.icon_alipay:before {
+  color: #55ABE4;
+}
+.icon_wechat_1:before {
+  color: #10CD6D;
+}
+.icon_purse:before {
+  color: #ff7f66;
+}
+.mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+/*# sourceMappingURL=pay.css.map */

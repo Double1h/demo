@@ -1,0 +1,130 @@
+body {
+  background-color: #e6e6e6;
+  color: #1f1a17;
+  font-size: 14px;
+}
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  line-height: 52px;
+  background-color: #3e454d;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  z-index: 1000;
+  font-size: 16px;
+}
+header .back_btn {
+  position: absolute;
+  left: 20px;
+}
+header .back_btn:before {
+  font-size: 22px;
+  line-height: 52px !important;
+}
+.content {
+  margin-top: 52px;
+}
+.content .top {
+  padding: 12px 20px;
+  border-bottom: solid 10px #e6e6e6;
+  background-color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+.content .top_left {
+  float: left;
+  width: 80px;
+  height: 80px;
+}
+.content .top_left img {
+  width: 80px;
+  height: 80px;
+}
+.content .top_right {
+  float: left;
+  padding-left: 10px;
+}
+.content .top_right h2 {
+  font-weight: normal;
+}
+.content .top_right p {
+  color: #ff7f66;
+  position: absolute;
+  bottom: 10px;
+}
+.time {
+  background: #fff;
+  border-bottom: solid 10px #e6e6e6;
+  line-height: 40px;
+  overflow: hidden;
+  padding: 0 20px;
+}
+.time .left {
+  float: left;
+}
+.time .right {
+  float: right;
+}
+.phone {
+  background: #fff;
+  border-bottom: solid 10px #e6e6e6;
+  line-height: 40px;
+  position: relative;
+}
+.phone span {
+  position: absolute;
+  left: 20px;
+}
+.phone input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 20px 12px 138px;
+  text-align: right;
+}
+input {
+  border: none;
+}
+.message {
+  background-color: #fff;
+  padding: 12px 20px;
+  position: relative;
+}
+.message p {
+  position: absolute;
+  top: 12px;
+  left: 20px;
+}
+.message .div4height,
+.message textarea {
+  padding: 0 20px;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 100px;
+  margin-top: 40px;
+}
+.message textarea {
+  resize: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+.submit {
+  margin-top: 30px;
+  padding: 0 20px;
+}
+.submit button {
+  background-color: #ff7f66;
+  color: #fff;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 22px;
+  width: 100%;
+  border: none;
+}

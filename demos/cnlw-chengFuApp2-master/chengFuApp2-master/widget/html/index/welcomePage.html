@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<style>
+			html,
+			body,
+			img {
+				height: 100%;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				border: none;
+				font-size: 0;
+			}
+		</style>
+	</head>
+
+	<body ng-controller="controller">
+		<img />
+	</body>
+	<script>
+		var img = document.querySelector("img");
+		apiready = function() {
+			var page = Number(api.pageParam.page);
+			img.setAttribute("src", "../../img/welcome" + page + ".jpg");
+			window.openIndex = function() {
+				if(page == 2) {
+					api.closeWin({
+						name: "welcomePages"
+					});
+					api.closeFrameGroup({
+						name: 'welcomePages'
+					});
+				}
+			}
+
+			var startPos = {};
+			var endPos = {};
+
+			if(page == 2) {
+				img.addEventListener('touchstart', function(e) {
+					e.preventDefault();
+					touch = e.touches[0];
+					
+					startPos = {
+						x: touch.pageX,
+						y: touch.pageY
+					};
+				});
+				img.addEventListener('touchmove', function(e) {
+					touch = e.touches[0]
+					endPos = {
+						x: touch.pageX - startPos.x,
+						y: touch.pageY - startPos.y
+					};
+
+					setTimeout(function() {
+						openIndex();
+					}, 600)
+				});
+
+				img.addEventListener('touchend', function(e) {
+					setTimeout(function() {
+						openIndex();
+					}, 600)
+				});
+			}
+		};
+	</script>
+
+</html>

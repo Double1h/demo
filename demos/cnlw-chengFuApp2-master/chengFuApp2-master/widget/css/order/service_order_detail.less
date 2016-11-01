@@ -1,0 +1,272 @@
+@import url("../constant.less");
+
+body{
+    background-color: @mainBgColor;
+    font-size: 14px;
+    color: @fontColor1;
+    line-height: 1.2em;
+}
+// header
+header{
+    width: 100%;
+    position: fixed;
+    top:0;
+    left: 0;
+    line-height: 52px;
+    background-color: @headerBgColor;
+    text-align: center;
+    color: #fff;
+    font-size: @midFontSize;
+    z-index: 1000;
+    font-size: 16px;
+
+    .back_btn{
+        position: absolute;
+        left: 20px;
+
+        &:before{
+            font-size: 22px;
+            line-height: 52px !important;
+        }
+    }
+}
+
+// order_detail
+.order_detail{
+    margin-top: 52px;
+    background-color: #fff;
+    padding: 10px 20px;
+}
+.order_detail_top{
+    padding-bottom: 15px;
+    overflow: hidden;
+}
+.order_type{
+    color: @fontColor2;
+    float: left;
+}
+.order_status{
+    font-size: 14px;
+    color: @subBtnColor;
+    float: right;
+}
+.order_price{
+    padding-top: 15px;
+    padding-bottom: 10px;
+    color: @fontColor2;
+    position: relative;
+    span{
+        color: @fontColor1;
+    }
+    &:after{
+        content:"";
+        display:block;
+        height:1px;
+        position:absolute;
+        left: 0;
+        bottom: 0;
+        width:100%;
+        background:@mainBgColor;
+        -webkit-transform:scaleY(0.5);
+        transform: scaleY(0.5);
+    }
+}
+.order_time{
+    color: @fontColor2;
+    padding-top: 10px;
+    font-size: 12px;
+}
+
+// 图片上传
+.topic,.content{
+    h2{
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
+.re_img{
+    padding: 16px @mainPadding;
+    background-color: #fff;
+    .re_img_item,.add_img_wraper{
+        display:inline-block;
+        width:60px;
+        height:60px;
+        position:relative;
+        margin:10px 10px 10px 0;
+        line-height: 0;
+        img{
+            height:60px;
+            width:60px;
+        }
+        .icon_error{
+            position:absolute;
+            top:-11px;
+            right:-11px;
+            font-size:22px;
+            background:#fff;
+            color:@mainBtnColor;
+            border-radius: 300em;
+            line-height: 1em;
+            height: 1em;
+        }
+    }
+}
+
+// textarea
+textarea ,.div4height {
+    border: none;
+    font-size: 14px;
+    min-height: 90px;
+    width: 100%;
+    box-sizing:border-box;
+    padding: 16px @mainPadding;
+}
+textarea {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    resize: none;
+}
+.textarea_wraper{
+    position: relative;
+}
+
+.service_handlers{
+    padding: 30px 20px;
+}
+// button
+.noProvider_handlers,.isProvider_handler{
+    padding: 0 20px;
+    margin:30px 0;
+}
+button{
+    background-color: @mainBtnColor;
+    border: none;
+    color: #fff;
+    border-radius: 22px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    height: 40px;
+}
+
+// percent
+.percent_wraper{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    background-color: rgba(0,0,0,.5);
+    z-index: 1000;
+    vertical-align: middle;
+    p{
+        color: #fff;
+        display: inline-block;
+        font-size: 20px;
+    }
+
+    &:after{
+        content:"";
+        display:inline-block;
+        height:100%;
+        vertical-align:middle;
+    }
+}
+
+/* 弹窗组件 */
+.dialog_mask{
+    position:fixed;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    z-index:100;
+    background:rgba(0,0,0,0.5);
+    text-align:center;
+    font-size:0;
+}
+.dialog_mask:after{
+    content:"";
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.dialog{
+    font-size:16px;
+    background:#f3f4f6;
+    display:inline-block;
+    vertical-align:middle;
+    text-align:center;
+    width:294px;
+    border-radius: 4px;
+}
+.dialog_title{
+    padding:4px 15px;
+    margin-top:10px;
+}
+.dialog_body{
+    padding-left:15px;
+    padding-right:15px;
+}
+.dialog_btns{
+    padding-top:6px;
+    height: 40px;
+}
+.dialog_btns:after{
+    content:"";
+    display:inline-block;
+    width:100%;
+    font-size:0;
+}
+button.confirmBtn{
+    border:none;
+    background:#f3f4f6;
+    font-size:16px;
+    margin-bottom: 0;
+    text-align: center;
+
+    background: @mainBtnColor;
+    border-radius: 0 0 4px 4px;
+    color:#fff;
+}
+input{
+    border:none;
+    width:254px; 
+    height:30px;
+    font-size:14px;
+    padding-left: 10px;
+    margin: 20px 0;
+}
+
+
+// 审核中
+.imgList{
+    padding: 10px 20px;
+    background-color: #fff;
+    overflow: hidden;
+    img{
+        width: 60px;
+        height: 60px;
+    }
+    li{
+        float: left;
+        margin-right: 3px;
+    }
+}
+.content{
+    p{
+        background-color: #fff;
+        padding: 10px 20px;
+    }
+}
+
+//取消报名、通过报名按钮
+.signUp{
+    margin-top:40px;
+}
+
+

@@ -1,0 +1,192 @@
+.body {
+  display: box;
+  display: -webkit-box;
+  box-flex: 1;
+  -webkit-box-flex: 1;
+}
+.topP {
+  font-size: 12px;
+  color: #969593;
+  line-height: 150%;
+  padding: 10px 20px;
+  background: #fff;
+}
+.personList {
+  padding: 10px 10px 0 10px;
+  margin: 10px;
+  background: #fff;
+  font-size: 12px;
+}
+.personList .listTop {
+  display: box;
+  display: -webkit-box;
+  box-pack: justify;
+  -webkit-box-pack: justify;
+}
+.listTopLeft {
+  margin-top: 4px;
+  display: box;
+  display: -webkit-box;
+}
+.listTopLeft img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+.listTopLeft ul {
+  margin-left: 10px;
+}
+.listTopLeft ul .icon_address {
+  color: #969593;
+}
+.listTopLeft ul li {
+  list-style: none;
+  font-size: 14px;
+  line-height: 150%;
+  color: #1f1a17;
+  font-size: 12px;
+}
+.listTopLeft ul li:nth-child(2):before {
+  margin-right: 5px;
+}
+.listTopLeft ul li span {
+  margin-left: 5px;
+  color: pink;
+}
+.listTopRight {
+  margin-top: 10px;
+  display: box;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  box-align: center;
+}
+.listTopRight li {
+  display: inline-block;
+  list-style: none;
+  width: 50px;
+  height: 20px;
+  border-radius: 10px;
+  border: 1px solid #ff7f66;
+  text-align: center;
+  line-height: 20px;
+  color: #ff7f66;
+}
+.listTopRight li:not(:last-of-type) {
+  margin-right: 5px;
+}
+.personList .count {
+  height: 40px;
+  margin-top: 10px;
+  background: #e6e6e6;
+  display: box;
+  display: -webkit-box;
+  box-pack: center;
+  -webkit-box-pack: center;
+  line-height: 40px;
+  color: #969593;
+  font-size: 12px;
+}
+.personList .count div {
+  width: 50%;
+  text-align: center;
+}
+.personList p {
+  color: #969593;
+  height: 36px;
+  line-height: 36px;
+}
+.personList p span {
+  color: #1f1a17;
+}
+.personList .label {
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 10px;
+}
+.personList .label li {
+  width: 50px;
+  height: 20px;
+  border-radius: 13px;
+  list-style: none;
+  border: 1px solid #969593;
+  text-align: center;
+  line-height: 20px;
+  color: #969593;
+  font-size: 12px;
+  display: inline-block;
+}
+.personList .label li:not(last-of-type) {
+  margin-right: 5px;
+}
+.personList .bottom {
+  display: box;
+  display: -webkit-box;
+  font-size: 14px;
+  color: #1f1a17;
+}
+.personList .bottom li {
+  list-style: none;
+  box-flex: 1;
+  -webkit-box-flex: 1;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.personList .bottom li:before {
+  color: #ff7f66;
+  margin-right: 5px;
+  font-size: 14px;
+  vertical-align: middle;
+}
+.dialog_mask {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-size: 0;
+}
+.dialog_mask:after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.dialog {
+  font-size: 16px;
+  background: #f3f4f6;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+  width: 250px;
+}
+.dialog_title {
+  padding: 4px 15px;
+  margin-top: 10px;
+}
+.dialog_body {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.dialog_btns {
+  padding: 6px 10px;
+  text-align: justify;
+  font-size: 0;
+}
+.dialog_btns:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+  font-size: 0;
+}
+.dialog_btns button {
+  border: none;
+  background: #f3f4f6;
+  color: #7dcefd;
+  margin-top: 20px;
+  font-size: 14px;
+}

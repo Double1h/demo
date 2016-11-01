@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<title>接单人列表</title>
+	<link rel="stylesheet" href="../../css/fonticon/style.css" />
+	<link href="../../css/reset.css" rel="stylesheet" />
+	<link href="../../css/demand/orderederList.css" rel="stylesheet" />
+	<link href="../../css/demand/orderTakerList.css" rel="stylesheet" />
+</head>
+<body ng-controller="controller">
+	<header>
+		<span class="icon_back back_btn" onclick="api.closeWin();"></span>
+		<span>接单人列表</span>
+	</header>
+	
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+	angular.module('module',['APP'])
+	.controller('controller',['$scope','openFrame',function($scope,openFrame){
+		openFrame({
+			name:'orderTakersList',
+			url:'orderTakersList.html',
+			rect:{
+				x:0,
+				y:52
+			},
+			pageParam:{
+				taskId:api.pageParam.taskId,
+				userId:api.pageParam.userId,
+				demandContent:api.pageParam.demandContent
+			}
+		})
+	}]);
+	
+	apiready = function(){
+		angular.bootstrap(document, ["module"]);
+	}
+	</script>
+</body>
+</html>

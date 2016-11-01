@@ -1,0 +1,15 @@
+{
+  "name": "pachong",
+  "version": "1.0.1",
+  "description": "no",
+  "main": "demo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "me",
+  "license": "ISC",
+  "dependencies": {
+    "http": "^0.0.0"
+  },
+  "devDependencies": {}
+}

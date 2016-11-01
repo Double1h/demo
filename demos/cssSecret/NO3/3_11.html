@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>菱形图片</title>
+	<style>
+	/* 变形方案 痛点必需是正方形图片咯*/
+	.box{
+		width: 300px;
+		transform: rotate(45deg);
+		overflow: hidden;
+		margin-top: 100px;
+		margin-left: 100px;
+	}
+	.box img{
+		max-width: 100%;
+		transform: rotate(-45deg) scale(1.42);
+	}
+
+	/*剪裁路径方案*/
+	img{
+		margin-top:100px;
+		-webkit-clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+		clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
+	}
+	img:hover{
+		-webkit-clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+		clip-path:polygon(0 0,100% 0,100% 100%,0 100%);
+	}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<img src="img/0a3d21919114ed6f2ae6bb5d1a17ed2c33d37ba87fca-Ztlu5q_fw6581.jpg" alt="">
+	</div>
+
+	<img src="img/0a3d21919114ed6f2ae6bb5d1a17ed2c33d37ba87fca-Ztlu5q_fw6581.jpg" alt="">
+</body>
+</html>

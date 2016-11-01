@@ -1,0 +1,58 @@
+.task {
+  background-color: #fff;
+  padding: 3px 20px;
+  margin: 7px 0;
+}
+.task .task_info_row {
+  display: box;
+  display: -webkit-box;
+  padding: 3px 0;
+}
+.task .task_info_row .task_row_left {
+  -webkit-box-flex: 1;
+  box-flex: 1;
+}
+.task .task_info_row .task_row_right {
+  text-align: right;
+}
+.task .task_content {
+  box-sizing: border-box;
+  word-wrap: break-word;
+  font-size: 12px;
+  color: #969593;
+  padding: 2px 0;
+}
+.task .label_list {
+  padding: 3px 0;
+  font-size: 0;
+}
+.task .label_list .label {
+  font-size: 12px;
+  line-height: 12px;
+  color: #ff7f66;
+  padding: 2px 4px;
+  border-radius: 10px;
+  border: #ff7f66 1px solid;
+  display: inline-block;
+  transform: scale(0.775);
+  -webkit-transform: scale(0.775);
+}
+.task .task_footer {
+  font-size: 12px;
+  color: #c2c1c1;
+  line-height: 16px;
+  position: relative;
+}
+.task .price_wraper {
+  font-size: 0;
+  color: #7dcefd;
+}
+.task .price_wraper .unit {
+  font-size: 12px;
+}
+.task .price_wraper .price {
+  font-size: 16px;
+}
+.task .price_wraper .price:before {
+  content: "¥";
+}

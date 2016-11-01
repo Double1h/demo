@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/fonticon/style.css" />
+		<link href="../../css/public.css" rel="stylesheet" />
+		<link href="../../css/normalize.css" rel="stylesheet" />
+		<link href="../../css/service/selectLabel.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/reset.css" />
+	</head>
+	
+	<body ng-controller="controller">
+		<header class="blackBg">
+		    <button class="back_btn icon_back" onclick="api.closeWin();"></button>
+		    <span id="headerTitle">选择标签</span>
+		    <button class="right_btn" ng-click="close()">确定</button>
+		</header>
+		<div class="labelRight">
+		  <div class="addLabel">
+		  	<div class="add">增加</div>
+		  	<div class="addPopup">
+		  			<div class="content">
+		  				<div id="newLabel">
+		  					<input class="newLabel" type="text"/>
+		  				</div>
+		  				<div class="btn">确定</div>
+		  			</div>
+		  	</div>
+		  </div>
+			<ul>
+				<li ng-repeat="item in data"><span data-tab="{{item}}" ng-bind='item'></span></li>
+			</ul>
+		</div>
+		
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+		<script>
+		angular.module('module',["APP"])
+		.controller('controller',['$scope','openFrame','ajax',function($scope,openFrame,ajax){
+			var labelStr = [];  //保存选择的标签名
+			var liArray = document.getElementsByTagName('span');
+			$scope.data =[];
+			var param =api.pageParam.source;
+			var pop=document.querySelector(".addPopup");
+
+			// 增加自定义标签
+			document.querySelector(".add").addEventListener('click',function(e){
+				pop.style.display='block';
+			})
+
+			document.querySelector(".btn").addEventListener('click',function(e){
+				var newLabel=document.querySelector(".newLabel").value;
+				if(newLabel!=""){
+					$scope.data.push(newLabel);
+					$scope.$apply();
+					document.querySelector(".newLabel").value="";
+				}
+				pop.style.display='none';
+			})
+			
+			//使用正则表达式来为li添加、删除active类名
+    		document.querySelector(".labelRight").addEventListener('click',function(e){
+    			//每次点击前，将数组内容清空
+    			labelStr.length=0;
+				var classList =e.target.classList;
+				if(/active/.test(classList)){
+					classList.remove("active");
+				}else{
+					classList.add("active");
+					
+				}
+				e.target.className = classList;
+				for(i in liArray){
+					if(/active/.test(liArray[i].className)){
+						labelStr.push(liArray[i].dataset.tab);
+					}
+				}
+				
+			},false);
+	    	
+	    	ajax({
+				url:param,
+				method: "get",
+				success: function(data, header) {
+					$scope.data =data.data;
+				}
+			})
+	    	
+	    	$scope.close = function(){
+	    		if(labelStr.length>5){
+	    			api.toast({
+						msg:'标签选择不能多于5个',
+						duration: 1000,
+						location: 'middle'
+					});
+	    			labelStr.length=0;
+	    			for(i in liArray){
+	    				if(/active/.test(liArray[i].className))		liArray[i].classList.remove("active");
+	    			}
+	    		}else{
+	    			api.sendEvent({
+					    name: 'selectLabel_right',
+					    extra: {
+					        labelStr:labelStr,
+					        source:param
+					    }
+					});
+		    		api.closeWin();
+	    		}
+	    	}
+					
+	    }]);
+
+	    apiready = function(){
+			angular.bootstrap(document, ["module"]);
+		}
+		</script>
+	</body>
+	
+</html>

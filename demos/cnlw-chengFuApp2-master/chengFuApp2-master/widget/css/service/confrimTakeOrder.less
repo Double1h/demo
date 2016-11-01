@@ -1,0 +1,137 @@
+@import "../constant";
+
+body{
+	background-color: @mainBgColor;
+	color: @fontColor1;
+	font-size: 14px;
+}
+  
+// header
+header{
+	width: 100%;
+	position: fixed;
+	top:0;
+	left: 0;
+	line-height: 52px;
+	background-color: @headerBgColor;
+	text-align: center;
+	color: #fff;
+	font-size: @midFontSize;
+	z-index: 1000;
+	font-size: 16px;
+
+	.back_btn{
+		position: absolute;
+		left: 20px;
+
+		&:before{
+			font-size: 22px;
+			line-height: 52px !important;
+		}
+	}
+}
+
+.content{
+	margin-top: 52px;
+	.top{
+		padding: 12px 20px;
+		border-bottom: solid 10px @mainBgColor;
+		background-color: #fff;
+		overflow: hidden;
+		position: relative;
+	}
+	.top_left{
+		float: left;
+		width: 80px;
+		height: 80px;
+		img{
+			width: 80px;
+			height: 80px;
+		}
+	}
+	.top_right{
+		float: left;
+		padding-left: 10px;
+		h2{
+			font-weight: normal;
+		}
+		p{
+			color: @mainBtnColor;
+			position: absolute;
+			bottom: 10px;
+		}
+	}
+}
+.time{
+	background: #fff;
+	border-bottom: solid 10px @mainBgColor;
+	line-height: 40px;
+	overflow: hidden;
+	padding: 0 20px;
+	.left{
+		float: left;
+	}
+	.right{
+		float: right;
+	}
+}
+.phone{
+	background: #fff;
+	border-bottom: solid 10px @mainBgColor;
+	line-height: 40px;
+	position: relative;
+	span{
+		position: absolute;
+		left: 20px;
+	}
+	input{
+		box-sizing: border-box;
+		width: 100%;
+		padding: 12px 20px 12px 138px;
+		text-align: right;
+	}
+}
+input{
+	border: none;
+}
+.message{
+	background-color: #fff;
+	padding: 12px 20px;
+	position: relative;
+	p{
+		position: absolute;
+		top: 12px;
+		left: 20px;
+	}
+	.div4height,textarea{
+		padding: 0 20px;
+		border: none;
+		width: 100%;
+		box-sizing: border-box;
+		min-height: 100px;
+		margin-top: 40px;
+	}
+	textarea{
+		resize: none;
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 99;
+	}
+}
+
+.submit{
+	margin-top: 30px;
+	padding: 0 20px;
+	button{
+		background-color: @mainBtnColor;
+		color: #fff;
+		text-align: center;
+		line-height: 40px;
+		border-radius: 22px;
+		width: 100%;
+		border: none;
+	}
+}

@@ -1,0 +1,57 @@
+@import "../constant";
+
+:root{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+// 二维码弹出层
+#qrcode_mask{
+  position: fixed;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  text-align:center;
+  font-size: 0;
+
+  &:after{
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+  }
+
+  .qrcode_content{
+    display:inline-block;
+    vertical-align:middle;
+
+    .qrcode_body{
+      width: 200px;
+      padding-left: 40px;
+      padding-right: 40px;
+      font-size:16px;
+      background:@mainBgColor;
+
+      h4{
+        line-height: 40px;
+        font-weight: lighter;
+      }
+
+      .qrcode{
+        background-color: #fff;
+        padding: 10px;
+      }
+
+      p{
+        line-height: 30px;
+      }
+    }
+
+    .btn{
+      font-size: 16px;
+      background-color: #fff;
+      color: @mainBtnColor;
+      line-height: 40px;
+    }
+  }
+}

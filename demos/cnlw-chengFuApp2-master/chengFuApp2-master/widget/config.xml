@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<widget id="A6928864052840" version="0.0.1">
+  <name>chengFuApp</name>
+  <description/>
+  <author email="895925636@qq.com" href="http://www.apicloud.com">揽兑城服</author>
+  <content src="html/index/index.html"/>
+  <preference name="appBackground" value="rgba(255,255,255,0)"/>
+  <preference name="windowBackground" value="rgba(255,255,255,0)"/>
+  <preference name="frameBackgroundColor" value="rgba(255,255,255,0)"/>
+  <preference name="autoLaunch" value="true"/>
+  <preference name="autoUpdate" value="true"/>
+  <preference name="smartUpdate" value="false"/>
+  <preference name="debug" value="true"/>
+  <preference name="statusBarAppearance" value="false"/>
+  <preference name="vScrollBarEnabled" value="false"/>
+  <permission name="location"/>
+  <permission name="internet"/>
+  <preference name="softInputMode" value="resize"/>
+  <access origin="*"/>
+  <feature name="bMap">
+    <param name="android_api_key" value="MoFk9k3QBcS4L6nPPNww0B8Y7IEfLfKW"/>
+  </feature>
+  <feature name="qiniuUpfile">
+    <param name="bucket" value="ldcfstatic"/>
+    <param name="SecretKey" value="KxntpUwIHqHbM3pvcINZbN1cwVEu_G3FVeQdvI4n"/>
+    <param name="AccessKey" value="Kh1FCphm4WPFmCUTYSEKkZYLpr4Ogx6H-8e3pxJu"/>
+  </feature><!-- 
+  <feature name="beecloud">
+    <param name="urlScheme" value="wx764c01b888eedda8"/>
+    <param name="bcAppID" value="da56c52b-354e-4ef3-a430-bc9fd0f516b2"/>
+    <param name="sandbox" value="false"/>
+  </feature> -->
+  <feature name="wxPay">
+    <param name="urlScheme" value="wxe0ca64aa7c9ec291"/>
+    <param name="apiKey" value="wxe0ca64aa7c9ec291"/>
+    <param name="apiSecret" value="6c7328135749e1cfff5f2b40c2055deb"/>
+  </feature>
+  <feature name="aliPay">
+       <param name="urlScheme" value="AliPayA6928864052840" />
+   </feature>
+</widget>

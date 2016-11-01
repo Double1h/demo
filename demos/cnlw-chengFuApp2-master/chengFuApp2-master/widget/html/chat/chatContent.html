@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link href="../../css/public.css" rel="stylesheet" />
+	<link href="../../css/reset.css" rel="stylesheet" />
+	<link href="../../css/chat/chat.css" rel="stylesheet" />
+</head>
+<body ng-controller="controller">
+	<ul id="chatList">
+		<li class="{{::myId==m.user.id?'me':'other'}}" ng-repeat="m in messages">
+			<img src="../../img/head.png" ng-hide="m.user.avatarPath">
+			<img ng-src="{{m.user.avatarPath}}" ng-show="m.user.avatarPath" id="personImg">
+			<div class="message">
+				<span class="time">{{::m.createTime|date : "yyyy/MM/dd hh:mm"}}</span>
+				<p class="content">{{::m.content}}</p>
+			</div>
+		</li>
+	</ul>
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../js/app.js"></script>
+<script>
+	angular.module('module',['APP'])
+	.controller('controller',['$scope','ajax',function($scope,ajax){ 
+		$scope.accepterId=api.pageParam.accepterId;
+		$scope.messages =[];
+		$scope.chatNumber="";
+		
+		//加载聊天历史
+		function loadHistory(){
+			var time;
+			if($scope.messages.length>0){
+				time = $scope.messages[0].createTime;
+			} else {
+				time = new Date().getTime();
+			}
+			
+			ajax({
+				url:'message/read',
+				method:'get',
+				isChat:true,
+				data:{
+					chatNumber:$scope.chatNumber,
+					isUp:true,
+					time:time
+				},
+				success:function(data){
+					var data = data.data;
+					if(data.message && data.message.length){
+						$scope.messages=data.message.concat($scope.messages);
+					}
+
+					api.refreshHeaderLoadDone();
+				}
+			})
+		}
+
+		ajax({
+			url:'message/chatNumber',
+			method:'get',
+			isChat:true,
+			data:{
+				accepterId:$scope.accepterId
+			},
+			success:function(data){
+				var data = data.data;
+				$scope.chatNumber=data.chatNumber;
+				$scope.me = data.me;
+				$scope.accepter = data.accepter;
+				$scope.myId = data.me.id;
+				
+				api.sendEvent({
+					name: 'updateAccepter',
+					extra: data.accepter
+				});	
+				
+				loadHistory();
+				setTimeout(function(){
+					scrollTo(0, document.body.scrollHeight);
+				},500);
+				
+				//获取聊天信息
+				setInterval(function(){
+					var time;
+					if($scope.messages.length>0){
+						time = $scope.messages[$scope.messages.length-1].createTime;
+					} else {
+						time = new Date().getTime();
+					}
+					
+					ajax({
+						url:'message/read',
+						method:'get',
+						isChat:true,
+						data:{
+							chatNumber:$scope.chatNumber,
+							isUp:false,
+							time:time
+						},
+						success:function(data){
+							var data = data.data;
+							if(data.message && data.message.length){
+								$scope.messages=$scope.messages.concat(data.message);
+
+								 setTimeout(function(){
+								 	scrollTo(0, document.body.scrollHeight);
+								 },500);
+							}
+						}
+					});
+				},2000)
+			}
+		});
+
+		//发送给消息
+		api.addEventListener({
+			name:"sendMessage"
+		}, function(ret, err){
+			ajax({
+				url:"message/send",
+				method:"post",
+				isChat:true,
+				data:{
+					accepterId:$scope.accepterId,
+					content:ret.value.content
+				},
+				success:function(data){
+					api.sendEvent({name: 'chatSuccess'});
+				}
+			})
+		})
+		
+		// 下拉加载历史数据
+		api.setRefreshHeaderInfo({
+		    visible: true,
+		    bgColor: '#ccc',
+		    textColor: '#fff',
+		    textDown: '正在加载数据...',
+		    textUp: '松开加载历史记录...',
+		    showTime: true
+		}, function(ret, err) {
+			loadHistory();
+		});
+	}])
+				
+	apiready =function(){
+		angular.bootstrap(document, ["module"]);
+	}
+</script>
+</html>

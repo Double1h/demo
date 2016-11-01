@@ -1,0 +1,134 @@
+ul {
+  margin: 30px 20px;
+  margin-bottom: 60px;
+}
+ul .time {
+  position: absolute;
+  width: 100px;
+  top: -15px;
+  font-size: 12px;
+  color: #888;
+}
+ul .message {
+  max-width: 70%;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  position: relative;
+}
+ul .message:after {
+  content: "";
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 12px;
+}
+ul .message .content {
+  word-wrap: break-word;
+}
+ul li {
+  display: box;
+  display: -webkit-box;
+  list-style: none;
+  padding-top: 20px;
+  margin-bottom: 18px;
+}
+ul li img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  position: relative;
+  right: 0;
+  top: -10px;
+}
+ul .me {
+  display: box;
+  display: -webkit-box;
+  -webkit-box-direction: reverse;
+  box-direction: reverse;
+  box-pack: end;
+  -webkit-box-pack: end;
+}
+ul .me .message {
+  background: #a2d4ef;
+}
+ul .me .message .time {
+  right: 0;
+}
+ul .me .message:after {
+  border-top: 8px solid #a2d4ef;
+  border-right: 8px solid transparent;
+  left: 100%;
+}
+ul .other .message {
+  background: #fff;
+}
+ul .other .message .time {
+  left: 0;
+}
+ul .other .message:after {
+  border-top: 8px solid #fff;
+  border-left: 8px solid transparent;
+  right: 100%;
+}
+.more {
+  padding-top: 10px;
+  font-size: 12px;
+  text-align: center;
+  color: #ff7f66;
+}
+footer {
+  display: box;
+  display: -webkit-box;
+  -webkit-box-pack: justify;
+  box-pack: justify;
+  background: #fff;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  color: #969593;
+  font-size: 16px;
+  -webkit-box-align: center;
+}
+footer textarea {
+  display: block;
+  border: none;
+  box-flex: 1;
+  -webkit-box-flex: 1;
+  box-sizing: border-box;
+  resize: none;
+  overflow: hidden;
+}
+footer button {
+  display: block;
+  border: none;
+  color: #fff;
+  background: #7dcefd;
+  border-radius: 5px;
+  width: 60px;
+  height: 35px;
+}
+footer .textarea {
+  -webkit-box-flex: 1;
+  box-flex: 1;
+  position: relative;
+}
+footer .textarea textarea {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border: none;
+  resize: none;
+}
+footer .textarea .chatContent,
+footer .textarea textarea {
+  width: 100%;
+  padding: 2px 0px;
+  margin: 0px;
+  font-size: 14px;
+  line-height: 14px;
+  min-height: 14px;
+}

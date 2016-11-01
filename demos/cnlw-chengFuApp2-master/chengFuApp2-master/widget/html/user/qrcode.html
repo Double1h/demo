@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+		<link rel="stylesheet" type="text/css" href="../../css/user/qrcode.css">
+	</head>
+
+	<body style="opacity:1;background:#ccc;;">
+		<div id="qrcode_mask">
+			<div class="qrcode_content">
+				<div class="qrcode_body">
+					<h4>扫一扫</h4>
+					<div id="qrcode" style="text-align: center;margin:0 auto;width:200px;height:200px;"></div>
+					<p id="qrcodeText" style="height:1em;line-height:1em;padding:8px 0;"></p>
+				</div>
+				<div class="btn" onclick="api.closeWin();">确定</div>
+			</div>
+		</div>
+	</body> 
+	<script src="../../libs/qrcode.js"></script>
+	<script>
+		apiready = function() {
+			var qrcode = api.pageParam.qrCode;
+			
+			(new QRCode(document.querySelector("#qrcode"), {
+				width: 200, //设置宽高
+				height: 200
+			})).makeCode(qrcode);
+			
+			document.querySelector("#qrcodeText").innerHTML = qrcode;
+		}
+	</script>
+</html>

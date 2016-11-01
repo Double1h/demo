@@ -1,0 +1,270 @@
+/*清零*/
+body {
+  font-family: arial, "宋体";
+  font-size: 12px;
+}
+body,
+ul,
+ol,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+ul,
+ol,
+li,
+menu {
+  list-style: none;
+}
+fieldset,
+img {
+  border: none;
+}
+img,
+object,
+select,
+input,
+textarea,
+button {
+  vertical-align: middle;
+}
+caption,
+th {
+  text-align: left;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+select,
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+i,
+b,
+strong,
+small,
+th,
+var,
+abbr {
+  font-size: 100%;
+  font-style: normal;
+}
+ins,
+s,
+u,
+del {
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+a:focus {
+  outline: none;
+}
+body {
+  font-family: arial, "微软雅黑";
+  text-align: center;
+}
+h2 {
+  font-size: 30px;
+  font-weight: bold;
+  height: 60px;
+  line-height: 60px;
+  margin-bottom: 30px;
+}
+#intro_me {
+  font-size: 16px;
+}
+.myphoto img {
+  border: solid 3px #fff;
+  width: 160px;
+  height: 160px;
+  border-radius: 200px;
+  box-shadow: 0 0 5px #ccc;
+}
+.myName {
+  height: 55px;
+  line-height: 55px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.myDetials {
+  line-height: 30px;
+  width: 500px;
+  margin: 0 auto;
+}
+#intro_me .mycontact {
+  margin-top: 40px;
+  line-height: 30px;
+}
+#skills {
+  color: #fff;
+}
+#skills .skillsContent {
+  width: 1000px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+#skills .skills_lists {
+  width: 500px;
+  overflow: hidden;
+  margin: 0 auto;
+  float: left;
+}
+#skills .skills_lists li {
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+#skills li.current .bar4Evaluate {
+  background-color: #2a8b00;
+}
+#skills .skills_title {
+  font-size: 16px;
+  line-height: 30px;
+  height: 30px;
+  float: left;
+  width: 130px;
+}
+#skills .bar4Evaluate {
+  height: 26px;
+  background-color: #fff;
+  border-left: solid 4px #1a5500;
+  float: left;
+}
+#skills .bar4Evaluate.Js {
+  width: 280px;
+}
+#skills .bar4Evaluate.HAC {
+  width: 240px;
+}
+#skills .bar4Evaluate.Tools {
+  width: 220px;
+}
+#skills .bar4Evaluate.Backstage {
+  width: 160px;
+}
+#skills .bar4Evaluate.Others {
+  width: 240px;
+}
+#skills .skills_Detials {
+  float: left;
+}
+#skills .skills_Detials li {
+  background-color: rgba(255, 255, 255, 0.3);
+  width: 450px;
+  height: 200px;
+  font-size: 16px;
+  line-height: 30px;
+  display: none;
+}
+#skills .skills_Detials .current {
+  display: table-cell;
+  vertical-align: middle;
+}
+#contact {
+  color: #fff;
+}
+#contact ul {
+  width: 500px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 30px;
+}
+#demo h2 {
+  color: #fff;
+}
+.demoList,
+.demoDetials {
+  width: 944px;
+  margin: auto;
+  *zoom: 1;
+}
+.demoList:before,
+.demoDetials:before,
+.demoList:after,
+.demoDetials:after {
+  display: table;
+  content: "";
+}
+.demoList:after,
+.demoDetials:after {
+  clear: both;
+}
+.demoList li,
+.demoDetials li {
+  float: left;
+}
+.demoList img {
+  border: solid 3px #fff;
+  box-shadow: 0 0 5px #fff;
+  border-radius: 500px;
+  width: 185px;
+  height: 185px;
+  cursor: pointer;
+}
+.demoList img:hover {
+  border: solid 3px rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 10px #fff;
+}
+.demoList li {
+  margin-left: -190px;
+  opacity: 0;
+}
+.demoDetials {
+  margin-top: 30px;
+  text-align: center;
+}
+.demoDetials li {
+  width: 191px;
+  height: 191px;
+  margin-left: 60px;
+}
+.demoDetials li:nth-child(1) {
+  margin-left: 0;
+}
+
+.demoDetials a {
+  font-size: 22px;
+  color: #fff;
+  font-weight: bolder;
+}
+.demoDetials a:hover {
+  opacity: 0.7;
+}
+.demoDetials p {
+  color: #fff;
+  font-size: 15px;
+  margin-top: 12px;
+}

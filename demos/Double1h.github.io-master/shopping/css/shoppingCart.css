@@ -1,0 +1,434 @@
+.forIndexNav{padding-left:30px;height: 50px;line-height: 50px;background-color: #fff;}.forIndexNav a{margin-right: 15px;color: #000;text-decoration: none;}.forIndexNav a.current{color: #3fb27a}body {
+  font-family: arial, "宋体";
+  font-size: 12px;
+}
+body,
+ul,
+ol,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+ul,
+ol,
+li,
+menu {
+  list-style: none;
+}
+fieldset,
+img {
+  border: none;
+}
+img,
+object,
+select,
+input,
+textarea,
+button {
+  vertical-align: middle;
+}
+caption,
+th {
+  text-align: left;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+select,
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+i,
+b,
+strong,
+small,
+th,
+var,
+abbr {
+  font-size: 100%;
+  font-style: normal;
+}
+ins,
+s,
+u,
+del {
+  text-decoration: none;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+a:focus {
+  outline: none;
+}
+input,
+textarea:focus {
+  outline: none;
+}
+.headerTop {
+  width: 100%;
+  background-color: #f7f7f7;
+  height: 32px;
+  line-height: 32px;
+}
+.headerTopCont {
+  cursor: pointer;
+  color: #666666;
+  width: 1000px;
+  margin: 0 auto;
+}
+.headerTopCont p:nth-child(1) {
+  float: left;
+  padding-left: 20px;
+  background: url(../images/shoppingCart/star.png) no-repeat left center;
+  font-weight: bold;
+}
+.headerTopCont p:nth-child(2) {
+  float: right;
+  padding-right: 22px;
+}
+.headerBottom {
+  height: 85px;
+  width: 100%;
+  background-color: #1d7ad9;
+  text-align: center;
+}
+.headerBottomCont {
+  width: 1000px;
+  margin: 0 auto;
+  height: 85px;
+  line-height: 85px;
+  text-align: center;
+  background: url(../images/shoppingCart/logo.png) no-repeat left center;
+}
+.headerBottomCont img {
+  float: right;
+  margin-top: 25px;
+}
+span.text {
+  float: left;
+  border: solid 1px #c2c2c2;
+  height: 22px;
+  display: block;
+}
+input {
+  border: none;
+  color: #888888;
+  font-size: 12px;
+  padding-left: 10px;
+  margin-top: -3px;
+}
+.main {
+  width: 1000px;
+  margin: 0 auto 30px auto;
+}
+.main dd {
+  font-size: 16px;
+  font-family: "微软雅黑";
+  color: #444444;
+  border-bottom: solid 1px #e3e3e3;
+  height: 30px;
+  line-height: 30px;
+  padding-left: 10px;
+  background-image: -moz-linear-gradient(top, #ffffff, #f1f1f1);
+  /* FF3.6+ */
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#f1f1f1));
+  /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #ffffff, #f1f1f1);
+  /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image: -ms-linear-gradient(top, #ffffff, #f1f1f1);
+  /* IE10 */
+  background-image: -o-linear-gradient(top, #ffffff, #f1f1f1);
+  /* Opera 11.10+ */
+  background-image: linear-gradient(top, #ffffff, #f1f1f1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffffff,endColors=#fff1f1f1);
+}
+.main dt {
+  padding: 25px 0 15px 30px;
+}
+.main > div,
+.main form > div {
+  border: solid 1px #cccccc;
+  color: #444444;
+  margin-top: 22px;
+}
+.receivingInformation span {
+  display: block;
+  float: left;
+  font-size: 12px;
+  margin-right: 8px;
+}
+.receivingInformation p span:nth-child(1) {
+  color: #ff0000;
+  font-size: 20px;
+}
+.receivingInformation p span:nth-child(2) {
+  width: 60px;
+  text-align: right;
+}
+.receivingInformation p {
+  clear: both;
+  overflow: hidden;
+  margin-bottom: 12px;
+  height: 25px;
+  line-height: 25px;
+}
+.receivingInformation input[type="submit"] {
+  display: none;
+}
+.receivingInformation .submitBtn {
+  background-image: -moz-linear-gradient(top, #4694ff, #3784ed);
+  /* FF3.6+ */
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#4694ff), to(#3784ed));
+  /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #4694ff, #3784ed);
+  /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image: -ms-linear-gradient(top, #4694ff, #3784ed);
+  /* IE10 */
+  background-image: -o-linear-gradient(top, #4694ff, #3784ed);
+  /* Opera 11.10+ */
+  background-image: linear-gradient(top, #4694ff, #3784ed);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff4694ff,endColors=#ff3784ed);
+  height: 28px;
+  width: 115px;
+  line-height: 28px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border: solid 1px #3784ed;
+}
+.paymentMethod p {
+  padding: 15px 30px;
+}
+.invoiceInformation {
+  *zoom: 1;
+}
+.invoiceInformation:before,
+.invoiceInformation:after {
+  display: table;
+  content: "";
+}
+.invoiceInformation:after {
+  clear: both;
+}
+.invoiceInformation p:first-child {
+  paddings-bottom: 30px;
+}
+.invoiceInformation p {
+  padding-bottom: 20px;
+  clear: both;
+  overflow: hidden;
+}
+.invoiceInformation p span:first-child {
+  color: #ff0000;
+  font-size: 20px;
+  vertical-align: top;
+}
+.invoiceInformation span {
+  padding-right: 10px;
+  float: left;
+  display: block;
+}
+.invoiceInformation span input {
+  margin-top: 3px;
+}
+.invoiceInformation select {
+  float: left;
+}
+.invoiceInformation span.text {
+  margin-left: 10px;
+}
+.invoiceInformation .saveBtn,
+.invoiceInformation .cancelBtn {
+  width: 65px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  border: solid 1px;
+  float: left;
+  margin: 0 10px 25px 0;
+  cursor: pointer;
+}
+.invoiceInformation .saveBtn {
+  background-image: -moz-linear-gradient(top, #4694ff, #3987f1);
+  /* FF3.6+ */
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#4694ff), to(#3987f1));
+  /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #4694ff, #3987f1);
+  /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image: -ms-linear-gradient(top, #4694ff, #3987f1);
+  /* IE10 */
+  background-image: -o-linear-gradient(top, #4694ff, #3987f1);
+  /* Opera 11.10+ */
+  background-image: linear-gradient(top, #4694ff, #3987f1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff4694ff,endColors=#ff3987f1);
+  border-color: #3784ed;
+  color: #fff;
+}
+.invoiceInformation .cancelBtn {
+  background-image: -moz-linear-gradient(top, #f8f8f8, #efefef);
+  /* FF3.6+ */
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#efefef));
+  /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #f8f8f8, #efefef);
+  /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image: -ms-linear-gradient(top, #f8f8f8, #efefef);
+  /* IE10 */
+  background-image: -o-linear-gradient(top, #f8f8f8, #efefef);
+  /* Opera 11.10+ */
+  background-image: linear-gradient(top, #f8f8f8, #efefef);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#fff8f8f8,endColors=#ffefefef);
+  border-color: #cccccc;
+  color: #666666;
+}
+.deliveryList dt {
+  padding: 25px 0 15px 0 ;
+}
+.deliveryList .haspaddingleft {
+  padding-left: 30px;
+}
+.deliveryList table {
+  margin-bottom: 15px;
+  width: 998px;
+}
+.deliveryList tr {
+  border-bottom: solid 1px #e6e6e6;
+  padding-left: 30px;
+  display: block;
+}
+.deliveryList th {
+  font-weight: normal;
+  font-color: #666666;
+  padding-bottom: 5px;
+  width: 135px;
+}
+.deliveryList th:first-child {
+  width: 440px;
+}
+.deliveryList td {
+  width: 135px;
+  vertical-align: top;
+  padding-top: 15px;
+}
+.deliveryList td p {
+  padding: 14px 0;
+}
+.deliveryList td:first-child {
+  width: 440px;
+}
+.deliveryList td:first-child img {
+  float: left;
+}
+.deliveryList td:first-child p:last-child {
+  color: #444444;
+  float: left;
+}
+.deliveryList td:last-child {
+  color: #d70000;
+  font-weight: bold;
+}
+.deliveryList input {
+  color: #3377ff;
+  width: 210px;
+}
+.deliveryList .notice {
+  color: #ee0000;
+  padding: 35px 0 25px 25px;
+  background: url(../images/shoppingCart/notice.png) no-repeat left 38px;
+}
+.deliveryList .canNotBuy {
+  overflow: hidden;
+}
+.deliveryList .canNotBuy p {
+  margin-bottom: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "Arial";
+  width: 177px;
+}
+.deliveryList .canNotBuy p span {
+  color: #d70000;
+}
+.deliveryList .canNotBuy img {
+  float: left;
+  margin-right: 12px;
+}
+.orderSettlement {
+  overflow: hidden;
+}
+.orderSettlement dt {
+  float: right;
+  padding-right: 25px;
+}
+.orderSettlement span {
+  color: #e50007;
+  font-weight: bold;
+  font-size: 22px;
+}
+.orderSettlement a {
+  display: block;
+  color: #fff;
+  background-color: #e50007;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  margin-top: 20px;
+  font-size: 18px;
+}
+/*end*/
+.end {
+  text-align: center;
+  color: #000;
+  background: #d4d4d4;
+  width: 100%;
+  padding: 55px 0 100px 0;
+  font-size: 12px;
+  font-family: "新宋体";
+  margin-top: 40px;
+}
+.end a {
+  color: #000;
+}
+.end p {
+  padding: 12px 0 36px 0;
+}
+.end .image {
+  margin: 0  auto;
+  width: 608px;
+}
+.end img {
+  padding-right: 24px;
+  float: left;
+}

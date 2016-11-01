@@ -1,0 +1,139 @@
+body {
+  background-color: #e6e6e6;
+}
+header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  line-height: 52px;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  background-color: #3e454d;
+  z-index: 1000;
+}
+.user_top .row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.user_top .row_left {
+  display: box;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  box-align: center;
+  margin-right: 30px;
+}
+.user_top .row_left img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  vertical-align: top;
+}
+.user_top .row_left > div {
+  margin-left: 10px;
+}
+.user_top .row_left > div p {
+  font-size: 12px;
+  line-height: 14px;
+}
+.user_top .row_left > div p:first-child {
+  margin-bottom: 3px;
+}
+.user_list {
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.user_list .row {
+  position: relative;
+  display: box;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  box-align: center;
+  background-color: #fff;
+  line-height: 40px;
+}
+.user_list .row:before {
+  position: absolute;
+  right: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  height: 1em;
+  line-height: 1em;
+  color: #ebeaf0;
+}
+.user_list .row:not(:last-child):after {
+  content: "";
+  display: block;
+  height: 1px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #ebeaf0;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
+.user_list .row div {
+  -webkit-box-flex: 1;
+  box-flex: 1;
+}
+.user_list .row .row_left {
+  position: relative;
+  font-size: 14px;
+  text-align: left;
+  padding-left: 20px;
+}
+.user_list .row .row_left:before {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  bottom: 0;
+  margin: auto 0;
+  font-size: 18px;
+  color: #969593;
+  height: 1em;
+}
+.user_list .row .row_left span {
+  margin-left: 24px;
+}
+.user_list .row .row_right {
+  text-align: right;
+  padding-right: 20px;
+  color: #969593;
+}
+.order {
+  background: #fff;
+}
+.order_title {
+  padding: 5px 20px;
+}
+.orderUl {
+  padding: 10px;
+  background: #fff;
+  display: box;
+  display: -webkit-box;
+  box-pack: justify;
+  -webkit-box-pack: justify;
+}
+.orderUl > div {
+  box-flex: 1;
+  -webkit-box-flex: 1;
+}
+.orderUl > div:not(:last-of-type) {
+  border-right: 1px solid #e6e6e6;
+}
+.orderUl > div span {
+  display: block;
+  text-align: center;
+}
+.orderUl > div span:nth-child(1) {
+  font-size: 22px;
+  margin-bottom: 5px;
+  color: #c2c1c1;
+}
+.orderUl > div span:nth-child(2) {
+  font-size: 12px;
+}

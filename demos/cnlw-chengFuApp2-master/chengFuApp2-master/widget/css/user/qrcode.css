@@ -1,0 +1,47 @@
+:root {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+#qrcode_mask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  text-align: center;
+  font-size: 0;
+}
+#qrcode_mask:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+#qrcode_mask .qrcode_content {
+  display: inline-block;
+  vertical-align: middle;
+}
+#qrcode_mask .qrcode_content .qrcode_body {
+  width: 200px;
+  padding-left: 40px;
+  padding-right: 40px;
+  font-size: 16px;
+  background: #e6e6e6;
+}
+#qrcode_mask .qrcode_content .qrcode_body h4 {
+  line-height: 40px;
+  font-weight: lighter;
+}
+#qrcode_mask .qrcode_content .qrcode_body .qrcode {
+  background-color: #fff;
+  padding: 10px;
+}
+#qrcode_mask .qrcode_content .qrcode_body p {
+  line-height: 30px;
+}
+#qrcode_mask .qrcode_content .btn {
+  font-size: 16px;
+  background-color: #fff;
+  color: #ff7f66;
+  line-height: 40px;
+}

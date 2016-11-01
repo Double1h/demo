@@ -1,0 +1,124 @@
+@import "../constant";
+.ui_group{
+    background:#fff;
+    margin-top:20px;
+    font-size:@midFontSize;  
+    
+    &:last-child{
+        margin-bottom:20px;
+    }
+    
+    .ui_row{
+        display:box;
+        display:-webkit-box;
+        padding:13px 0px;
+        text-indent:20px;
+        position:relative;
+        -webkit-box-align: center;
+        box-align: center;
+        
+        &:after{
+            content:'';
+            width:100%;
+            height:1px;
+            transform:scaleY(0.5);
+            -webkit-transform:scaleY(0.5);
+            background:@mainBgColor;
+            position:absolute;
+            top:100%;
+            left:0;
+        }
+        
+        [class*=" icon_"]:before{
+            margin-right:10px;
+            font-size:20px;
+            display:inline;
+            vertical-align:middle;
+        }
+        .ui_row_left[class*=" icon_"]:before{
+           color:@topBgColor;
+           font-size:24px;
+        }
+        .ui_row_right[class*=" icon_"]:before{
+           color:@moduleColor;
+        }
+        img{
+            width:24px;
+            height:24px;
+            border-radius:50%;
+            padding:0;
+            margin:0;
+        }
+        
+        &.icon_right{
+            padding-right:25px;
+            &:before{
+                font-size:14px;
+            }
+        }
+        
+        &:before{
+            position:absolute;
+            right:0;
+            top:0;
+            bottom:0;
+            margin:auto 0;
+            height:1em;
+            font-size:18px;
+            color:#ccc;
+        }
+        
+        .ui_row_left{
+            color:#000;
+//          width:120px;
+        }
+        .ui_row_right{
+            text-align:right;
+            -webkit-box-flex:1;
+            color:#999;
+            box-flex:1;
+//          padding-right:15px;
+            input{
+                text-align:right;
+            }
+        }
+    }
+}
+
+//列表样式
+.ui_group .list{
+    padding:7px 0;
+    height:34px;
+}
+.ui_row_left img{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    display:inline-block;
+    vertical-align:middle;
+}
+.describe{
+    display:inline-block;
+    text-indent:4px;
+    vertical-align:middle;
+    font-size:12px;
+    height:28px;
+    line-height:120%; 
+}
+.describe p:nth-child(1){
+    color:#000;
+}
+.describe p:nth-child(2){
+    color:#797979;  
+}
+.ui_row_right span{
+    color:@fontColor2;
+    font-size:12px;
+    vertical-align:top;
+    display:inline-block;
+    margin-right:10px;
+}
+
+.ui_group .alreadyAttention{
+    color:#dededc;
+}

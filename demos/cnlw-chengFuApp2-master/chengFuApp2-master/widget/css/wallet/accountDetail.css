@@ -1,0 +1,37 @@
+.listUl {
+  background: #fff;
+}
+.listUl li {
+  list-style: none;
+  height: 40px;
+  font-size: 14px;
+  line-height: 40px;
+  border-bottom: 1px solid #E6E6E6;
+  padding: 0 20px 0 34px;
+  position: relative;
+}
+.listUl li:not(:last-child):after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ddd;
+  position: absolute;
+  top: 100%;
+  margin-top: -6px;
+  left: 14px;
+}
+.listUl li .OUTGOING {
+  color: #ff7f66;
+}
+.listUl li .INCOME {
+  color: #7dcefd;
+}
+.listUl li p:nth-child(1) {
+  float: left;
+}
+.listUl li p:nth-child(2) {
+  float: right;
+  color: #969593;
+}
+/*# sourceMappingURL=accountDetail.css.map */

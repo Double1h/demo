@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+		<link rel="stylesheet" type="text/css" href="../../css/service/newService.css">
+	</head>
+
+	<body ng-controller="controller">
+		<header>
+			<span class="icon_back back_btn" onclick="api.closeWin();"></span>
+			<span>发布专长</span>
+			<span ng-click="showAgreement()">协议</span>
+		</header>
+		<!-- 协议1 -->
+		<div class="agreement_wraper" ng-if="agreement">
+			<div class="agreement">
+				<h2>APP免责声明</h2>
+				<div>
+					<p>1、一切移动客户端用户在下载并浏览城服APP软件（以下简称本APP）时均被视为已经仔细阅读本条款并完全同意。凡以任何方式登陆本APP，或直接、间接使用本APP资料者，均被视为自愿接受本网站相关声明 和用户服务协议的约束。</p>
+					<p>2、本手机APP转载的内容并不代表本APP之意见及观点，也不意味着本APP赞同其观点或证实其内容的真实性。</p>
+					<p>3、 本手机APP转载的文字、图片、音视频等资料均由本APP用户提供，其真实性、准确性和合法性由信息发布人负责。本APP不提供任何保证，并不承担任何法律责任。</p>
+					<p>4、本平台在发布的需求完成后，会从“酬金”中抽取10%的佣金作为平台服务费用。客户在发布需求时，点击最下方“同意本协议”，即代表已阅读并同意。</p>
+					<p>5、本协议的最终解释权归揽兑城服平台所有。</p>
+				</div><label></label>
+				<div class="close_btn" ng-click="closeAgreement()">确定</div>
+			</div>
+		</div>
+		<!-- 协议2 -->
+		<div class="agreement_wraper" ng-if="agreement2">
+			<div class="agreement">
+				<h2>APP免责声明</h2>
+				<div>
+					<p>1、一切移动客户端用户在下载并浏览城服APP软件（以下简称本APP）时均被视为已经仔细阅读本条款并完全同意。凡以任何方式登陆本APP，或直接、间接使用本APP资料者，均被视为自愿接受本网站相关声明 和用户服务协议的约束。</p>
+					<p>2、本手机APP转载的内容并不代表本APP之意见及观点，也不意味着本APP赞同其观点或证实其内容的真实性。</p>
+					<p>3、 本手机APP转载的文字、图片、音视频等资料均由本APP用户提供，其真实性、准确性和合法性由信息发布人负责。本APP不提供任何保证，并不承担任何法律责任。</p>
+					<p>4、本平台在发布的需求完成后，会从“酬金”中抽取10%的佣金作为平台服务费用。客户在发布需求时，点击最下方“同意本协议”，即代表已阅读并同意。</p>
+					<p>5、本协议的最终解释权归揽兑城服平台所有。</p>
+				</div>
+				<label><input type="checkbox" ng-model="$parent.once" name="once"><span>以后不要再弹出</span></label>
+				<div class="close_btn" ng-click="closeAgreement2()">确定</div>
+			</div>
+		</div>
+
+		<form name="serviceForm" novalidate="novalidate" class="serviceForm">
+			<div ng-class="{false: 'upload_photo icon_photo', true: 'upload_photo_0'}[isPhoto]" ng-click="uploadPhoto()">
+				<img src="{{abilityForm.url}}" alt="服务配图" ng-if="isPhoto" />
+				<button type="button" ng-class="{false: 'upload_btn_0', true: 'upload_btn_1'}[isPhoto]">上传服务配图</button>
+				<input type="hidden" name="url" ng-model="abilityForm.url" required/>
+			</div>
+			<div class="form_row">
+				<span>服务标题</span> <input type="text" required ng-model="abilityForm.title" name="title" />
+			</div>
+			<div class="icon_right service_type" ng-click="selectStyle();">
+				<span>服务类型</span>
+				<div class="tags_wraper">
+					<span ng-if="!abilityForm.tags.length">&emsp;</span>
+					<span ng-repeat="t in abilityForm.tags">{{::t}}&nbsp;</span>
+				</div>
+			</div>
+			<div class="form_row" ng-click="selectService();">
+				<span>服务方式</span> <input type="text" required ng-model="serviceWay" name="serviceWay" readonly />
+			</div>
+			<div class="form_row">
+				<span>服务价格</span>
+				<input type="number" required ng-model="abilityForm.unitPrice" ng-max="10000" name="unitPrice" ng-pattern="/^(0(?:[.](?:[1-9]\d?|0[1-9]))|[1-9]\d*(?:[.]\d{1,2}|$))$/" />
+			</div>
+			<div class="service_detail">
+				<span>服务说明</span>
+				<div class="textarea_wraper">
+					<textarea required ng-model="abilityForm.content" name="content"></textarea>
+					<div class="div4height">{{content}}</div>
+				</div>
+			</div>
+			<div class="form_row">
+				<span>注意事项</span> <input type="text" ng-model="abilityForm.attention" name="attention" />
+			</div>
+			<div class="submit_btn">
+				<p ng-click="isAgreement()" ng-class="{true: 'icon_agree', false: 'icon_circle'}[agreement_checkbox]">同意本服务协议</p>
+				<button type="button" ng-class="{true: 'submit_true_btn', false: ' '}[agreement_checkbox]" ng-click="newService()">确定</button>
+			</div>
+		</form>
+
+		<!-- 上传进度 -->
+		<div class="percent_wraper" ng-if="isPercent">
+			<p>{{percent}}%</p>
+		</div>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module("module", ["APP"])
+			.controller("controller", ['$scope', 'openWin', 'ajax', "setStorage", "getStorage", function($scope, openWin, ajax, setStorage, getStorage) {
+				$scope.agreement2 = false;
+				// 上传服务配图
+				$scope.isPhoto = false;
+				$scope.abilityForm = {
+					"attention": "",
+					"city": "",
+					"content": "",
+					"district": "",
+					"province": "",
+					"serviceWay": "",
+					"tags": [],
+					"title": "",
+					"unitPrice": "",
+					"url": "",
+					"longitude": "",
+					"latitude": "",
+					"address": ""
+				};
+
+				// 显示协议
+				$scope.agreement_checkbox = false;
+				$scope.agreement = false;
+				$scope.showAgreement = function() {
+					$scope.agreement = true;
+				}
+				$scope.closeAgreement = function() {
+					$scope.agreement = false;
+				}
+
+				// 查服务开启状态
+				ajax({
+					url: "service/status",
+					method: "GET",
+					success: function(data, header) {
+						if(!data.data.isServiceOpen) {
+							alert("未开启服务,请到个人中心开启");
+							api.closeWin();
+						}
+					}
+				});
+
+				//协议2
+				$scope.closeAgreement2 = function() {
+					$scope.agreement2 = false;
+					if($scope.once) {
+						setStorage('serviceAgreement', 1);
+					} else {
+						setStorage('serviceAgreement', 0);
+					}
+					$scope.abilityForm.serviceWay = $scope.serviceWay == "线上" ? "ONLINE" : "OFFLINE";
+					// 发布服务
+					ajax({
+						url: "service/publish",
+						method: "POST",
+						data: $scope.abilityForm,
+						success: function(data, header) {
+							api.closeWin({
+								animation:{
+									type:"none",
+									subType:"none",
+									duration:0
+								}
+							});
+							api.openWin({
+								name: 'serviceDetail',
+								url: '../user/listHeader.html',
+								pageParam: {
+									url : "serviceList.html",
+									name : "serviceList"
+								}
+							})
+						}
+					});
+				}
+
+				// 获取定位
+				var map = api.require('bMap');
+				map.getLocation({
+					accuracy: '100m',
+					autoStop: true,
+					filter: 1
+				}, function(ret, err) {
+					if(ret.status) {
+						$scope.abilityForm.longitude = ret.lon;
+						$scope.abilityForm.latitude = ret.lat;
+						$scope.$apply();
+						map.getNameFromCoords({
+							lon: ret.lon,
+							lat: ret.lat
+						}, function(ret, err) {
+							if(ret.status) {
+								// 获取地址
+								$scope.abilityForm.address = ret.address;
+								$scope.abilityForm.province = ret.province;
+								$scope.abilityForm.district = ret.district;
+								$scope.abilityForm.city = ret.city;
+								$scope.$apply();
+							}
+						});
+					}
+				});
+
+				$scope.uploadPhoto = function() {
+					api.getPicture({
+						sourceType: 'album',
+						encodingType: 'jpg',
+						allowEdit: true,
+						quality: 50,
+						targetHeight: 800
+					}, function(ret, err) {
+						if(ret && ret.data && ret.data != "") {
+							// 图片上传
+							$scope.percent = 0;
+							$scope.isPercent = true;
+							var fileName = new Date().getTime();
+							api.require('qiniuUpfile').upfile({
+								file: ret.data,
+								name: fileName
+							}, function(ret, err) {
+								if(ret.status) {
+									if(ret.oper == "complete") { //上传成功
+										$scope.isPhoto = true;
+										$scope.isPercent = false;
+										$scope.abilityForm.url = 'http://od61wmx26.bkt.clouddn.com/' + fileName;
+										$scope.$apply();
+									} else if(ret.oper == "progress") {
+										$scope.percent = Math.floor(ret.percent);
+										$scope.$apply();
+									}
+								}
+							});
+						}
+					});
+				}
+
+				$scope.totast = function(errorMessage) {
+					api.toast({
+						msg: errorMessage,
+						duration: 1000,
+						location: 'bottom'
+					});
+				}
+
+				$scope.selectStyle = function() {
+						openWin({
+							name: 'selectLabel',
+							url: 'selectLabel.html',
+							pageParam: {
+								"source": "service/tags"
+							}
+						})
+					}
+					// 接收标签选择后参数
+				api.addEventListener({
+					name: 'selectLabel_right'
+				}, function(ret, err) {
+					if(ret.value.source == "service/tags") {
+						$scope.abilityForm.tags = ret.value.labelStr;
+						$scope.$apply();
+					}
+				});
+				// 选择服务方式
+				$scope.selectService = function() {
+					var UIActionSelector = api.require('UIActionSelector');
+					UIActionSelector.open({
+						datas: [{
+							name: '线上'
+						}, {
+							name: "线下"
+						}],
+						layout: {
+							row: 2,
+							col: 1,
+							colSpacing: 0,
+							colorSelected: '#ffd147'
+						},
+						cancel: {
+							text: '取消',
+							size: 12,
+							w: 90,
+							h: 35,
+							bg: '#fff',
+							bgActive: '#ccc',
+							color: '#888',
+							colorActive: '#fff'
+						},
+						ok: {
+							text: '确定',
+							size: 12,
+							w: 90,
+							h: 35,
+							bg: '#fff',
+							bgActive: '#ccc',
+							color: '#888',
+							colorActive: '#fff'
+						}
+					}, function(value, err) {
+						//选择服务方式
+						if(value.level1 != undefined) {
+							$scope.serviceWay = value.level1;
+							$scope.$apply();
+						}
+						UIActionSelector.close();
+					});
+				}
+
+				$scope.newService = function() {
+					if($scope.serviceForm.$valid) {
+						if($scope.abilityForm.tags.length == 0) {
+							$scope.totast("请选择服务类型");
+						} else if($scope.agreement_checkbox == false) {
+							api.toast({
+								msg: "请同意本服务协议",
+								duration: 1000,
+								location: 'bottom'
+							});
+						} else {
+							// 选了以后不提示
+							if(getStorage('serviceAgreement') == 1) {
+								$scope.abilityForm.serviceWay = $scope.serviceWay == "线上" ? "ONLINE" : "OFFLINE";
+								// 发布服务
+								ajax({
+									url: "service/publish",
+									method: "POST",
+									data: $scope.abilityForm,
+									success: function(data, header) {
+
+										openWin({
+											name: 'serviceDetail',
+											url: 'serviceDetail.html',
+											pageParam: {
+												"serviceId": data.data
+											}
+										})
+										api.closeWin();
+									}
+								});
+							} else {
+								$scope.agreement2 = true;
+							}
+						}
+					} else {
+						if($scope.serviceForm.url.$error.required) {
+							$scope.totast("请选择上传服务配图");
+						} else if($scope.serviceForm.title.$error.required) {
+							$scope.totast("服务标题不能为空");
+						} else if($scope.serviceForm.unitPrice.$error.required) {
+							$scope.totast("	请填写服务价格");
+						} else if($scope.serviceForm.unitPrice.$error.max) {
+							$scope.totast("最大金额为10000");
+						} else if($scope.serviceForm.unitPrice.$error) {
+							$scope.totast("	请填写正确的服务价格");
+						} else if($scope.serviceForm.content.$error.required) {
+							$scope.totast("	请填写服务说明");
+						}
+					}
+				}
+
+				//点开协议时keyback
+				api.addEventListener({
+					name: 'keyback'
+				}, function(ret, err) {
+					if($scope.agreement == true) {
+						$scope.agreement = false;
+						$scope.$apply();
+					} else if($scope.agreement2 == true) {
+						$scope.agreement2 = false;
+						$scope.$apply();
+					} else {
+						api.closeWin();
+					}
+				});
+
+				$scope.isAgreement = function() {
+					$scope.agreement_checkbox = ($scope.agreement_checkbox == true ? false : true);
+				}
+			}]);
+
+		apiready = function() {
+			angular.bootstrap(document, ["module"]);
+		}
+	</script>
+
+</html>

@@ -1,0 +1,125 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1em;
+  font-weight: normal;
+}
+a img,
+:link img,
+:visited img {
+  border: none;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  display: box;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  background: #E6E6E6;
+}
+.body {
+  box-flex: 1;
+  -webkit-box-flex: 1;
+  overflow-y: auto;
+}
+header {
+  background: #3e454d;
+  color: #fff;
+  padding: 6px;
+  height: 52px;
+  line-height: 52px;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  align-items: flex-start;
+  font-size: 16px;
+}
+header span {
+  color: #fff;
+}
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+.back_btn,
+.right_btn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  padding: 0;
+  border: none;
+  font-size: 22px;
+  width: 30px;
+  background: none;
+  color: #fff;
+}
+.back_btn {
+  left: 5px;
+}
+.right_btn {
+  right: 5px;
+}
+.blackBg {
+  background: #3e454d;
+}
+* {
+  outline: none;
+}
+.ng-hide {
+  display: none;
+}
+.ng-show {
+  display: block;
+}
+.opacity_1 {
+  opacity: 1;
+}
+.border_bottom {
+  position: relative;
+}
+.border_bottom:after {
+  position: absolute;
+  bottom: 0;
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #ccc;
+  left: 0;
+  transform: scaleY(0.5);
+  -webkit-transform: scaleY(0.5);
+}
+.border_top {
+  position: relative;
+}
+.border_top:before {
+  position: absolute;
+  top: 0;
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #ccc;
+  left: 0;
+  transform: scaleY(0.5);
+  -webkit-transform: scaleY(0.5);
+}
+.icon_chat {
+  color: #888;
+  height: 1em;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+}
+/*# sourceMappingURL=public.css.map */

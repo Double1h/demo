@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link href="../../css/public.css" rel="stylesheet" />
+		<link href="../../css/reset.css" rel="stylesheet" />
+		<link href="../../css/chat/chat.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/fonticon/style.css" />
+	</head>
+	<body ng-controller="controller">
+		<header class="blackBg">
+			<button class="back_btn icon_back" onclick="api.closeWin();"></button>
+			<span>和{{::accepter.nickname}}的聊天</span>
+		</header>
+		<div class="body" id="body">
+			<div class="more"ng-click="addMoreMessages();">点击加载更多消息</div>
+			<ul id="chatList">
+			<li class="{{::myId==m.user.id?'me':'other'}}" ng-repeat="m in messages">
+				<img src="../../img/head.png" ng-hide="m.user.avatarPath">
+				<img ng-src="{{m.user.avatarPath}}" ng-show="m.user.avatarPath" id="personImg">
+				<div class="message">
+					<span class="time">{{::m.createTime|date : "yyyy/MM/dd hh:mm"}}</span>
+					<p class="content">{{::m.content}}</p>
+				</div>
+			</li>
+		</ul>
+		</div>
+		
+		<footer>
+			<div class="textarea">
+				<textarea type="text" id="inputText" placeholder="请输入内容 " ng-model="messageContent"></textarea>
+				<div class="chatContent">{{messageContent}}</div>
+			</div>
+			<button class="send">发送</button>
+		</footer>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module('module',['APP'])
+		.controller('controller',['$scope','ajax',function($scope,ajax){ 
+			$scope.accepterId=api.pageParam.accepterId;
+			$scope.messages =[];
+			$scope.chatNumber="";
+			var chatList=document.getElementById("body");
+
+			//点击事件
+			document.querySelector('.send').addEventListener('click',function(){
+				// $scope.messageContent = document.querySelector('#inputText').value;
+
+				if($scope.messageContent==''){
+					return ;
+				}else{
+					ajax({
+						url:"message/send",
+						method:"post",
+						isChat:true,
+						data:{
+							accepterId:$scope.accepterId,
+							content:$scope.messageContent
+						},
+						success:function(data){
+							$scope.messageContent="";
+						}
+					})
+				}
+			},false); 
+			
+			//加载聊天历史
+			function loadHistory(){
+				var time;
+				if($scope.messages.length>0){
+					time = $scope.messages[0].createTime;
+				} else {
+					time = new Date().getTime();
+				}
+				
+				ajax({
+					url:'message/read',
+					method:'get',
+					isChat:true,
+					data:{
+						chatNumber:$scope.chatNumber,
+						isUp:true,
+						time:time
+					},
+					success:function(data){
+						var data = data.data;
+						if(data.message && data.message.length){
+							$scope.messages=data.message.concat($scope.messages);
+						}else{
+							var more=document.querySelector(".more");
+							more.innerHTML="没有更多消息";
+						}
+
+						api.refreshHeaderLoadDone();
+					}
+				})
+			}
+
+
+			//获取聊天信息
+			ajax({
+				url:'message/chatNumber',
+				method:'get',
+				isChat:true,
+				data:{
+					accepterId:$scope.accepterId
+				},
+				success:function(data){
+					var data = data.data;
+					$scope.chatNumber=data.chatNumber;
+					$scope.me = data.me;
+					$scope.accepter = data.accepter;
+					$scope.myId = data.me.id;
+					
+					api.sendEvent({
+						name: 'updateAccepter',
+						extra: data.accepter
+					});	
+					
+					loadHistory();
+					setTimeout(function(){
+						chatList.scrollTop = chatList.scrollHeight;
+					},1000);
+					
+					//获取聊天信息
+					setInterval(function(){
+						var time;
+						if($scope.messages.length>0){
+							time = $scope.messages[$scope.messages.length-1].createTime;
+						} else {
+							time = new Date().getTime();
+						}
+						
+						ajax({
+							url:'message/read',
+							method:'get',
+							isChat:true,
+							data:{
+								chatNumber:$scope.chatNumber,
+								isUp:false,
+								time:time
+							},
+							success:function(data){
+								var data = data.data;
+								if(data.message && data.message.length){
+									$scope.messages=$scope.messages.concat(data.message);
+
+									 setTimeout(function(){
+									 	chatList.scrollTop = chatList.scrollHeight;
+									 },1000);
+								}
+							}
+						});
+					},2000)
+				}
+			});
+
+			//加载历史消息
+			$scope.addMoreMessages=function(){
+				loadHistory();
+			}
+				
+		}])
+					
+		apiready =function(){
+			angular.bootstrap(document, ["module"]);
+		}
+			
+	</script>
+</html>

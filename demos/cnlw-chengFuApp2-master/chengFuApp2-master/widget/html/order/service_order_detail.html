@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" type="text/css" href="../../css/public.css">
+	<link rel="stylesheet" href="../../css/order/service_order_detail.css">
+</head>
+	<body  ng-controller="controller">
+		<header>
+			<span class="icon_back back_btn" onclick="api.closeWin();"></span>
+			<span>订单详情</span>
+		</header>
+		
+		<div class="order_detail">
+			<div class="order_detail_top">
+				<div class="order_type">类别：<span ng-repeat="tag in order.tags">{{::tag}}</span></div>
+				<div class="order_status">{{status[order.status]}}</div>
+			</div>
+			<div class="order_content">{{::order.content}}</div>
+			<div class="order_price">酬金<span>￥{{::order.money}}/单</span></div>
+			<div class="order_time">{{::order.time|date:'yyyy/MM/dd'}}</div>
+		</div>
+		
+		<div class="topic" ng-if="order.status=='TAKED' || order.status=='APPLYING_FINISH' ">
+			<!-- 接单人 -->
+			<div ng-if="order.status=='TAKED' && order.isProvider">
+				<h2>图片</h2>
+				<!-- 图片上传 -->
+				<div>
+					<div class="re_img" id="reImg" >
+						<div class="re_img_item" ng-show="descriptImg.length" ng-repeat="i in descriptImg" ngd-click="delImg($index)" selector=".icon_error">
+							<div class="img_wrap"><img src="{{i}}"/></div>
+							<div class="icon_error"></div>
+						</div>
+						<div class="add_img_wraper">
+							<img src="../../img/add.jpg" id="reAdd" ng-click="addImg()">
+						</div>
+					</div>	
+				</div>
+			</div>
+
+			<!-- 下单人 -->
+			<div ng-if="(order.status=='APPLYING_FINISH' && !order.isProvider) || (order.status=='APPLYING_FINISH' && order.isProvider)">
+				<h2>图片</h2>
+				<div>
+					<ul class="imgList">
+						<li ng-repeat="url in content.url"><img src="{{url}}" alt="" /></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<!--输入审核内容-->
+		<div class="content" ng-if="order.status=='TAKED' || order.status=='APPLYING_FINISH'">
+			
+			<!-- 接单人 -->
+			<div ng-if="order.status=='TAKED' && order.isProvider">
+				<h2>内容</h2>
+				<div>
+					<div class="textarea_wraper">
+						<textarea placeholder="请输入正文内容" ng-model="$parent.$parent.con" name="con" required></textarea>
+						<div class="div4height">{{con}}</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 下单人 + 接单人审核中 -->
+			<div ng-if="order.status=='APPLYING_FINISH'">
+				<h2>内容</h2>
+				<p class="reviewing_content">{{content.content}}</p>
+			</div>
+		</div>
+
+		<!-- 下单人处理句柄 -->
+		<div class="noProvider_handlers" ng-if="!order.isProvider">
+			<button type="button" ng-if="order.status == 'WAITING_TAKE' " ng-click="cancelOrder();">撤回订单</button>
+			<div ng-if="order.status=='APPLYING_FINISH'">
+				<div ng-click="showScore()">
+					<button type="button">确认完成</button>
+				</div>
+				<div ng-click="reSubmit()">
+					<button type="button">重新提交审核资料</button>	
+				</div>
+				
+				<!-- 订单完成弹窗 -->
+				<div class="dialog_mask" ng-show="isShowScore">
+					<div class="dialog">
+						<div class="dialog_title">印象评分</div>
+						<div class="dialog_body">
+							<input type="text" placeholder="你可以在这里输入对服务人的评价" ng-model="$parent.$parent.$parent.maskContent"/>
+						</div>
+						<div class="dialog_btns">
+							<button class="confirmBtn" ng-click="getScore()">确定</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 接单人处理句柄 -->
+		<div class="isProvider_handler" ng-if="order.isProvider">
+			<div ng-if="order.status== 'WAITING_TAKE'">
+				<button type="button" ng-click="take()">接单</button>
+				<button type="button" ng-click="untake()">不接单</button>
+			</div>
+			<div ng-if="order.status=='TAKED'">
+				<button type="button"  ng-click="review()" >提交审核资料</button>
+			</div>
+		</div>
+
+		<!-- 上传进度 -->
+		<div class="percent_wraper" ng-if="isPercent">
+			<p>{{percent}}%</p>
+		</div>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../libs/angular-delegates.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module('module', ["APP",'DelegateEvents'])
+		.controller('controller', ['$scope','openWin','ajax',function($scope,openWin,ajax){
+			$scope.status = {
+				"WAITING_TAKE"		:"待接单",
+				"TAKED"				:"进行中",
+				"APPLYING_FINISH"	:"待审核",
+				"FINISHED"			:"已完成",
+				"CANCELED"          :"已取消",
+				"APPLYING_CANCEL"   :"申请取消"
+			}
+			
+			$scope.descriptImg = [];
+			$scope.isShowScore = false;
+			var itemId = api.pageParam.id;
+			$scope.con='';
+			$scope.toggle =true;
+			uploadData();
+
+			//加载订单详情数据
+			function uploadData(){
+				ajax({
+					url: 'order/detail',
+					method: "get",
+					dataType: 'text',
+					data: {
+						orderId:itemId
+					},
+					success: function(data, header) {
+						$scope.order = data.data.order;
+						$scope.content = data.data;
+					}
+				});
+			}
+
+			// 下单人
+			// 取消订单
+			$scope.cancelOrder = function(){
+				ajax({
+					url: 'order/cancel',
+					method: "post",
+					dataType:"text",                                                             
+					data: {
+						'orderId': itemId
+					},
+					success: function(data, header) {
+						uploadData();
+					}
+				});
+			}
+
+
+			// 重新提交审核资料
+			$scope.reSubmit = function(){
+				ajax({
+					url: 'order/reject',
+					method: "post",
+					dataType:"text",  
+					data: {
+						'orderId': itemId
+					},
+					success: function(data, header) {
+						uploadData();
+					}
+				});
+			}
+
+
+			// 下单人end
+
+			// 接单人
+			// 接单
+			$scope.take = function(){
+				ajax({
+					url: 'order/confirm',
+					method: "post",
+					data: {
+					  "id": itemId,
+					  "isTake": true
+					},
+					success: function(data, header) {
+						uploadData();
+					}
+				});
+			}
+			//不接单
+			$scope.untake = function(){
+				ajax({
+					url: 'order/confirm',
+					method: "post",
+					data: {
+					  "id": itemId,
+					  "isTake": false
+					},
+					success: function(data, header) {
+						uploadData();
+					}
+				});
+			}
+
+			//提交审核资料
+			$scope.review =function(){
+				if( $scope.descriptImg.length ==  0 ){
+					api.toast({
+						msg: "请上传审核图片",
+						duration: 1000,
+						location: 'bottom'
+					});
+				}else if ( $scope.con.trim() == "") {
+					api.toast({
+						msg: "请输入审核内容",
+						duration: 1000,
+						location: 'bottom'
+					});
+				}else{
+					ajax({
+						url: 'order/upload_certificate',
+						method: "post",
+						data: {
+							"content": $scope.con,
+							"orderId": itemId,
+							"url": $scope.descriptImg
+						},
+						success: function(data, header) {
+							uploadData();
+						}
+					});
+				}
+			}
+
+			//确认完成
+			$scope.showScore = function() {
+				ajax({
+					url: 'order/confirm_complete',
+					method: "post",
+					dataType: 'text',
+					data: {
+						orderId: itemId
+					},
+					success: function(data, header) {
+						$scope.isShowScore = true;
+					}
+				});
+				
+			}
+
+				
+			// 发评价
+			$scope.getScore = function() {
+				//发送评价信息
+				ajax({
+					url: 'order/evaluate',
+					method: "post",
+					data : {
+						'orderId': itemId,
+						'score': $scope.score,
+						'content': $scope.maskContent
+					},
+					success: function(data, header) {
+						$scope.isShowScore = false;
+						uploadData();
+						api.toast({
+							msg: "评分成功",
+							duration: 1000,
+							location: 'bottom'
+						});
+
+					}
+				});
+			}
+
+			// 图片上传
+			$scope.addImg = function() {
+				api.getPicture({
+					    sourceType: 'album',
+					    encodingType: 'jpg',
+					    allowEdit: true,
+					    quality: 50,
+					    targetHeight: 800
+					}, function(ret, err) {
+    				    if ( ret && ret.data && ret.data != "") {
+							$scope.percent = 0;
+		       		 		$scope.isPercent = true;
+					  		// 图片上传
+	       		  			var fileName = new Date().getTime();
+	       		  			api.require('qiniuUpfile').upfile({
+	       		  				file: ret.data,
+	       		  				name: fileName
+	       		  			}, function(ret, err) {
+	       		  				if (ret.status) {
+	       		  					if ( ret.oper == "complete" ) { //上传成功
+	       		  						$scope.isPercent = false;
+	       		  						$scope.descriptImg.push( 'http://od61wmx26.bkt.clouddn.com/' + fileName);
+	       		  						$scope.$apply();
+	       		  					}else if ( ret.oper == "progress" ) {
+	        							$scope.percent = Math.floor(ret.percent);
+	       		  						$scope.$apply();
+	       		  					}
+	       		  				}
+	       		  			});
+					    }
+					});
+			}
+
+			// 删除上传图片
+			$scope.delImg = function (index) {
+				 $scope.descriptImg.splice(index, 1);
+			}
+
+		}]);
+
+		
+		 apiready = function(){
+		 	angular.bootstrap(document, ["module"]);
+		 }
+    
+	</script>
+</html>

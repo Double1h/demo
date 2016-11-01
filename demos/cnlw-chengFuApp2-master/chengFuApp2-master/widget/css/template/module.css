@@ -1,0 +1,59 @@
+.moduleList {
+  background: #fff;
+  padding: 0 10px;
+}
+.top {
+  font-size: 12px;
+  color: #969593;
+  margin-bottom: 10px;
+}
+.content {
+  color: #222;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.content .conentDetail {
+  color: #1f1a17;
+  font-size: 14px;
+  line-height: 150%;
+}
+.content .contentReward {
+  color: #969593;
+  font-size: 12px;
+}
+.content .contentReward span {
+  color: #1f1a17;
+}
+.content .contentReward span:nth-child(1) {
+  margin-left: 5px;
+}
+.bottom {
+  font-size: 12px;
+  overflow: hidden;
+  color: #969593;
+}
+.bottom span:nth-child(1) {
+  float: left;
+  color: #ff7f66;
+  line-height: 40px;
+  height: 40px;
+}
+.bottom span:nth-child(2) {
+  float: right;
+  line-height: 40px;
+  display: inline;
+  vertical-align: middle;
+  position: relative;
+}
+.bottom span:nth-child(2) img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid #ff7f66;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  margin-left: -40px;
+}

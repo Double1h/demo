@@ -1,0 +1,81 @@
+body {
+  background-color: #e6e6e6;
+}
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  line-height: 52px;
+  background-color: #3e454d;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  z-index: 1000;
+}
+header .back_btn {
+  position: absolute;
+  left: 20px;
+  line-height: 52px;
+}
+header .back_btn:before {
+  font-size: 22px;
+}
+.form_group {
+  margin-top: 52px;
+  background-color: #fff;
+  font-size: 14px;
+}
+.form_group .form_row {
+  position: relative;
+  display: box;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  box-align: center;
+  padding: 15px 20px;
+}
+.form_group .form_row:not(:last-child):after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  background-color: #c2c1c1;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  -ms-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+  -webkit-transform: scaleY(0.5);
+}
+.form_group .form_row:before {
+  font-size: 24px;
+  color: #969593;
+  margin-right: 10px;
+}
+.form_group .form_row .form_row_left {
+  box-flex: 1;
+  -webkit-box-flex: 1;
+}
+.form_group .form_row .form_row_left input {
+  width: 100%;
+  border: none;
+}
+.form_group .form_row .send_code {
+  padding: 4px 8px 2px;
+  border: none;
+  background-color: #7dcefd;
+  border-radius: 10px;
+  color: #fff;
+}
+.btn {
+  margin: 30px 20px;
+}
+.btn button {
+  width: 100%;
+  line-height: 40px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #ff7f66;
+  border: none;
+  border-radius: 20px;
+}
+/*# sourceMappingURL=bindPhone.css.map */

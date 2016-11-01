@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" type="text/css" href="../../css/template/indexList.css">
+	<link rel="stylesheet" type="text/css" href="../../css/index/searchIndex.css">
+</head>
+<body ng-controller="searchCtrl">
+	<header>
+		<i class="icon_search"></i>
+		<form class="search_form" name="searchForm" novalidate>
+      <span class="back_btn icon_back" onclick="api.closeWin();"></span>
+			<input type="text" name="keyword" ng-model="keyword" placeHolder="搜索关键字" required/>
+      <span class="searchBtn" ng-click="search();">搜索</span>
+		</form>
+	</header>
+	<div class="tab border_bottom">
+		<span class="server" ng-class="{'active':tab=='SERVICE'}" data-tab="SERVICE" ng-click="changeIntro(0,'SERVICE');">服务</span>
+		<span class="demand" ng-class="{'active':tab=='TASK'}" data-tab="TASK" ng-click="changeIntro(1,'TASK');">需求</span>
+	</div>
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../js/app.js"></script>
+<script>
+	angular.module('module',['APP'])
+	.controller('searchCtrl', ['$scope','ajax','openFrame','refreshHeaderLoadDone', function($scope,ajax,openFrame,refreshHeaderLoadDone){
+		$scope.tab='SERVICE';
+
+		$scope.search=function(){ 
+			if($scope.searchForm.keyword.$error.required){
+				api.toast({
+					msg: "请输入搜索关键字",
+					duration: 2000,
+					location: 'middle'
+				});
+			}else{
+				api.sendEvent({
+				    name: 'searchClick',
+				    extra: {
+				        keyword:$scope.keyword
+				    }
+				});
+			}
+		}
+
+		// 点击切换
+		$scope.changeIntro=function(num,tab) {
+		    $scope.tab=tab;
+		    api.setFrameGroupIndex({
+		        name: 'search',
+		        index: num,
+		        scroll: true
+		    });
+		};
+
+		// 左右滑动
+	    api.openFrameGroup({
+	        name: 'search',
+	        scrollEnabled: true,
+	        rect: {
+	        	x:0,
+	        	y:88,
+	        	w:"auto",
+	        	h:"auto"
+	        },
+	        index: 0,
+	        frames: [{
+                name: 'SERVICE',
+                url: 'search.html',
+                pageParam: {
+                	keyword:$scope.keyword,
+                    business:'SERVICE'
+                },
+                bounces: false,
+                opaque: true,
+           }, {
+                name: 'TASK',
+                url: 'search.html',
+                pageParam: {
+                    keyword:$scope.keyword,
+                    business:'TASK'
+                },
+                bounces: false,
+                opaque: true,
+           }]
+	    }, function (ret, err) {
+	        // 切换Tab
+	        $scope.tab=ret.name;
+			$scope.$apply();
+	    });
+
+	}])
+    apiready = function(){
+        angular.bootstrap(document,['module']);
+    }
+</script>
+</html>

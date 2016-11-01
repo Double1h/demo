@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+		<link rel="stylesheet" type="text/css" href="../../css/user/userIndex.css">
+	</head>
+
+	<body ng-controller="controller">
+		<div class="user_top user_list">
+			<div class="row icon_right" ng-click="userMessage();">
+				<div class="row_left">
+					<img src="../../img/head.png" ng-hide="user.avatarPath">
+					<img ng-src="{{user.avatarPath}}" ng-show="user.avatarPath" id="personImg">
+					<div>
+						<p ng-bind="user.nickname"></p>
+						<p ng-bind="user.company?user.company:'未知'"></p>
+					</div>
+				</div>
+				<div class="row_right"></div>
+			</div>
+		</div>
+
+		<div id="orders">
+			<div class="order user_list">
+				<div class="order_title border_bottom">专长订单</div>
+				<div class="orderUl">
+					<div data-tab="other">
+						<span class="icon_receiveSrvice"></span>
+						<span>购买的专长</span>
+					</div>
+					<div data-tab="me">
+						<span class="icon_directories"></span>
+						<span>售出的专长</span>
+					</div>
+				</div>
+			</div>
+	
+			<div class="order user_list">
+				<div class="order_title border_bottom">任务订单</div>
+				<div class="orderUl">
+					<div data-tab="publish">
+						<span class="icon_publishDemand"></span>
+						<span>提供的任务</span>
+					</div>
+					<div data-tab="receive">
+						<span class="icon_demandOrder"></span>
+						<span>参与的任务</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+		<div class="user_list" id="list">
+			<div class="row" ng-class="{'icon_right':serviceStatus.isServiceOpen}" data-tab="myService">
+				<div class="row_left">我发布的专长</div>
+				<div class="row_right" ng-hide="serviceStatus.isServiceOpen || (serviceStatus.applyInfo!=undefined && serviceStatus.applyInfo.status!=null)" ng-bind="'开启服务'"></div>
+				<div class="row_right" ng-show="serviceStatus.applyInfo!=undefined && serviceStatus.applyInfo.status!=null" ng-bind="ServiceApplyStatus[serviceStatus.applyInfo.status]"></div>
+			</div>
+			<div class="row icon_right" data-tab="myDemand">
+				<div class="row_left">我发布的任务</div>
+				<div class="row_right"></div>
+			</div>
+			<div class="row icon_right" data-tab="userCredit">
+				<div class="row_left">个人信用</div>
+				<div class="row_right"></div>
+			</div>
+			<div class="row icon_right" data-tab="myAccount">
+				<div class="row_left">账户</div>
+				<div class="row_right"></div>
+			</div>
+			<div class="row icon_right" ng-click="inviteQrcode();">
+				<div class="row_left">我的邀请</div>
+				<div class="row_right"></div>
+			</div>
+			<div class="row icon_right" data-tab="aboutUs">
+				<div class="row_left">关于我们</div>
+				<div class="row_right"></div>
+			</div>
+			<div class="row icon_right" data-tab="exit">
+				<div class="row_left">退出登录</div>
+				<div class="row_right"></div>
+			</div>
+		</div>
+	</body>
+	<script src="../../libs/qrcode.js"></script>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script type="text/javascript">
+		angular.module("module", ["APP"])
+			.controller('controller', ['$scope', 'openWin', 'ajax', 'setStorage', 'getStorage', 'removeStorage', function($scope, openWin, ajax, setStorage, getStorage, removeStorage) {
+				$scope.serviceStatus = {};
+				$scope.user = {};
+
+				// 获取后台数据
+				ajax({
+					url: 'user/index',
+					method: 'get',
+					success: function(data) {
+						$scope.user = data.data.user;
+					}
+				})
+
+				// 获取用户服务开启状态
+				ajax({
+					url: 'service/status',
+					method: 'get',
+					success: function(data) {
+						$scope.serviceStatus = data.data;
+					}
+				})
+
+				// 服务申请后的状态
+				$scope.ServiceApplyStatus = {
+					APPLYING: '申请中',
+					PASS: '',
+					FAIL: '申请失败'
+				}
+
+				//发送个人信息
+				api.sendEvent({
+					name: 'userIndex',
+					extra: {
+						imgSrc: $scope.user.avatarPath ? $scope.user.avatarPath : '../../img/Img1.jpg',
+						nickname: $scope.user.nickname
+					}
+				});
+
+				// 监听个人信息修改
+				api.addEventListener({
+					name: 'updateUserInfo'
+				}, function(ret, err) {
+					$scope.user = ret.value;
+					$scope.$apply();
+				});
+
+				// 监听服务是否开启
+				api.addEventListener({
+					name: 'serviceStatus'
+				}, function(ret, err) {
+					$scope.serviceStatus.applyInfo = {};
+					$scope.serviceStatus.applyInfo.status = ret.value.serviceStatus;
+					$scope.$apply();
+				});
+
+				$scope.userMessage = function() {
+					openWin({
+						name: 'editUserInfo',
+						url: 'editUserInfo.html'
+					})
+				}
+
+				$scope.inviteQrcode = function() {
+					// 获取我的邀请码
+					api.openWin({
+						name: 'qrcode',
+						url: 'qrcode.html',
+						bgColor: "rgba(0,0,0,0.5)",
+						allowEdit:'true',
+						animation:{
+							type:"fade",
+							duration:200
+						},
+						pageParam:{
+							qrCode:$scope.user.inviteCode
+						}
+					});
+				}
+
+				$scope.close = function() {
+					$scope.qrcodeShow = false;
+					setStorage('qrcodeShow', "0");;
+				}
+
+				api.addEventListener({
+					name: 'qrcodeShow'
+				}, function(ret, err) {
+					$scope.qrcodeShow = false;
+					$scope.$apply();
+					setStorage('qrcodeShow', "0");;
+				});
+
+				//订单列表跳转
+				document.querySelector('#orders').addEventListener('click', function(e) {
+					var tab = e.target.parentNode.dataset.tab;
+
+					var name = '';
+					switch(tab) {
+						case 'other':
+							name = "receive_service";
+							break;
+						case 'me':
+							name = "publish_service";
+							break;
+						case 'publish':
+							name = "publish_demand";
+							break;
+						case 'receive':
+							name = "receive_demand";
+							break;
+					}
+					
+					openWin({
+						name: name,
+						url: '../order/' + name + '.html'
+					})
+				}, false);
+
+				//列表切换
+				document.querySelector("#list").addEventListener("click", function(e) {
+					if(e.target.classList.contains("row")) {
+						var tab = e.target.dataset.tab;
+					} else {
+						var tab = e.target.parentNode.dataset.tab;
+					}
+
+					switch(tab) {
+						case 'myService':
+							{
+								if($scope.serviceStatus.isServiceOpen) {
+									openWin({
+										name: 'listHeader',
+										url: 'listHeader.html',
+										pageParam: {
+											name: 'serviceList',
+											url: 'serviceList.html'
+										}
+									})
+								} else if($scope.serviceStatus.applyInfo == undefined || $scope.serviceStatus.applyInfo.status == null) {
+									openWin({
+										name: 'openService',
+										url: '../service/openServiceHeader.html',
+										pageParam: {
+											imgSrc: document.querySelector('#personImg').src,
+											nickname: $scope.user.nickname
+										}
+									})
+								}
+								break;
+							}
+
+						case 'myDemand':
+							{
+								openWin({
+									name: 'listHeader',
+									url: 'listHeader.html',
+									pageParam: {
+										name: 'demandList',
+										url: 'demandList.html'
+									}
+								})
+								break;
+							}
+
+						case 'editUserInfo':
+							{
+								openWin({
+									name: 'editUserInfo',
+									url: 'editUserInfo.html'
+								})
+								break;
+							}
+
+						case 'userCredit':
+							openWin({
+								name: 'userCredit',
+								url: 'userCredit.html'
+							})
+							break;
+
+						case 'myAccount':
+							{
+								openWin({
+									name: 'myAccount',
+									url: '../wallet/myAccount.html'
+								})
+								break;
+							}
+						case 'messageSetUp': {
+							openWin({
+								name: 'messageSetUp',
+								url: 'messageSetUp.html'
+							})
+							break;
+						}
+						case 'aboutUs':
+							openWin({
+								name: 'aboutUs',
+								url: 'aboutUs.html'
+							})
+							break;
+						case 'exit': {
+							//退出登录
+							ajax({
+								url: 'account/logout',
+								method: 'get',
+								success: function() {
+									setStorage('userIndex_opening', '0', 'userIndexChange');
+									removeStorage('TOKEN');
+									api.toast({
+										msg: "退出成功",
+										duration: 1000,
+										location: 'bottom'
+									});
+
+									$scope.user = {};
+
+									//告诉首页用户退出登录，将首页回复初始状态
+									api.sendEvent({
+										name: 'unLogin'
+									});
+
+									$scope.$apply();
+								}
+							})
+							break;
+						}
+					}
+				}, false);
+
+				// 下拉刷新
+				api.setRefreshHeaderInfo({
+					visible: true,
+					bgColor: '#ccc',
+					textColor: '#fff',
+					textDown: '下拉刷新...',
+					textUp: '松开刷新...',
+					showTime: true
+				}, function(ret, err) {
+					// 获取后台数据
+					ajax({
+						url: 'user/index',
+						method: 'get',
+						success: function(data) {
+							$scope.user = data.data.user;
+						}
+					})
+
+					// 获取用户服务开启状态
+					ajax({
+						url: 'service/status',
+						method: 'get',
+						success: function(data) {
+							$scope.serviceStatus = data.data;
+							api.refreshHeaderLoadDone();
+						}
+					})
+				});
+
+			}])
+
+		apiready = function() {
+			angular.bootstrap(document, ["module"]);
+		}
+	</script>
+
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+		<link rel="stylesheet" type="text/css" href="../../css/demand/pay.css">
+	</head>
+
+	<body ng-controller="controller">
+		<header>
+			<span class="icon_back back_btn" ng-click="closeWin();"></span>
+			<span>支付</span>
+		</header>
+		<div class="alert_message">
+			您正在将{{price}}元酬金托管在城服中，托管的酬金将用于支付帮助你完成任务的人，如果发布任务在截止时间内未被抢单，您的酬金将退至您的城服余额中。
+		</div>
+		<div class="money">
+			<div class="balance">当前账户余额：{{balance}}</div>
+			<div class="pay">应付金额：<span>{{price}}</span></div>
+		</div>
+		<div class="pay_method">
+			<h2>请选择支付方式</h2>
+			<form name="form">
+				<div class="icon_purse">
+					<label>
+						<div class="payment_word">
+							<div class="title">余额支付</div>
+							<div class="detial">用您的城服钱包余额支付</div>
+						</div>
+						<input name="payChannel" type="radio" value="balance" required  ng-model="payChannel"/>
+					</label>
+				</div>
+				<div class="icon_alipay">
+					<label>
+                        <div class="payment_word">
+                                <div class="title">支付宝支付</div>
+                                <div class="detial">支付宝的用户使用</div>
+                        </div>
+                        <input name="payChannel" type="radio" value="ALI_APP" required ng-model="payChannel"/>
+                    </label>
+				</div>
+				<div class="icon_wechat_1">
+					<label>
+                        <div class="payment_word">
+                        		<div class="title">微信支付</div>
+                                <div class="detial">微信5.0及以上版本的用户使用</div>
+                        </div>
+                        <input name="payChannel" type="radio" value="WX_APP" required  ng-model="payChannel"/>
+                    </label>
+				</div>
+				<div class="submit_btn">
+					<button ng-click="pay();" type="button">确定支付</button>
+				</div>
+			</form>
+			<div class="mask" ng-if="isSubmit"></div>
+		</div>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module("module", ["APP"])
+			.controller("controller", ['$scope', 'openWin', 'ajax', 'setStorage', function($scope, openWin, ajax, setStorage) {
+				$scope.isSubmit = false;
+				$scope.balance = 0;
+				// 支付来源
+				$scope.source = "";
+				// 发布任务时支付
+				api.addEventListener({
+					name: 'demandPay'
+				}, function(ret, err) {
+					$scope.serialNumber = ret.value.serialNumber;
+					$scope.price = ret.value.price;
+					$scope.id = ret.value.id;
+					$scope.source = "demand";
+					$scope.$apply();
+					// 获取账户余额
+					ajax({
+						url: "wallet/balance",
+						method: "get",
+						success: function(data, header) {
+							$scope.balance = data.data;
+						}
+					});
+				});
+				// 服务下单支付
+				if(api.pageParam.serialNumber) {
+					$scope.serialNumber = api.pageParam.serialNumber;
+					$scope.price = api.pageParam.price;
+					$scope.id = api.pageParam.id;
+					$scope.source = api.pageParam.source;
+					// 获取账户余额
+					ajax({
+						url: "wallet/balance",
+						method: "get",
+						success: function(data, header) {
+							$scope.balance = data.data;
+						}
+					});
+				}
+
+				// 支付宝支付配置
+				var aliPay = api.require('aliPay');
+				aliPay.config({
+					partner: '2088221611897333',
+					seller: '3377213159@qq.com',
+					rsaPriKey: 'MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAM1iF7u1V27G9pPaqwvK4Wm//v3dgWMYSb5hlZIGBNX5eFJ3Q0139B7U3kwmKzVYTKKPywJGOB+vTRArsE3bCftTPgfdDJL0nilG/+X9rdoEtDt6iWpzqHjeKBTzhJsLzJxhXFv2ulyhNEW6VQ4Ka4DWpgvcYQhsVEvUtg8hwWprAgMBAAECgYAWpSwsvC/pvPJPFxso77Ou70Z0Q0oS3Qi0fxn4wcUiuqDzpsa68fDuvVXNW6AD/7pjaiteEtP5WmDK2aZUz0PoSV+XZ9FD2e7n5F9uC7W9XbDJ+EX6Kk1WJAXI4fyXHutvMJvEc/J/p1ifHTD2MyOiWQPM7H0OQ0ibJjgL59mKoQJBAPqaBT4b+x4o+5ibwO1vwh/RdsnCWXM0YaTCgnU+7eU7F2IoMPXp4XKYA138GOnzm31g1U0pCDr8lMk0qqoNpVMCQQDRzrVWtu2+IKeBxsKtDYT14rWhr/O6iXkrOnXOEuefo/Ag5Z9tr2fqOa7q59LCKngjRf6k+NeUpqHmnkwGtSuJAkEAnGvE9/apMTMtkB0wOER47DlnpxoLkXBRvnC20447GclfmCI0JVseINQnzeNMfcNT+9eUbHw/Kep8yHZ6THkGBwJBAK4MW9S+1gTWk/8NwuvKflV4qBKko31IlBMvYRD+D9YYKpkvxA066OqexaOrguR+VMF2TGPQ5w4zGbX19b3Ox3kCQDtX4jc3guBE8qL26LLxemmqO45g0+KpMnmhWXdOwQgHF6UVr7AFDN+UdHvNk3OzQcFne52C6pcMB9vtWs25L6M=',
+					rsaPubKey: 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB',
+					notifyURL: 'http://chengfu.landero2o.com/api/alipay/confirm'
+				}, function(ret, err) {});
+
+				//微信支付配置
+				var wxPay = api.require('wxPay');
+				wxPay.config({
+					apiKey: 'wxe0ca64aa7c9ec291',
+					mchId: '1363720502',
+					partnerKey: 'abcdefghijklmnopqrstuvwxyz654321',
+					notifyUrl: 'http://chengfu.landero2o.com/api/weixin/notify_url'
+				}, function(ret, err) {
+					if(ret.status) {
+						//alert('配置商户支付参数成功');
+					} else {
+						//alert(err.code + " 1," + err.msg);
+					}
+				});
+
+				// 支付
+				$scope.pay = function() {
+					if($scope.form.$invalid) {
+						api.toast({
+							msg: "请选择支付方式",
+							duration: 1000,
+							location: 'bottom'
+						});
+					} else if($scope.payChannel == "balance") {
+						// 支付接口
+						ajax({
+							url: "wallet/pay",
+							method: "post",
+							dataType: "text",
+							data: {
+								"serialNumber": $scope.serialNumber
+							},
+							success: function(data, header) {
+								if(data.result) {
+									var ret = {
+										result_code: "0" //支付成功
+									}
+									payCallBack(ret);
+								}
+							}
+						});
+					} else {
+						// 支付宝支付
+						if($scope.payChannel == "ALI_APP") {
+							aliPay.pay({
+								subject: '城服',
+								body: '您正在向城服支付',
+								// 支付金额单位为元
+								amount: $scope.price,
+								tradeNO: $scope.serialNumber
+							}, function(ret, err) {
+								// 支付成功
+								if(ret.code == 9000) {
+									var myret = {
+										result_code: "0" //支付成功
+									}
+								} else {
+									var myret = {
+										result_code: "-1" //支付失败
+									}
+								}
+								payCallBack(myret);
+							});
+						} else if($scope.payChannel == "WX_APP") { // 微信支付
+							wxPay.pay({
+								description: '您正在向城服支付',
+								totalFee: $scope.price * 100, //单位分
+								tradeNo: $scope.serialNumber
+							}, function(ret, err) {
+								if(ret.status) {
+									alert(ret.result);
+									// 支付成功
+									if(ret.status == true) {
+										var myret = {
+											result_code: "0" //支付成功
+										}
+									} else {
+										var myret = {
+											result_code: "-1" //支付失败
+										}
+									}
+									payCallBack(myret);
+								} else {
+									alert(err.code + " 2," + err.msg);
+								}
+							});
+						}
+					}
+				}
+
+				// 支付回调
+				function payCallBack(myret, err) {
+					// 关闭支付动画
+					api.hideProgress();
+					$scope.isSubmit = false;
+					$scope.$apply();
+					if(myret.result_code == 0) { //支付成功
+						api.toast({
+							msg: "支付成功",
+							duration: 1000,
+							location: 'bottom'
+						});
+						api.sendEvent({
+							name: 'paySuccess',
+							extra: {
+								"id": $scope.id
+							}
+						});
+					} else {
+						api.toast({
+							msg: "支付失败"
+						});
+						$scope.isSubmit = false;
+					}
+				}
+
+				$scope.closeWin = function() {
+					if($scope.source == "demand") {
+						api.setFrameGroupIndex({
+							name: 'demandFrameGroup',
+							index: 0,
+							scroll: true
+						});
+						setStorage('demandPay', 0);
+					} else {
+						api.closeWin();
+					}
+				}
+
+			}]);
+
+		apiready = function() {
+			angular.bootstrap(document, ["module"]);
+		}
+	</script>
+
+</html>

@@ -1,0 +1,115 @@
+body {
+  background-color: #E6E6E6;
+}
+header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  line-height: 52px;
+  background-color: #3e454d;
+  text-align: center;
+  color: #fff;
+  font-size: 16px;
+  z-index: 1000;
+}
+header .back_btn {
+  position: absolute;
+  left: 20px;
+  line-height: 52px;
+}
+header .back_btn:before {
+  font-size: 22px;
+}
+form {
+  margin-top: 62px;
+}
+form .ui_group .ui_row {
+  display: box;
+  display: -webkit-box;
+  position: relative;
+  background-color: #fff;
+  line-height: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 12px;
+}
+form .ui_group .ui_row:not(:last-child):after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background-color: #dededc;
+  transform: scaleY(0.5);
+  -webkit-transform: scaleY(0.5);
+}
+form .ui_group .ui_row div {
+  -webkit-box-flex: 1;
+  box-flex: 1;
+}
+form .ui_group .ui_row .ui_row_left {
+  font-size: 14px;
+}
+form .ui_group .ui_row .ui_row_right {
+  color: #969593;
+}
+form .ui_group .ui_row .ui_row_right input,
+form .ui_group .ui_row .ui_row_right div {
+  width: 100%;
+  border: none;
+  vertical-align: baseline;
+  text-align: right;
+}
+form .ui_group .error {
+  display: block;
+  text-align: right;
+  margin-right: 20px;
+  margin-top: 10px;
+  color: red;
+}
+form .warning {
+  position: relative;
+  padding-left: 40px;
+  font-size: 12px;
+  color: #969593;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+form .warning:before {
+  color: #7dcefd;
+  font-size: 1.2em;
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  height: 1em;
+}
+form .btn {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+form .btn span {
+  display: inline-block;
+  width: 100%;
+  background-color: #ff7f66;
+  line-height: 38px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  border: none;
+  border-radius: 23px;
+}
+form .btn input[disabled="disabled"] {
+  background-color: #DEBCB5;
+}
+.icon_right {
+  margin-left: 4px;
+  color: #c2c1c1;
+}
+#selectBank .ui_row_right div {
+  color: #1f1a17;
+}
+/*# sourceMappingURL=Withdrawals.css.map */

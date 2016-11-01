@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>linear-gradient</title>
+	<style>
+	/*条纹背景，实现原理，渐变前一个颜色的结束值和后一个颜色的开始值相等，背景图片的尺寸为固定高度，然后默认平铺满*/
+	.box{
+		width: 300px;
+		height: 300px;
+		/*background: linear-gradient(#E94141 30%,#837FE4 30%);*/
+		/*简写，因为后一个颜色结束值小于前一个时，自动使用前一个的值，所以这两个语句等价*/
+		background: linear-gradient(#E94141 30%,#837FE4 0);
+		background-size: 100% 30px;
+	}
+	
+	/*三色*/
+	.box2{
+		margin-top: 10px;
+		width: 300px;
+		height: 300px;
+		/*background: linear-gradient(#E94141 33%,#837FE4 33%,#837FE4 66%,#69C53D 66%);*/
+		/*同box*/
+		background: linear-gradient(#E94141 33%,#837FE4 0,#837FE4 66%,#69C53D 0);
+		background-size: 100% 45px;
+	}
+
+	/*垂直*/
+	.box3{
+		width: 300px;
+		height: 300px;
+		margin-top: 10px;
+		background: linear-gradient(to right,#E94141 30%,#837FE4 0);
+		background-size: 30px 100%;
+	}
+
+	/*倾斜 + 角度必需45度，而且还得自己纯手算宽度*/
+	.box4{
+		width: 300px;
+		height: 300px;
+		margin-top: 10px;
+		background: linear-gradient(45deg,#E94141 50%,#837FE4 0);
+		background-size: 30px 30px;
+	}
+
+	/*倾斜2.0 + 真正倾斜*/
+	.box5{
+		width: 300px;
+		height: 300px;
+		margin-top: 10px;
+		background: linear-gradient(45deg,#E94141 25%,#837FE4 0,#837FE4 50%,#E94141 0,#E94141 75%,#837FE4 0,#837FE4 100%);
+		background-size: 42px 42px;
+	}
+
+	/*倾斜3.0+角度可变*/
+	.box6{
+		width: 300px;
+		height: 300px;
+		margin-top: 10px;
+		background: repeating-linear-gradient(60deg,#E94141,#837FE4 30px);
+	}
+
+	/*倾斜4.0*/
+	.box7{
+		width: 300px;
+		height: 300px;
+		margin-top: 10px;
+		background: repeating-linear-gradient(60deg,#E94141,#E94141 15px,#837FE4 0,#837FE4 30px);
+	}
+
+	/*灵活的同色系条纹*/
+	/*嗯，给个背景色 + 透明白色渐变*/
+	.box8{
+		width: 300px;
+		height: 300px;
+		margin-top: 10px;
+		background:#89D436;
+		background-image: repeating-linear-gradient(60deg,rgba(255,255,255,.5),rgba(255,255,255,.5) 15px,rgba(255,255,255,.8) 0,rgba(255,255,255,.8)30px);
+	}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+	<div class="box2"></div>
+	<div class="box3"></div>
+	<div class="box4"></div>
+	<div class="box5"></div>
+	<div class="box6"></div>
+	<div class="box7"></div>
+	<div class="box8"></div>
+</body>
+</html>

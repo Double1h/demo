@@ -1,0 +1,423 @@
+@import "../constant";
+
+
+.ui_group{
+    background:#fff;
+    margin-top:20px;
+    font-size:@midFontSize;  
+    
+    &:last-child{
+        margin-bottom:20px;
+    }
+}
+
+.ui_row_left img{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.ui_group .alreadyAttention{
+    color:#dededc;
+}
+
+.list_content{
+    background-color: @mainBgColor;
+    padding-top: 10px;
+}
+.listTop{
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom:10px;
+    
+    .contentTop_left{
+        display: box;
+        display: -webkit-box;
+        -webkit-box-align:center;
+        box-align:center;
+
+        img{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display:inline-block;
+            vertical-align: middle;
+        }
+
+        &>div{
+            box-flex:1;
+            -webkit-box-flex:1;
+            margin-left: 10px;
+            p{
+                font-size: @minFontSize;
+                line-height: 14px;
+
+                .gender{
+                    margin-left: 10px;
+                    color: #DA3FC7;
+                }
+            }
+        }
+
+        .chat{
+            color:#fff;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background: @mainBtnColor;
+        }
+    }
+}
+.listBottom{
+    padding:0 @mainPadding;
+    background:#fff;
+    margin-top:14px;
+}
+.talk{
+    background:@bannerColor;
+    text-align:center;
+    height:36px;
+    line-height:36px;
+    font-size:@midFontSize;
+}
+.conentDetail{
+    word-wrap:break-word; 
+}
+.contentReward{
+    div{
+        position: relative;
+        text-align:center;
+        p:nth-child(1){
+            position: absolute;
+            right: 0px;
+            left: 0px;
+            top:-7px;
+            margin: 0px auto;
+            width: 40px;
+            font-size: @minFontSize;
+            background-color: #fff;
+            z-index:1; 
+        }
+        .inline{
+            margin-top:23px;
+            width: 100%;
+            height: 1px;
+            background:@moduleColor;
+            transform:scaleY(0.3);
+        }
+    }
+    div:nth-child(2){
+        font-size:@midFontSize;
+        margin-top:10px;
+        padding-bottom:10px;
+        position:relative;
+        
+        &:after{
+            content:'';
+            width:100%;
+            height:1px;
+            transform:scaleY(0.3);
+            -webkit-transform:scaleY(0.3);
+            background:@moduleColor;
+            position:absolute;
+            top:100%;
+            left:0;
+        }
+    }
+}
+.bottom{
+    padding-top:0;
+    margin-top:0;
+    p{
+        text-align:center;
+        color:@fontColor1;
+       margin-top:11px;
+       margin-bottom:11px;
+    }
+}      
+
+
+.listCenter{
+    background:#fff;
+    padding-bottom:10px;
+    .title{
+        height:30px;
+        padding:0 15px;
+        line-height:30px;
+        position:relative;
+        font-size:14px;
+        font-weight:600;
+        color:@mainBtnColor;
+    }
+}
+
+
+.listCenter .ui_group .ui_row{
+    display:box;
+    display:-webkit-box;
+    box-pack:justify;
+    -webkit-box-pack:justify;
+    
+    .user_info {
+        display:inline-block;
+        text-indent:0;
+        margin-left:5px;
+        vertical-align: middle;
+        
+        span{
+            font-size:16px;
+            &.time{
+                color:#777;
+            }
+        }
+    }
+}
+.ui_group .list{
+    padding:0;
+}
+.total{
+    text-align:center;
+    font-size:@midFontSize;
+    color:@mainBtnColor;
+    vertical-align:bottom;
+}
+
+.bottonBtn{
+    height:45px;
+    border:none;
+    background:@mainBtnColor;
+    width:100%;
+    font-size:@midFontSize;
+    color:#fff;
+}
+
+.contentListBottom{
+    background:#fff;
+    margin:10px;
+    border-radius:12px;
+    .row{
+        border-bottom:1px solid @mainBgColor;
+        overflow:hidden;
+        padding-bottom:14px;
+    }
+   .title{
+        height:30px;
+        text-indent:10px;
+        line-height:30px;
+        border-bottom:1px solid @mainBgColor;
+    }
+    .row{
+        display:box;
+        display:-webkit-box;
+    }
+    .rowLeft{
+        width:34px;
+        height:34px;
+        margin-top:14px;
+        border-radius:50%;
+        margin-left:10px;
+        display:inline;
+    }
+    .rowRight{
+        display:box;
+        display:-webkit-box;
+        box-flex:1;
+        -webkit-box-flex:1;
+        -webkit-box-orient:vertical;
+        box-orient:vertical;
+        box-sizing:border-box;
+        padding-left:10px;
+        padding-right:10px;
+        
+        .titleTop{
+             display:box;
+             display:-webkit-box;
+             box-pack:justify;
+             -webkit-box-pack:justify;
+             margin-top:14px;
+             font-size:@midFontSize;
+             color:@fontColor1;
+             span{
+                  color:pink;
+            } 
+             div:nth-child(2){
+                 color:@fontColor2;
+             }
+         }
+         p{
+             line-height:150%;
+             font-size:@midFontSize;
+             color:@fontColor2;
+         }
+    }
+}
+
+.moduleList{
+    padding:6px 10px;
+    margin-bottom:10px;
+}
+
+.ui_group{
+    margin-top:0;
+}
+
+
+//弹窗
+.dialog_mask{
+    position:fixed;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+    z-index:100;
+    background:rgba(0,0,0,0.5);
+    text-align:center;
+    font-size:0;
+}
+.dialog_mask:after{
+    content:"";
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.dialog{
+    border-radius:4px;
+    font-size:16px;
+    background:#f3f4f6;
+    display:inline-block;
+    vertical-align:middle;
+    text-align:left;
+    width:250px;
+}
+.dialog_title{
+    padding:4px 15px 0px;
+    text-align:left;
+    margin:7px 0;
+    font-size:20px;
+}
+.dialog_title h4{
+    height:20px;
+    line-height:20px;
+    margin:0px;
+    font-size:18px;
+    text-align:center;
+}
+.dialog_title p{
+    font-size:14px;
+    height:20px;
+    line-height:20px;
+    margin-top:2px;
+}
+.dialog_body{
+    padding: 4px 15px;
+    color:@fontColor2;
+}
+.dialog_btns h4,p{
+    padding:0;
+    margin:0;
+}
+.dialog_body textarea{
+    line-height:20px;
+    box-sizing:border-box;
+    width:100%;
+    padding:4px;
+    border:none;
+    overflow:hidden;
+    resize: none;
+}
+.dialog_body p{
+    font-size:@midFontSize;
+    line-height:300%;
+}
+.cancelBtn,.confirmBtn{
+    color:#fff;
+    border:none;
+    font-size:14px;
+    padding:0;
+    text-align:center;
+    line-height:300%;
+    width:50%;
+    margin:0;
+}
+.cancelBtn{
+    float:left;
+    background:@headerBgColor;
+    border-radius:0 0 0 4px
+}
+.confirmBtn{
+    background:@mainBtnColor;
+    border-radius:0 0 4px 0;
+}
+.mask .dialog_title{
+    text-align:center;
+}
+.body{
+    padding-bottom:10px; 
+}
+
+//按钮禁用类
+.disable{
+    background:#b1b2b3;
+    color:#E3E5E6;  
+}
+.person .icon_man{
+    color:@topBgColor !important;
+}
+
+//agreement
+.agreement{
+    color:#969593;
+    font-size:14px;
+    background-color:#fff;
+    width:100%;
+    box-sizing:border-box;
+    vertical-align:middle;
+    display:inline-block;
+    padding:10px 20px 40px 20px;
+    position:relative;
+}
+.agreement_wraper{
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background-color:rgba(0, 0, 0, 0.5);
+    font-size:0;
+    text-align:center;
+    z-index: 1000;
+}
+.agreement_wraper p{
+    text-align:left;
+}
+.agreement_wraper:after {
+    content: "";
+    display: inline-block; 
+    height: 100%;
+    vertical-align: middle;
+} 
+.agreement_wraper label{
+    margin:10px auto;
+    display:block;
+    font-size:14px; 
+    color:@fontColor1;
+    input{
+       margin:2px 6px 0 0px;
+       width:12px;
+       height:12px;
+       background:#fff;
+       border:1px solid @mainBgColor;
+    }
+}
+.close_btn{
+    position:absolute;
+    bottom:0px;
+    color:#fff;
+    left:0;
+    line-height:@bigButtonHeight;
+    height:@bigButtonHeight;
+    background:@mainBtnColor;
+    width:100%;
+}

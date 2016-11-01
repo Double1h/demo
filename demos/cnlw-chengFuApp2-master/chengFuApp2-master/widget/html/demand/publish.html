@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+		<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+		<link rel="stylesheet" type="text/css" href="../../css/demand/publish.css"><br />
+	</head>
+
+	<body ng-controller="controller">
+		<header>
+			<span class="icon_back back_btn" onclick="api.closeWin();"></span>
+			<span>发布任务</span>
+			<span ng-click="showAgreement()">协议</span>
+		</header>
+		<!-- 协议1 -->
+		<div class="agreement_wraper" ng-if="agreement">
+			<div class="agreement">
+				<h2>APP免责声明</h2>
+				<div>
+					<p>1、一切移动客户端用户在下载并浏览城服APP软件（以下简称本APP）时均被视为已经仔细阅读本条款并完全同意。凡以任何方式登陆本APP，或直接、间接使用本APP资料者，均被视为自愿接受本网站相关声明 和用户服务协议的约束。</p>
+					<p>2、本手机APP转载的内容并不代表本APP之意见及观点，也不意味着本APP赞同其观点或证实其内容的真实性。</p>
+					<p>3、 本手机APP转载的文字、图片、音视频等资料均由本APP用户提供，其真实性、准确性和合法性由信息发布人负责。本APP不提供任何保证，并不承担任何法律责任。</p>
+					<p>4、本平台在发布的需求完成后，会从“酬金”中抽取10%的佣金作为平台服务费用。客户在发布需求时，点击最下方“同意本协议”，即代表已阅读并同意。</p>
+					<p>5、本协议的最终解释权归揽兑城服平台所有。</p>
+				</div><label></label>
+				<div class="close_btn" ng-click="closeAgreement()">确定</div>
+			</div>
+		</div>
+		<!-- 协议2 -->
+		<div class="agreement_wraper" ng-if="agreement2">
+			<div class="agreement">
+				<h2>APP免责声明</h2>
+				<div>
+					<p>1、一切移动客户端用户在下载并浏览城服APP软件（以下简称本APP）时均被视为已经仔细阅读本条款并完全同意。凡以任何方式登陆本APP，或直接、间接使用本APP资料者，均被视为自愿接受本网站相关声明 和用户服务协议的约束。</p>
+					<p>2、本手机APP转载的内容并不代表本APP之意见及观点，也不意味着本APP赞同其观点或证实其内容的真实性。</p>
+					<p>3、 本手机APP转载的文字、图片、音视频等资料均由本APP用户提供，其真实性、准确性和合法性由信息发布人负责。本APP不提供任何保证，并不承担任何法律责任。</p>
+					<p>4、本平台在发布的需求完成后，会从“酬金”中抽取10%的佣金作为平台服务费用。客户在发布需求时，点击最下方“同意本协议”，即代表已阅读并同意。</p>
+					<p>5、本协议的最终解释权归揽兑城服平台所有。</p>
+				</div>
+				<label><input type="checkbox" ng-model="$parent.once" name="once"><span>以后不要再弹出</span></label>
+				<div class="close_btn" ng-click="closeAgreement2()">确定</div>
+			</div>
+		</div>
+
+		<form name="form">
+			<div class="title">
+				<span>标题</span>
+				<input type="text" ng-model="task.title" name="title" id="title" required/>
+			</div>
+			<div class="content">
+				<span>需求内容</span>
+				<div class="textarea_wraper">
+					<textarea placeholder="请在这描述您的需求/您面对的问题/您想要找的资源，尽可能具体详细，以便提高为您提供帮助的效率。" ng-model="task.content" name="content" required></textarea>
+					<div class="div4height">{{task.content}}</div>
+				</div>
+			</div>
+
+			<!-- 图片上传 -->
+			<div class="re_img" id="reImg">
+				<div class="re_img_item ng-hide" ng-show="task.descriptImg.length" ng-repeat="i in task.descriptImg" ngd-click="delImg($index)" selector=".icon_error">
+					<div class="img_wrap"><img src="{{i}}" /></div>
+					<div class="icon_error"></div>
+				</div>
+				<div class="add_img_wraper">
+					<img src="../../img/add.jpg" id="reAdd" ng-click="addImg()">
+				</div>
+			</div>
+
+			<div class="price">
+				<span>酬金</span>
+				<input type="number" ng-max="10000" ng-model="task.unitPrice" name="unitPrice" id="unitPrice" class="task_price" required ng-pattern="/^(0(?:[.](?:[1-9]\d?|0[1-9]))|[1-9]\d*(?:[.]\d{1,2}|$))$/" />
+			</div>
+			<div class="number">
+				<span>数量</span>
+				<input type="number" ng-max="10000" ng-model="task.quantity" ng-pattern="/^[0-9]*[1-9][0-9]*$/" name="quantity" id="quantity" required/>
+			</div>
+
+			<!-- 选择标签 -->
+			<div class=" icon_right select_tags" ng-click="selectLable()">
+				<span>选择标签</span>
+				<div class="select_tags_content">
+					<span ng-if="!task.tags.length">&emsp;</span>
+					<span ng-repeat="i in task.tags">{{i}}&nbsp;</span>
+				</div>
+			</div>
+
+			<!-- 选择时间 -->
+			<div class="select_tiem icon_right" ng-click="selectTime()">
+				<span>任务时限</span>
+				<span>您的任务截止到{{date.month}}月{{date.day}}号</span>
+			</div>
+
+			<div class="publish">
+				<p ng-click="isAgreement()" ng-class="{true: 'icon_agree', false: 'icon_circle'}[agreement_checkbox]">同意本服务协议</p>
+				<button type="button" ng-class="{true: 'publish_true', false: ''}[agreement_checkbox]" ng-click="complete();">完成</button>
+			</div>
+		</form>
+		<!-- 上传进度 -->
+		<div class="percent_wraper" ng-if="isPercent">
+			<p>{{percent}}%</p>
+		</div>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../libs/angular-delegates.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module("module", ['APP', 'DelegateEvents'])
+			.controller("controller", ['$scope', 'openWin', 'ajax', 'setStorage', 'getStorage', function($scope, openWin, ajax, setStorage, getStorage) {
+				$scope.agreement2 = false;
+				$scope.agreement_checkbox = false;
+				//任务
+				$scope.task = {
+					"taskId":-1,
+					"address": "",
+					"city": "",
+					"content": "",
+					"descriptImg": [],
+					"district": "",
+					"endTime": 0,
+					"latitude": 0,
+					"longitude": 0,
+					"province": "",
+					"quantity": "",
+					"tags": [],
+					"title": "",
+					"unitPrice": ""
+				}
+				$scope.task.taskId=-1;
+				$scope.task.endTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 23, 59, 59).getTime();
+				// 获取定位
+				var map = api.require('bMap');
+				map.getLocation({
+					accuracy: '100m',
+					autoStop: true,
+					filter: 1
+				}, function(ret, err) {
+					if(ret.status) {
+						$scope.task.longitude = ret.lon;
+						$scope.task.latitude = ret.lat;
+						$scope.$apply();
+						map.getNameFromCoords({
+							lon: ret.lon,
+							lat: ret.lat
+						}, function(ret, err) {
+							if(ret.status) {
+								// 获取地址
+								$scope.task.address = ret.address;
+								$scope.task.province = ret.province;
+								$scope.task.district = ret.district;
+								$scope.task.city = ret.city;
+								$scope.$apply();
+							}
+						});
+					}
+				});
+				$scope.date = {
+					month: new Date().getMonth() + 1,
+					day: new Date().getDate(),
+					year: new Date().getFullYear()
+				};
+
+				// 上传进度
+				$scope.percent = 0;
+				$scope.isPercent = false;
+
+				// 显示协议
+				$scope.agreement = false;
+				$scope.showAgreement = function() {
+					$scope.agreement = true;
+					api.sendEvent({
+						name: 'agreementKeyback',
+						extra: {
+							isOpen: 1
+						}
+					});
+
+				}
+				$scope.closeAgreement = function() {
+					$scope.agreement = false;
+				}
+
+				// 确定前协议
+				$scope.closeAgreement2 = function() {
+					$scope.agreement2 = false;
+					if($scope.once) {
+						setStorage('agreement', 1);
+					} else {
+						setStorage('agreement', 0);
+					}
+					// 发布任务
+					ajax({
+						url: "task/publish",
+						method: "POST",
+						data: $scope.task,
+						success: function(data) {
+							api.sendEvent({
+								name: 'demandPay',
+								extra: {
+									"serialNumber": data.data.serialNumber,
+									"price": data.data.price,
+									"id": data.data.taskId
+								}
+							});
+							api.setFrameGroupIndex({
+								name: 'demandFrameGroup',
+								index: 1,
+								scroll: true
+							});
+							setStorage('demandPay', 1);
+						}
+					});
+				}
+				// 表单验证+表单提交
+				$scope.complete = function() {
+					if($scope.form.$invalid) {
+						//表单未通过验证，提示用户 form.$error包含提示信息
+						var errorMes = "";
+						if($scope.form.title.$error.required) {
+							errorMes = "标题不能为空";
+						} else if($scope.form.content.$error.required) {
+							errorMes = "请描述您的需求";
+						} else if($scope.form.unitPrice.$error.required) {
+							errorMes = "酬金不能为空";
+						} else if($scope.form.unitPrice.$error.max){
+							errorMes = "酬金最大值为10000";
+						}else if($scope.form.unitPrice.$error) {
+							errorMes = "请输入正确的酬金";
+						} else if($scope.form.quantity.$error.required) {
+							errorMes = "数量不能为空";
+						} else if($scope.form.quantity.$error.max) {
+							errorMes = "数量最大值为10000";
+						} else if($scope.form.quantity.$error) {
+							errorMes = "请输入正确的数量";
+						}
+
+						api.toast({
+							msg: errorMes,
+							duration: 1000,
+							location: 'bottom'
+						});
+
+					} else {
+						if($scope.task.tags.length == 0) {
+							api.toast({
+								msg: "请选择标签",
+								duration: 1000,
+								location: 'bottom'
+							});
+						} else if(($scope.task.endTime - new Date().getTime()) < 0) {
+							api.toast({
+								msg: "请选择正确的时间",
+								duration: 1000,
+								location: 'bottom'
+							});
+						} else if($scope.agreement_checkbox == false) {
+							api.toast({
+								msg: "请同意本服务协议",
+								duration: 1000,
+								location: 'bottom'
+							});
+						} else {
+							// 选了以后不提示
+							if(getStorage('agreement') == 1) {
+								// 发布任务
+								ajax({
+									url: "task/publish",
+									method: "POST",
+									data: $scope.task,
+									success: function(data) {
+										$scope.task.taskId=data.data.taskId;
+										api.sendEvent({
+											name: 'demandPay',
+											extra: {
+												"serialNumber": data.data.serialNumber,
+												"price": data.data.price,
+												"id": data.data.taskId
+											}
+										});
+										api.setFrameGroupIndex({
+											name: 'demandFrameGroup',
+											index: 1,
+											scroll: true
+										});
+										setStorage('demandPay', 1);
+									}
+								});
+							} else {
+								$scope.agreement2 = true;
+								api.sendEvent({
+									name: 'agreementKeyback',
+									extra: {
+										isOpen: 1
+									}
+								});
+							}
+						}
+					}
+				};
+
+				// 图片上传
+				$scope.addImg = function() {
+					api.getPicture({
+						sourceType: 'album',
+						encodingType: 'jpg',
+						allowEdit: true,
+						quality: 50,
+						targetHeight: 800
+					}, function(ret, err) {
+						if(ret && ret.data && ret.data != "") {
+							$scope.percent = 0;
+							$scope.isPercent = true;
+							// 图片上传
+							var fileName = new Date().getTime();
+							api.require('qiniuUpfile').upfile({
+								file: ret.data,
+								name: fileName
+							}, function(ret, err) {
+								if(ret.status) {
+									if(ret.oper == "complete") { //上传成功
+										$scope.isPhoto = true;
+										$scope.isPercent = false;
+										$scope.task.descriptImg.push('http://od61wmx26.bkt.clouddn.com/' + fileName);
+										$scope.$apply();
+									} else if(ret.oper == "progress") {
+										$scope.percent = Math.floor(ret.percent);
+										$scope.$apply();
+									}
+								}
+							});
+						}
+					});
+				}
+
+				// 删除上传图片
+				$scope.delImg = function(index) {
+					$scope.task.descriptImg.splice(index, 1);
+				}
+
+				// 标签选择
+				$scope.selectLable = function() {
+					openWin({
+						name: 'selectLable',
+						url: '../service/selectLabel.html',
+						pageParam: {
+							"source": "task/tags"
+						}
+					});
+				}
+
+				// 接收标签选择后参数
+				api.addEventListener({
+					name: 'selectLabel_right'
+				}, function(ret, err) {
+					if(ret.value.source == "task/tags") {
+						$scope.task.tags = ret.value.labelStr;
+						$scope.$apply();
+					}
+				});
+
+				//时间选择
+				$scope.selectTime = function() {
+					api.openPicker({
+						type: 'date'
+					}, function(ret, err) {
+						if(ret) {
+							$scope.date.month = ret.month;
+							$scope.date.day = ret.day;
+							$scope.task.endTime = new Date(ret.year, ret.month - 1, ret.day, 23, 59, 59).getTime();
+							$scope.$apply();
+						}
+					});
+				}
+
+				//点开协议时keyback
+				api.addEventListener({
+					name: 'agreementKeyback4close'
+				}, function(ret, err) {
+					if($scope.agreement == true) {
+						$scope.agreement = false;
+						$scope.$apply();
+					} else if($scope.agreement2 == true) {
+						$scope.agreement2 = false;
+						$scope.$apply();
+					} else {
+						api.closeWin();
+					}
+				});
+
+				$scope.isAgreement = function() {
+					$scope.agreement_checkbox = ($scope.agreement_checkbox == true ? false : true);
+				}
+
+			}]);
+
+		apiready = function() {
+			angular.bootstrap(document, ["module"]);
+		}
+	</script>
+
+</html>

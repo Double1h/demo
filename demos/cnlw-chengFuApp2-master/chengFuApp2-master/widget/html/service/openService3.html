@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "format-detection" content = "telephone=no">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<link rel="stylesheet" href="../../css/fonticon/style.css" />
+		<link href="../../css/public.css" rel="stylesheet" />
+		<link href="../../css/template/form.css" rel="stylesheet" />
+		<link href="../../css/normalize.css" rel="stylesheet" />
+		<link href="../../css/service/openService1.css" rel="stylesheet" />
+		<link href="../../css/service/openService3.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/reset.css" />
+	</head>
+	
+	<body ng-controller="controller">
+		
+		<div class="body">
+			<ul class="topUl">
+			<li class="active">个人基本资料</li>
+			<li class="active">个人与服务介绍</li>
+			<li class="active">提交审核</li>
+		</ul>
+		
+		<p class="prompt">资料正在审核，我们会在48小时后答复，请耐心等待</p>
+	
+		<!--<img ng-src="{{pictureUrl+'?imageView2/1/h/200'}}" class="img1">-->
+		<img ng-src="{{pictureUrl}}" class="img1">
+		
+		<div class="personIntroduce">
+			<p>个人介绍</p>
+			<div><textarea rows="2">{{introduction}}</textarea></div>
+		</div>
+		
+		<div class="btn">
+			<button ng-click="confirm();">确定提交资料</button>
+		</div>
+		
+		</div>
+		
+		<!-- 弹窗 -->
+		<div class="dialog_mask" ng-if="toggle">
+			<div class="dialog">
+				<div class="dialog_title">提示</div>
+				<div class="dialog_body">
+					<div>资料确定完毕，是否退出开启服务？</div>
+				</div>
+				<div class="dialog_btns">
+					<button class="cancelBtn" ng-click="cancelBtn();">取消</button>
+					<button class="confirmBtn" ng-click="confirmBtn();">确定</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../libs/angular.min.js"></script>
+		<script src="../../js/app.js"></script>
+		
+		<script>
+		angular.module('module',["APP"])
+		.controller('controller',['$scope','openWin',function($scope,openWin){
+			$scope.pictureUrl='';
+			$scope.introduction='';
+			//将图片和个人介绍展示
+			api.addEventListener({
+			    name: 'serviceNextStep'
+			}, function(ret, err){
+			    $scope.pictureUrl = ret.value.url;
+			    $scope.introduction = ret.value.introduction;
+			   	$scope.$apply();
+			});
+			
+			//确定提交按钮
+			$scope.confirm = function(){
+				$scope.toggle = true;
+			}
+			$scope.cancelBtn = function(){
+				$scope.toggle = false;
+			}
+			$scope.confirmBtn = function(){
+				api.closeWin();
+			}
+		}])
+			
+		apiready = function(){
+			angular.bootstrap(document, ["module"]);
+		}
+		</script>
+	</body>
+</html>

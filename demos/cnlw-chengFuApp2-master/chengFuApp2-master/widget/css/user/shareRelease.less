@@ -1,0 +1,133 @@
+@import "../constant";
+header .right_btn {
+    display: inline-block; 
+    width: 40px; 
+    margin-right: 20px;
+}
+.contentTop{
+        height:50px;
+        background:@moduleColor;
+        overflow:hidden;
+        
+        li{
+            display:inline-block;
+            line-height:50px;
+            width:33.33%;
+            text-align:center;
+            color:@fontColor2;
+            
+            &.active{
+                color:@fontColor1;
+                font-size:@bigFontSize;
+            }
+        }
+}
+
+.title{
+    height:30px;
+    line-height:30px;
+    padding:0 @mainPadding;
+    box-sizing:border-box;
+    border:none;
+    width:100%;
+    font-size:@midFontSize;
+     color:@fontColor1;
+}
+input[type="text"]{
+    height:30px;
+    line-height:30px;
+    padding:5px @mainPadding;
+    border:none;
+    box-sizing:border-box;
+    width:100%;
+    font-size:@midFontSize;
+}
+
+textarea{
+    width:100%;
+    border:none;
+    text-align:left;
+    box-sizing:border-box;
+    padding:5px @mainPadding;
+    font-size:@midFontSize;
+    line-height:20px;
+    resize:none;
+    
+}
+.uploadPic{
+    background:#fff;
+    p{
+        color:@fontColor2;
+    }
+    div{
+        padding-bottom:@mainPadding;
+        span{
+            display:inline-block;
+            width:68px;
+            height:68px;
+            border:1px solid @mainBgColor;
+            text-align:center;
+            line-height:68px;
+            color:@mainBgColor;
+            font-size:60px;
+            font-weight:bold;
+        }
+    }
+    
+}
+
+// percent
+.percent_wraper{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    background-color: rgba(0,0,0,.5);
+    z-index: 1000;
+    vertical-align: middle;
+    p{
+        color: #fff;
+        display: inline-block;
+        font-size: 20px;
+    }
+
+    &:after{
+        content:"";
+        display:inline-block;
+        height:100%;
+        vertical-align:middle;
+    }
+}
+
+.re_img{
+        padding: 16px @mainPadding;
+        background-color: #fff;
+        .re_img_item{
+            display:inline-block;
+            width:60px;
+            height:60px;
+            position:relative;
+            margin:3px 10px 3px 0;
+            img{
+                height:60px;
+                width:60px;
+            }
+            .icon_delete{
+                position:absolute;
+                top:-11px;
+                right:-11px;
+                font-size:22px;
+                background:#fff;
+                color:red;
+                border-radius: 300em;
+                line-height: 1em;
+                height: 1em;
+            }
+        }
+        #reAdd{
+            width:60px;
+            height:60px;
+        }
+    }

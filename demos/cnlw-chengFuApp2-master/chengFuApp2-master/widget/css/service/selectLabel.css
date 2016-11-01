@@ -1,0 +1,115 @@
+.topLine {
+  height: 20px;
+  background: #dededc;
+}
+body {
+  height: 100%;
+}
+.right_btn {
+  width: 60px;
+  text-align: right;
+  right: 10px;
+  font-size: 14px;
+}
+.leftList {
+  width: 80px;
+  height: 100%;
+}
+.leftList li {
+  list-style: none;
+  height: 50px;
+  background: #ebeaf0;
+  text-align: center;
+  line-height: 50px;
+  border-bottom: 1px solid #fff;
+}
+.leftList li.active {
+  background: #fff;
+}
+.labelRight {
+  box-flex: 1;
+  -webkit-box-flex: 1;
+  margin: 10px;
+}
+.labelRight li {
+  list-style: none;
+  display: inline-block;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.labelRight li span {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 16px;
+  border-radius: 10px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #969593;
+  color: #969593;
+  margin-top: 12px;
+}
+.labelRight li span.active {
+  border-color: #ff7f66;
+  color: #ff7f66;
+}
+.bodyLeft {
+  background: #ebeaf0;
+}
+.bodyRight {
+  background: #E6E6E6;
+}
+.addLabel {
+  width: 100%;
+  position: relative;
+  text-align: right;
+}
+.addLabel .add {
+  display: inline-block;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+  line-height: 20px;
+  width: 40px;
+  background-color: #ff7f66;
+  border-radius: 6px;
+}
+.addLabel .addPopup {
+  width: 80%;
+  position: absolute;
+  left: 10%;
+  top: 200px;
+  display: none;
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+.addLabel .addPopup .content {
+  display: box;
+  display: -webkit-box;
+}
+.addLabel .addPopup #newLabel {
+  box-flex: 1;
+  -webkit-box-flex: 1;
+}
+.addLabel .addPopup #newLabel input {
+  width: 100%;
+  line-height: 30px;
+  border-radius: 6px;
+  outline: none;
+  border: none;
+  border: 1px solid #E6E6E6;
+}
+.addLabel .addPopup .btn {
+  display: inline-block;
+  text-align: center;
+  margin-left: 20px;
+  font-size: 12px;
+  color: #fff;
+  height: 30px;
+  line-height: 30px;
+  width: 60px;
+  border-radius: 6px;
+  background-color: #ff7f66;
+}

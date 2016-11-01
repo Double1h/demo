@@ -1,0 +1,1 @@
+$(function(){$(".content table.mes tr").hover(function(){$(this).addClass("currentTr").siblings().removeClass("currentTr")},function(){$(this).removeClass("currentTr")})});

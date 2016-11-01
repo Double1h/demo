@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/public.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" href="../../css/order/orderDetail_new.css">
+	<style>
+		.order_type{
+			 max-width:70%;
+		    overflow:hidden;
+		    white-space:nowrap;
+		    text-overflow:ellipsis;
+		}
+		.order_type span{
+			margin-right:5px;
+		}
+	</style>
+</head>
+	<body  ng-controller="controller">
+		<header>
+			<span class="icon_back back_btn" onclick="api.closeWin();"></span>
+			<span>订单详情</span>
+		</header>
+		
+		<div class="order_detail" ng-if="order">
+			<div class="order_detail_top">
+				<div class="order_type" class="tags">标签：<span ng-repeat="tag in order.tags">{{::tag}}</span></div>
+				<div class='order_status'>{{::orderStatus[order.stauts]}}</div>
+			</div>
+			<div class="order_content">{{::order.content}}</div>
+			<div class="order_price">酬金<span>￥{{::order.money}}/单</span></div>
+			<div class="order_time">{{::order.time|date:'yyyy/MM/dd'}}</div>
+		</div>
+		
+		<div class="handler">
+			<!--需求发布人在接单人报名之后，可以通过报名人的申请-->
+			<button class="signUp" ng-if="order.status=='WAITING_TAKE' && !order.isProvider" ng-click="pass();">通过报名</button>
+			<!--需求接单人在报名之后，未通过报名之前可以取消-->
+			<button class="signUp" ng-if="order.status=='WAITING_TAKE' && order.isProvider" ng-click="cancel();">取消报名</button>
+		</div>
+	</body>
+	<script src="../../libs/angular.min.js"></script>
+	<script src="../../libs/angular-delegates.js"></script>
+	<script src="../../js/app.js"></script>
+	<script>
+		angular.module('module', ["APP",'DelegateEvents'])
+		.controller('controller', ['$scope','openWin','ajax', function($scope,openWin,ajax){
+			var orderId= api.pageParam.orderId;
+			
+			$scope.tab = api.pageParam.tab;
+			$scope.flag = api.pageParam.flag;
+			$scope.userId = api.pageParam.userId;
+			
+			$scope.orderStatus = {
+				'TAKED': 			"进行中",
+				"APPLYING_FINISH": 	"在审核",
+				'WAITING_TAKE': 	"报名",
+				"BACKED": 			"被取消的",
+				"UNPAID" : 			"未支付",
+				"FINISHED": 		"已完成",
+				"CANCELED": 		"已取消"
+			};
+			
+			//加载订单详情
+			ajax({
+				url: 'order/detail',
+				method: "get",
+				dataType: 'text',
+				data: {
+					orderId:orderId
+				},
+				success: function(data, header) {
+					$scope.order = data.data.order;
+				}
+			});
+			
+			//发需求者点击"通过报名"按钮，通过接单人的报名申请
+			$scope.pass= function(){
+				ajax({
+					url: 'task/choose',
+					method: "post",
+					data:{
+						"id": orderId,
+						"isTake": true
+					},
+					success:function(data, header) {
+						$scope.order.status="TAKED";
+						api.toast({
+							msg: '报名成功',
+							duration: 2000,
+							location: 'middle'
+						});
+					}
+				});
+				
+			}
+			
+			//发需求人点击"取消报名"按钮
+			$scope.cancel =function(){
+				ajax({
+					url: 'order/cancel',
+					method: "post",
+					dataType:'text',
+					data: {
+						orderId:orderId
+					},
+					success:function(data, header) {
+						api.toast({
+							msg: '已经取消报名了',
+							duration: 2000,
+							location: 'middle'
+						});
+						//同时将该按钮隐藏
+						
+						$scope.order.status = "CANCELED";
+						
+						//将被取消报名的订单，广播出去，同步到全部订单状态和报名中的状态
+						api.sendEvent({
+							name: 'cancel',
+							extra: {
+								orderId:orderId
+							}
+						});
+					}
+				});
+			}
+		}]);
+
+		
+		 apiready = function(){
+		 	angular.bootstrap(document, ["module"]);
+		 }
+	</script>
+</html>

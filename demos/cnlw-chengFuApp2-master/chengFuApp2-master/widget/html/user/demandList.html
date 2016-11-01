@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name = "format-detection" content = "telephone=no">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" href="../../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../css/fonticon/style.css">
+	<link rel="stylesheet" type="text/css" href="../../css/template/indexList.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/user/serviceList.css"/>
+	<style>
+		.task{
+			position:relative;
+		}
+		.task:before{
+			position:absolute;
+			font-weight:800;
+			font-size:14px;
+			padding:4px 6px;
+			border-radius: 3px;
+			top:0;
+			bottom:0;
+			right:20px;
+			height:1em;
+			margin:auto 0;
+			line-height:1em;
+			-webkit-transform:rotate(-15deg);
+		}
+		
+		.status_UNPUBLISH:before{
+			border:2px solid red;
+			content:"未支付";
+			color:red;
+		}
+		
+		.status_ONLINE:before{
+			content:"进行中";
+			border:2px solid green;
+			color:green;
+		}
+		
+		.status_COMPLETE:before{
+			content:"已完成";
+			border:2px solid #2184C5;
+			color:#2184C5;
+		}
+		
+		.status_CANCEL:before{
+			content:"已取消";
+			border:2px solid #C2C1C1;
+			color:#C2C1C1;
+		}
+	</style>
+</head>
+<body ng-controller="controller">
+	<ul ngd-click="showDemandList($event, task.id)" selector="li">
+		<li class="task status_{{task.status}}" ng-repeat="task in tasks">
+			<div class="task_info_row">
+				<div class="task_row_left" ng-bind="task.title"></div>
+				<div class="task_row_right">
+					<span class="price" ng-bind="'￥'+task.unitPrice+'/单'">500/单</span>
+				</div>
+			</div>
+			<div class="task_content" ng-bind="task.content">
+				艺术高端定制网站，企业网站，地推服务艺术高端定制网站，企业网站，地推服务
+			</div>
+			<div class="label_list">
+				<span class="label" ng-repeat="tag in task.tags" ng-bind="tag">艺术</span>
+			</div>
+			<div class="task_footer task_info_row">
+				<div class="task_row_left">
+					<span class="icon_address" ng-bind="task.area">广州天河区</span>
+				</div>
+				<div class="task_row_right" ng-bind="task.createTime | date:'yyyy/MM/dd'">2016/07/27</div>
+			</div>
+		</li>
+	</ul>
+</body>
+<script src="../../libs/angular.min.js"></script>
+<script src="../../libs/angular-delegates.js"></script>
+<script src="../../js/app.js"></script>
+<script>
+	angular.module("module",['APP','DelegateEvents'])
+	.controller('controller', ['$scope','openWin','ajax','refreshHeaderLoadDone', function($scope,openWin,ajax,refreshHeaderLoadDone){
+		var page=0;
+		$scope.task={};
+
+		//获取后台的需求列表
+		ajax({
+			url:'task/my_publish',
+			method:'get',
+			data:{
+				page:page
+			},
+			success:function(data){
+				$scope.tasks=data.data;
+			}
+		})
+
+		// 跳转到需求详情页
+		$scope.showDemandList=function(e,id){
+			openWin({
+				name:'demandsDetail',
+				url:'../demand/demandsDetail.html',
+				pageParam:{
+					taskId:id
+				}
+			})
+		}
+
+		// 上拉加载数据
+		api.addEventListener({
+			name:"scrolltobottom"
+		},
+		function(ret,err){
+			ajax({
+				url:"task/my_publish",
+				method:"get",
+				data:{
+					page:++page
+				},
+				success:function(data,header){
+					$scope.tasks=$scope.tasks.concat(data.data);
+				}
+			});
+		});
+
+		// 下拉刷新
+		api.setRefreshHeaderInfo({
+		    visible: true,
+		    bgColor: '#ccc',
+		    textColor: '#fff',
+		    textDown: '下拉刷新...',
+		    textUp: '松开刷新...',
+		    showTime: true
+		}, function(ret, err) {
+				page=0;
+		    //获取后台的需求列表
+				ajax({
+					url:'task/my_publish',
+					method:'get',
+					data:{
+						page:page
+					},
+					success:function(data){
+						$scope.tasks=data.data;
+						api.refreshHeaderLoadDone();
+					}
+				})
+		});
+	}])
+
+	apiready = function(){
+	    angular.bootstrap(document,['module']);
+	}
+	    
+</script>
+</html>
