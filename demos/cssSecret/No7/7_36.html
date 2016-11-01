@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>自适应宽度,width几个新属性值</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			img{
+				width: 300px;
+			}
+			div{
+				margin-top: 30px;
+				border: solid 1px #008A00;
+			}
+			.light{
+				color: royalblue;
+			}
+			.box1{
+				width: -webkit-max-content;
+			}
+			.box2{
+				width: -webkit-min-content;
+			}
+			.box3{
+				width: -webkit-fit-content;
+			}
+			.box4{
+				width: -webkit-fill-available;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box1">
+			<img src="../img/75fb7661bba6b2555ecb671928c991ef1ffb089656326-lblaRX_fw658.jpg" alt="" />
+			<p>这1是width:max-content;这2是width:max-content;这3是width:max-content;这4是width:max-content;这5是width:max-content;这6是width:max-content;这7是width:max-content;这8是width:max-content;这9是width:max-content;这10是width:max-content;这11是width:max-content;这12是width:max-content;这13是width:max-content;这14是width:max-content;这15是width:max-content;这16是width:max-content;这17是width:max-content;这18是width:max-content;这19是width:max-content;这20是width:max-content;这21是width:max-content;</p>
+			<p class="light">宽度会无限撑开，出现水平滚动条</p>
+		</div>
+		<div class="box2">
+			<img src="../img/75fb7661bba6b2555ecb671928c991ef1ffb089656326-lblaRX_fw658.jpg" alt="" />
+			<p>这是width:min-content;这是width:min-content;这是width:min-content;这是width:min-content;这是width:min-content;这是width:min-content;这是width:min-content;这是width:min-content;这是width:min-content;这是width:min-content;</p>
+			<p  class="light">体现包裹性</p>
+		</div>
+		<div class="box3">
+			<img src="../img/75fb7661bba6b2555ecb671928c991ef1ffb089656326-lblaRX_fw658.jpg" alt="" />
+			<p>这是width:fit-content;</p>
+			<p  class="light">宽度小于图片时，width=图片宽度，宽度大于图片时，width=文字宽度,但不撑开水平滚动条</p>
+		</div>
+		<div class="box4">
+			<img src="../img/75fb7661bba6b2555ecb671928c991ef1ffb089656326-lblaRX_fw658.jpg" alt="" />
+			<p>这是width: fill-available;</p>
+			<p  class="light">width:100%,不撑开水平滚动条</p>
+		</div>
+	</body>
+</html>

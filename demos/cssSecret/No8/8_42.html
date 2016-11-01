@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>缓动效果</title>
+		<style>
+			@keyframes bounce{
+				60%,80%,to{
+					transform: translateY(400px);
+					animation-timing-function: ease;
+				}
+				70%{
+					transform: translateY(300px);
+				}
+				90%{
+					transform: translateY(360px);
+				}
+			}
+			.ball{
+				background: #F0A30A;
+				width: 50px;
+				height: 50px;
+				border-radius: 50px;
+				animation: bounce 3s cubic-bezier(.1,.25,1,.25);
+				animation-iteration-count: infinite;
+			}
+		</style>
+	</head>
+	<body>
+		    <div class="ball"></div>                                                                                                                  
+	</body>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</html>
